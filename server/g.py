@@ -3,7 +3,7 @@ DATABASE_CONFIG = {
     "password": "root",
     "host": "127.0.0.1",
     "port": 8889,
-    "database": "tweeter_exercise",
+    "database": "tweeter_exam",
 }
 JSON_WEB_TOKEN_SECRET = "699js!ihTri94t@sa129d90waj0cjh428h824h5298h"
 

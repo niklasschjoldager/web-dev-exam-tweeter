@@ -7,7 +7,7 @@ from utils.user_session import validate_user_session
 from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
 
 ############################################################
-@delete("/tweets/<tweet_id>")
+@delete("/tweets/<tweet_id:int>")
 def _(tweet_id):
     validate_user_session()
 
@@ -15,7 +15,6 @@ def _(tweet_id):
     user_session = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
 
     try:
-        tweet_id = int(tweet_id)
         # Validate tweet ID
         if not tweet_id:
             response.status = 400

@@ -1,4 +1,5 @@
 import Modal from "./classes/modal.js"
+import "./classes/dropdown.js"
 
 const QUERIES = {
   forms: {

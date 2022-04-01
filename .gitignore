@@ -4,4 +4,4 @@ lib
 pyvenv.cfg
 __pycache__
 node_modules
-static/tweets
+client/static/tweets

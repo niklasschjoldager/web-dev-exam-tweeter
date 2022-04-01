@@ -27,7 +27,7 @@ from api.tweets import (
 )
 
 # Users
-from api.users import users_get, users_post
+from api.users import users_get, users_follow_put, users_post, users_unfollow_put
 
 # Auth
 import api.auth.login_post
@@ -35,7 +35,7 @@ import api.auth.login_post
 ############################################################
 @get("/static/<file_path:path>")
 def _(file_path):
-    return static_file(file_path, root="./static")
+    return static_file(file_path, root="../client/static")
 
 
 ############################################################
@@ -47,13 +47,13 @@ def _(file_path):
 ############################################################
 @get("/js/<file_name:path>")
 def _(file_name):
-    return static_file(file_name, root="./js")
+    return static_file(file_name, root="../client/js")
 
 
 ############################################################
 @get("/css/<file_name:path>")
 def _(file_name):
-    return static_file(file_name, root="./css")
+    return static_file(file_name, root="../client/css")
 
 
 ############################################################
