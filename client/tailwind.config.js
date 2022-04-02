@@ -37,6 +37,15 @@ module.exports = {
         200: "hsl(356, 91%, 54%)",
       },
     },
+    screens: {
+      xs: "500px",
+      sm: "640px",
+      md: "768px",
+      lg: "988px",
+      xl: "1264px",
+      "2xl": "1536px",
+      minHminW: { raw: "(min-height: 640px) and (min-width: 640px)" },
+    },
     extend: {
       boxShadow: {
         focus: "0px 0px 0px 1px hsl(204, 88%, 53%)",
