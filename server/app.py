@@ -1,4 +1,4 @@
-from bottle import error, default_app, get, run, static_file, view
+from bottle import default_app, get, run, static_file
 
 # Routes
 from routes import (

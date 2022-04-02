@@ -1,10 +1,9 @@
-from bottle import get, view
+from bottle import get, jinja2_template as template
 
 from utils.user_session import validate_user_session
 
 ############################################################
 @get("/bookmarks")
-@view("bookmarks")
 def _():
     validate_user_session(None, "/")
-    return
+    return template("bookmarks.html")

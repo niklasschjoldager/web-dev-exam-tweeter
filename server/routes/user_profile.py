@@ -1,4 +1,4 @@
-from bottle import get, view, response, template
+from bottle import get, response, jinja2_template as template
 import mysql.connector
 
 from g import DATABASE_CONFIG
@@ -20,7 +20,7 @@ def _(user_username):
         user = cursor.fetchone()
 
         query_get_user_tweets = f"""
-            SELECT *
+            SELECT tweets.tweet_id, tweets.tweet_image_file_name, tweets.tweet_text
             FROM tweets
             WHERE tweet_fk_user_id = %(user_id)s
             ORDER BY tweet_created_at DESC

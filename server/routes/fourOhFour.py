@@ -1,7 +1,6 @@
-from bottle import error, view
+from bottle import error, jinja2_template as template
 
 ############################################################
 @error(404)
-@view("404")
 def _(error):
-    return
+    return template("fourOhFour.html")

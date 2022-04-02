@@ -1,10 +1,9 @@
-from bottle import get, view
+from bottle import get, jinja2_template as template
 
 from utils.user_session import validate_user_session
 
 ############################################################
 @get("/notifications")
-@view("notifications")
 def _():
     validate_user_session(None, "/")
-    return
+    return template("notifications.html")

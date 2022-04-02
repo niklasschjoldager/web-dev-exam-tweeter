@@ -1,4 +1,4 @@
-from bottle import get, view, redirect, response, request
+from bottle import get, jinja2_template as template
 
 import jwt
 
@@ -8,8 +8,7 @@ from g import JSON_WEB_TOKEN_SECRET
 
 ############################################################
 @get("/")
-@view("index")
 def _():
     validate_user_session("/home", None)
 
-    return dict(current_year=current_year, months=months, footer_links=footer_links)
+    return template("index.html", dict(current_year=current_year, months=months, footer_links=footer_links))

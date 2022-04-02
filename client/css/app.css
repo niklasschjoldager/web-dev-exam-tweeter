@@ -1566,7 +1566,15 @@ body.modal-is-open {
     display: block;
   }
 
+  .minHminW\:flex {
+    display: flex;
+  }
+
   .minHminW\:hidden {
     display: none;
+  }
+
+  .minHminW\:justify-center {
+    justify-content: center;
   }
 }

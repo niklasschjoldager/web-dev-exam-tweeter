@@ -1,16 +1,9 @@
-% rebase("components/base.html", title="Search")
+{% extends "layouts/app.html" %}
 
-<div class="flex-grow h-full grid grid-cols-[max-content_auto]">
-  <div class="w-[69px] h-screen">
-    % include("components/header-home")
-  </div>
-  <main class="pb-4">
-    <div class="sticky top-0 p-4 bg-white/[0.97]">
-      <h1 class="text-xl font-bold">Search</h1>
-    </div>
+{% block title -%}
+  Search
+{% endblock %}
 
-    <section>
-      <h2 class="p-4">Content</h2>
-    </section>
-  </main>
-</div>
+{% block content -%}
+  <h1>Hello Search</h1>
+{% endblock %}
