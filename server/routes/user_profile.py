@@ -1,6 +1,7 @@
 from bottle import get, response, jinja2_template as template
 import mysql.connector
 
+from data import navigation
 from g import DATABASE_CONFIG
 
 ############################################################
@@ -31,7 +32,9 @@ def _(user_username):
         return template(
             "user-profile",
             dict(
+                currentUrl="users",
                 name=user["user_name"],
+                navigation=navigation,
                 tweets=tweets,
                 username=user_username,
             ),

@@ -1,9 +1,10 @@
-from bottle import get, response, jinja2_template as template
+from bottle import get, response, request, jinja2_template as template
 
 import jwt
 import mysql.connector
 from utils.user_session import validate_user_session
 
+from data import navigation
 from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
 
 ############################################################
@@ -24,7 +25,7 @@ def _():
         cursor.execute(query_get_user_tweets)
         tweets = cursor.fetchall()
 
-        return template("home", dict(tweets=tweets))
+        return template("home", dict(currentUrl="home", navigation=navigation, tweets=tweets))
     except Exception as ex:
         print(ex)
         response.status = 500

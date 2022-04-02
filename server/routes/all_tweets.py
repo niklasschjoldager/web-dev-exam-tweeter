@@ -3,6 +3,7 @@ from bottle import get, jinja2_template as template
 import mysql.connector
 
 from g import DATABASE_CONFIG
+from data import navigation
 
 ############################################################
 @get("/all-tweets")
@@ -21,6 +22,6 @@ def _():
 
         tweets = cursor.fetchall()
 
-        return template("all-tweets.html", dict(tweets=tweets))
+        return template("all-tweets.html", dict(currentUrl="all-tweets", navigation=navigation, tweets=tweets))
     except mysql.connector.Error as error:
         print(error)
