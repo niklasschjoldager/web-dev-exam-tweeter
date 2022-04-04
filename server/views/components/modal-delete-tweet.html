@@ -1,0 +1,12 @@
+<div data-modal="delete-tweet" class="fixed top-0 left-0 w-screen h-screen is-hidden sm:flex sm:justify-center sm:items-center">
+  <div class="w-full h-full bg-black/50" data-modal-dismiss></div>
+
+  <div class="absolute top-0 bottom-0 left-0 right-0 flex flex-col max-w-xs m-auto overflow-y-auto bg-white z-1 rounded-2xl h-fit">
+    <div class="flex flex-col flex-grow p-8">
+      <h2 class="mb-2 text-xl font-bold">Delete Tweet?</h2>  
+      <p class="mb-6 text-sm text-gray-400">This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from Twitter search results. </p>
+      <button data-action="delete-tweet" class="px-8 py-2 mb-2 font-semibold text-center text-white transition-colors border rounded-full bg-danger-200 hover:bg-danger-100" type="submit">Delete</button>
+      <button data-modal-dismiss class="px-8 py-2 font-semibold text-center transition-colors border border-gray-300 rounded-full outline-none hover:bg-black/10 focus:bg-black/10" type="button">Cancel</button>
+    </div>
+  </div>
+</div>

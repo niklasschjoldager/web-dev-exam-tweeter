@@ -1,5 +1,4 @@
-import Modal from "./classes/modal.js"
-import "./classes/dropdown.js"
+import "./tweets.js"
 
 const QUERIES = {
   forms: {
@@ -73,7 +72,6 @@ async function handleCreateTweet(event) {
   form.reset()
 
   const template = QUERIES.templates.tweetItem.content.cloneNode(true)
-  const dropdown = template.querySelector("[data-dropdown=more]")
   template.querySelector("[data-form=tweet]").setAttribute("data-id", id)
   template.querySelector("[data-field=text]").textContent = text
 
@@ -83,39 +81,7 @@ async function handleCreateTweet(event) {
   } else {
     template.querySelector("[data-field=image]").remove()
   }
-
-  template.querySelector("[data-action=more").addEventListener("click", handleShowMore)
-
-  const buttonDeleteTweet = template.querySelector("[data-action=delete]")
-  const buttonEditTweet = template.querySelector("[data-action=edit]")
-
-  const deleteTweetModal = new Modal(QUERIES.modals.deleteTweet, buttonDeleteTweet)
-  const editTweetModal = new Modal(QUERIES.modals.editTweet, buttonEditTweet, showTweetInEdit)
-  deleteTweetModal.modal
-    .querySelector("[data-action=delete-tweet]")
-    .addEventListener("click", () => requestDeleteTweet(id, deleteTweetModal))
-  editTweetModal.modal
-    .querySelector("[data-action=edit-tweet]")
-    .addEventListener("click", () => requestEditTweet(id, editTweetModal))
   QUERIES.hooks.tweets.prepend(template)
-
-  function handleShowMore(event) {
-    event.stopPropagation()
-    closeOpenDropdown()
-    dropdown.classList.remove("hidden")
-    document.addEventListener("click", handleHideShowMore)
-  }
-
-  function handleHideShowMore(event) {
-    if (dropdown.contains(event.target)) closeOpenDropdown()
-    dropdown.classList.add("hidden")
-    document.removeEventListener("click", handleHideShowMore)
-  }
-
-  function closeOpenDropdown() {
-    const dropdowns = document.querySelectorAll("[data-dropdown=more]")
-    dropdowns.forEach((dropdown) => dropdown.classList.add("hidden"))
-  }
 
   function showTweetInEdit() {
     const tweetImage = editTweetModal.modal.querySelector("[data-hook=tweet-image]")
