@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block topbar -%}
-<h1 class="text-lg font-bold">Home</h1>
+  <h1 class="text-lg font-bold">Home</h1>
 {% endblock %}
 
 {% block content -%}
@@ -38,4 +38,6 @@
 
 {% block templates %}
   {% include "templates/tweet-item.html" %}
+  {% include "components/modal-delete-tweet.html" %}
+  {% include "components/modal-edit-tweet.html" %}
 {% endblock %}
