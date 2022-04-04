@@ -15,7 +15,6 @@
 
 {% block content -%}
   {% include "components/tweet-form" %}
-  
   <section data-hook="tweets">
     {% if tweets %}
       {% for tweet in tweets %}
@@ -36,8 +35,11 @@
   </div>
 {% endblock %}
 
-{% block templates %}
-  {% include "templates/tweet-item.html" %}
+{% block modals %}
   {% include "components/modal-delete-tweet.html" %}
   {% include "components/modal-edit-tweet.html" %}
+{% endblock %}
+
+{% block templates %}
+  {% include "templates/tweet-item.html" %}
 {% endblock %}
