@@ -45,14 +45,6 @@ navigation = [
         "name": "Home",
         "url": "home",
         "icons": {
-            "default": "twitter.svg",
-            "active": "twitter.svg",
-        },
-    },
-    {
-        "name": "Home",
-        "url": "home",
-        "icons": {
             "default": "home-outline.svg",
             "active": "home.svg",
         },

@@ -533,6 +533,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin: auto;
 }
 
+.-m-2 {
+  margin: -0.5rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -650,6 +654,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 1.5rem;
 }
 
+.h-fit {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
 .max-h-96 {
   max-height: 24rem;
 }
@@ -756,6 +766,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   max-width: 600px;
 }
 
+.max-w-xs {
+  max-width: 20rem;
+}
+
 .flex-grow {
   flex-grow: 1;
 }
@@ -786,6 +800,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .items-center {
   align-items: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }
 
 .justify-center {
@@ -946,6 +964,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: hsl(0 0% 100% / 0.97);
 }
 
+.bg-danger-200 {
+  --tw-bg-opacity: 1;
+  background-color: hsl(356 91% 54% / var(--tw-bg-opacity));
+}
+
 .fill-primary-200 {
   fill: hsl(204, 88%, 53%);
 }
@@ -973,6 +996,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .p-4 {
   padding: 1rem;
+}
+
+.p-8 {
+  padding: 2rem;
 }
 
 .px-4 {
@@ -1255,12 +1282,51 @@ body.modal-is-open {
   background-color: hsl(213 27% 8% / 0.05);
 }
 
+.hover\:bg-danger-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: hsl(357 76% 49% / var(--tw-bg-opacity));
+}
+
+.hover\:bg-gray-400:hover {
+  --tw-bg-opacity: 1;
+  background-color: hsl(206 15% 38% / var(--tw-bg-opacity));
+}
+
+.hover\:bg-gray-300:hover {
+  --tw-bg-opacity: 1;
+  background-color: hsl(199 20% 84% / var(--tw-bg-opacity));
+}
+
+.hover\:bg-gray-200:hover {
+  --tw-bg-opacity: 1;
+  background-color: hsl(192 20% 95% / var(--tw-bg-opacity));
+}
+
+.hover\:bg-black\/100:hover {
+  background-color: hsl(213 27% 8% / 1);
+}
+
 .hover\:bg-opacity-10:hover {
   --tw-bg-opacity: 0.1;
 }
 
 .hover\:bg-opacity-90:hover {
   --tw-bg-opacity: 0.9;
+}
+
+.hover\:text-primary-200:hover {
+  --tw-text-opacity: 1;
+  color: hsl(204 88% 53% / var(--tw-text-opacity));
+}
+
+.hover\:text-success:hover {
+  --tw-text-opacity: 1;
+  color: hsl(160 100% 36% / var(--tw-text-opacity));
+}
+
+.hover\:text-danger-200:hover {
+  --tw-text-opacity: 1;
+  color: hsl(356 91% 54% / var(--tw-text-opacity));
 }
 
 .hover\:underline:hover {
@@ -1314,6 +1380,18 @@ body.modal-is-open {
 
 .focus\:outline-black\/30:focus {
   outline-color: hsl(213 27% 8% / 0.3);
+}
+
+.group:hover .group-hover\:bg-primary-200\/10 {
+  background-color: hsl(204 88% 53% / 0.1);
+}
+
+.group:hover .group-hover\:bg-success\/10 {
+  background-color: hsl(160 100% 36% / 0.1);
+}
+
+.group:hover .group-hover\:bg-danger-200\/10 {
+  background-color: hsl(356 91% 54% / 0.1);
 }
 
 .peer:-moz-placeholder-shown ~ .peer-placeholder-shown\:top-4 {
