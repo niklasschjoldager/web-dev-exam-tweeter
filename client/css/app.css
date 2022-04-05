@@ -582,6 +582,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: auto;
 }
 
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
 .block {
   display: block;
 }
@@ -969,6 +973,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: hsl(356 91% 54% / var(--tw-bg-opacity));
 }
 
+.bg-success {
+  --tw-bg-opacity: 1;
+  background-color: hsl(160 100% 36% / var(--tw-bg-opacity));
+}
+
 .fill-primary-200 {
   fill: hsl(204, 88%, 53%);
 }
@@ -1035,6 +1044,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
+}
+
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
 .pt-3 {
@@ -1132,6 +1146,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1.75rem;
 }
 
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -1163,6 +1182,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-danger-200 {
   --tw-text-opacity: 1;
   color: hsl(356 91% 54% / var(--tw-text-opacity));
+}
+
+.text-success {
+  --tw-text-opacity: 1;
+  color: hsl(160 100% 36% / var(--tw-text-opacity));
 }
 
 .placeholder-transparent::-moz-placeholder {
@@ -1211,6 +1235,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .outline-offset-0 {
   outline-offset: 0px;
+}
+
+.outline-offset-2 {
+  outline-offset: 2px;
 }
 
 .drop-shadow-md {
@@ -1306,6 +1334,10 @@ body.modal-is-open {
   background-color: hsl(213 27% 8% / 1);
 }
 
+.hover\:bg-success\/90:hover {
+  background-color: hsl(160 100% 36% / 0.9);
+}
+
 .hover\:bg-opacity-10:hover {
   --tw-bg-opacity: 0.1;
 }
@@ -1361,6 +1393,20 @@ body.modal-is-open {
 
 .focus\:bg-primary-200\/10:focus {
   background-color: hsl(204 88% 53% / 0.1);
+}
+
+.focus\:bg-primary-100:focus {
+  --tw-bg-opacity: 1;
+  background-color: hsl(204 79% 47% / var(--tw-bg-opacity));
+}
+
+.focus\:bg-danger-100:focus {
+  --tw-bg-opacity: 1;
+  background-color: hsl(357 76% 49% / var(--tw-bg-opacity));
+}
+
+.focus\:bg-success\/90:focus {
+  background-color: hsl(160 100% 36% / 0.9);
 }
 
 .focus\:bg-opacity-90:focus {

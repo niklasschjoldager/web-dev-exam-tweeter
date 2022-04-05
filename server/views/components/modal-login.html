@@ -1,3 +1,5 @@
+{% from "components/button.html" import button %}
+
 <div data-modal="user-login" class="fixed top-0 left-0 w-screen h-screen is-hidden sm:flex sm:justify-center sm:items-center">
   <div class="w-full h-full bg-black/50" data-target="user-login" data-action="toggle"></div>
 
@@ -27,8 +29,8 @@
         
         <p class="text-sm">Don&apos;t have an account? <button data-target="user-signup" data-action="open" class="mb-8 outline-none text-primary-200 hover:underline focus:underline" type="button">Sign up</button></p>
 
-        <button class="w-full px-8 py-2 mt-auto mb-6 font-semibold text-center text-white transition-colors bg-black border border-black rounded-full outline-none hover:bg-opacity-90 focus:bg-opacity-90">Sign in</button>
-        <button class="w-full px-8 py-2 font-semibold text-center transition-colors border border-gray-300 rounded-full outline-none hover:bg-black/10 focus:bg-black/10" type="button">Forgot password?</button>
+        {{ button(children="Sign in", variant="dark", classes="w-full mt-auto mb-6", attributes='type="submit"') }}
+        {{ button(children="Forgot password?", variant="outlined", classes="w-full") }}
       </form>
     </div>
   </div>

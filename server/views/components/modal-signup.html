@@ -1,3 +1,5 @@
+{% from "components/button.html" import button %}
+
 <div data-modal="user-signup" class="fixed top-0 left-0 w-screen h-screen is-hidden sm:flex sm:justify-center sm:items-center">
   <div data-target="user-signup" data-action="toggle" class="w-full h-full bg-black/50"></div>
 
@@ -37,8 +39,8 @@
           <label class="absolute left-0 px-2 text-sm transition-all text-primary-200 top-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 peer-focus:top-1 peer-focus:text-primary-200 peer-focus:text-sm" for="user-signup-password">Password</label>
         </div>
         
-        <button class="w-full px-8 py-2 mt-auto font-semibold text-center text-white transition-colors bg-black border border-black rounded-full outline-none hover:bg-opacity-90 focus:bg-opacity-90" href="#">Signup</>
+        {{ button(children="Sign up", variant="dark", classes="w-full", attributes='type="submit"') }}
       </form>
     </div>
   </div>
-  </div>
+</div>
