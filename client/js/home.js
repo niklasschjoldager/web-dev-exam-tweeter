@@ -57,7 +57,13 @@ async function handleCreateTweet(event) {
     body: new FormData(form),
   })
 
-  const { tweet_id: id, tweet_image_file_name: image_file_name, tweet_text: text } = await request.json()
+  const {
+    tweet_id: id,
+    tweet_image_file_name: image_file_name,
+    tweet_text: text,
+    user_username: username,
+    user_name: name,
+  } = await request.json()
 
   if (!request.ok) return alert("Could not tweet")
   tweetImageContainer.classList.add("is-hidden")
@@ -69,6 +75,10 @@ async function handleCreateTweet(event) {
   const template = QUERIES.templates.tweetItem.content.cloneNode(true)
   template.querySelector("[data-form=tweet]").setAttribute("data-id", id)
   template.querySelector("[data-field=text]").textContent = text
+  template.querySelector("[data-field=username]").href = `/users/${username}`
+  template.querySelector("[data-field=username]").textContent = `@${username}`
+  template.querySelector("[data-field=name-link]").href = `/users/${username}`
+  template.querySelector("[data-field=name]").textContent = name
 
   if (image_file_name) {
     template.querySelector("[data-field=image]").src = `static/tweets/${image_file_name}`

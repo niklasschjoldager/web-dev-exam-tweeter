@@ -57,11 +57,22 @@ def _():
         response.status = 400
         return {"info": "Wrong password"}
 
+    user_session_id = str(uuid.uuid4())
+    user_session_iat = int(time.time())
+
     # Create user session
-    user_session = {
-        "user_session_id": str(uuid.uuid4()),
-        "user_session_iat": int(time.time()),
+    db_user_session = {
+        "user_session_id": user_session_id,
+        "user_session_iat": user_session_iat,
         "user_session_fk_user_id": user_in_database["user_id"],
+    }
+
+    cookie_user_session = {
+        "user_session_id": user_session_id,
+        "user_session_iat": user_session_iat,
+        "user_session_fk_user_id": user_in_database["user_id"],
+        "user_session_user_username": user_in_database["user_username"],
+        "user_session_user_name": user_in_database["user_name"],
     }
 
     # Add user session
@@ -69,10 +80,10 @@ def _():
             INSERT INTO user_sessions (user_session_id, user_session_iat, user_session_fk_user_id) 
             VALUES (%s, %s, %s)
         """
-    cursor.execute(query_add_user_session, tuple(user_session.values()))
+    cursor.execute(query_add_user_session, tuple(db_user_session.values()))
     connection.commit()
 
-    encoded_jwt = jwt.encode(user_session, JSON_WEB_TOKEN_SECRET, algorithm="HS256")
+    encoded_jwt = jwt.encode(cookie_user_session, JSON_WEB_TOKEN_SECRET, algorithm="HS256")
     response.set_cookie("user_session", encoded_jwt)
 
     return redirect("/home")

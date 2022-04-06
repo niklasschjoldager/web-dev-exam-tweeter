@@ -137,23 +137,40 @@ def _():
         database_cursor.execute(query_add_user, user)
         database_connection.commit()
 
+        user_id = database_cursor.lastrowid
+
         ############################################################
 
         add_user_session = f"""
-            INSERT INTO user_sessions (user_session_id, user_session_iat) 
-            VALUES (%s, %s)
+            INSERT INTO user_sessions (user_session_id, user_session_iat, user_session_fk_user_id) 
+            VALUES (%s, %s, %s)
         """
 
-        # Create user session
-        user_session = {"user_session_id": str(uuid.uuid4()), "user_session_iat": int(time.time())}
+        user_session_id = str(uuid.uuid4())
+        user_session_iat = int(time.time())
 
-        database_cursor.execute(add_user_session, tuple(user_session.values()))
+        # Create user session
+        db_user_session = {
+            "user_session_id": user_session_id,
+            "user_session_iat": user_session_iat,
+            "user_session_fk_user_id": user_id,
+        }
+
+        cookie_user_session = {
+            "user_session_id": user_session_id,
+            "user_session_iat": user_session_iat,
+            "user_session_fk_user_id": user_id,
+            "user_session_user_username": user_username,
+            "user_session_user_name": user_name,
+        }
+
+        database_cursor.execute(add_user_session, tuple(db_user_session.values()))
         database_connection.commit()
 
         ############################################################
         # Success
 
-        encoded_jwt = jwt.encode(user_session, JSON_WEB_TOKEN_SECRET, algorithm="HS256")
+        encoded_jwt = jwt.encode(cookie_user_session, JSON_WEB_TOKEN_SECRET, algorithm="HS256")
         response.set_cookie("user_session", encoded_jwt)
         response.status = 201
         return {"user_id": 12312312312}  # TODO get user id

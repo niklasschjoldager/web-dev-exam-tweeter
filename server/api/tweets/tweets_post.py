@@ -78,12 +78,24 @@ def _():
 
         ############################################################
         # Create tweet
-        tweet = {
+        tweet_created_at = int(time.time())
+
+        db_tweet = {
             "tweet_fk_user_id": user_session["user_session_fk_user_id"],
-            "tweet_created_at": int(time.time()),
+            "tweet_created_at": tweet_created_at,
             "tweet_text": tweet_text,
             "tweet_fk_media_type_id": 1,
             "tweet_image_file_name": image_url,
+        }
+
+        response_tweet = {
+            "tweet_fk_user_id": user_session["user_session_fk_user_id"],
+            "tweet_created_at": tweet_created_at,
+            "tweet_text": tweet_text,
+            "tweet_fk_media_type_id": 1,
+            "tweet_image_file_name": image_url,
+            "user_name": user_session["user_session_user_name"],
+            "user_username": user_session["user_session_user_username"],
         }
 
         ############################################################
@@ -96,13 +108,13 @@ def _():
             VALUES (%s, %s, %s, %s, %s)
         """
 
-        cursor.execute(query_add_tweet, tuple(tweet.values()))
+        cursor.execute(query_add_tweet, tuple(db_tweet.values()))
         connection.commit()
-        tweet["tweet_id"] = cursor.lastrowid
+        response_tweet["tweet_id"] = cursor.lastrowid
 
         # Success
         response.status = 201
-        return tweet
+        return response_tweet
     except Exception as ex:
         print(ex)
         response.status = 500
