@@ -8,6 +8,6 @@
 [data-dropdown].is-hidden {
   display: none;
 }
-body.modal-is-open {
+.modal-is-open {
   overflow: hidden;
 }

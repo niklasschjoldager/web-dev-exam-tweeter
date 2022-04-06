@@ -71,7 +71,7 @@ def _():
         user_email = request.forms.get("user_email").strip()
 
         if not re.match(REGEX_EMAIL, user_email):
-            response.statis = 400
+            response.status = 400
             return {"info": "Email is not invalid"}
 
         query_email = f"""

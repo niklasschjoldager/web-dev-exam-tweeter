@@ -28,6 +28,8 @@ def _():
             jwt_decoded = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
             user_session = jwt_decoded
 
+        print(user_session)
+
         ############################################################
         # Validate text
         if not request.forms.get("tweet_text"):

@@ -28,6 +28,19 @@ def _(tweet_id):
         connection = mysql.connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor()
 
+        # # Get tweet image if exists
+        # query_get_image_name = f"""
+        #     SELECT tweet_image_file_name
+        #     FROM tweets
+        #     WHERE tweet_id = %(tweet_id)s
+        # """
+
+        # cursor.execute(query_get_image_name, {"tweet_id": tweet_id})
+
+        # tweet_image_file_name = cursor.fetchone()
+        # print(f"/static/src/asdokasodaks/{''.join(tweet_image_file_name)}")
+        # print(type(tweet_image_file_name))
+
         # Delete the tweet
         query_delete_tweet = f"""
             DELETE FROM tweets

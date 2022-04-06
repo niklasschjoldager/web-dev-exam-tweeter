@@ -3,6 +3,7 @@ import imghdr
 import mysql.connector
 import os
 import uuid
+import json
 
 from utils.user_session import validate_user_session
 from g import (
@@ -53,6 +54,8 @@ def _(tweet_id):
 
         ############################################################
         # Validate media (image / video)
+        print(request.files.get("tweet_image"))
+        print(request.forms.get("tweet_image"))
         if request.files.get("tweet_image"):
             image = request.files.get("tweet_image")
             file_name, file_extension = os.path.splitext(image.filename)
@@ -80,12 +83,16 @@ def _(tweet_id):
             query_set_parts.append("tweet_image_file_name = %(tweet_image)s")
             query_params["tweet_image"] = image_name
 
+        if request.forms.get("tweet_image"):
+            query_set_parts.append("tweet_image_file_name = %(tweet_image)s")
+            query_params["tweet_image"] = None
+
         query_set_parts = ",".join(query_set_parts)
 
         # ############################################################
         # # Connect to the db
         connection = mysql.connector.connect(**DATABASE_CONFIG)
-        cursor = connection.cursor()
+        cursor = connection.cursor(dictionary=True)
 
         query_edit_tweet = f"""
             UPDATE tweets 
@@ -94,13 +101,20 @@ def _(tweet_id):
         """
 
         cursor.execute(query_edit_tweet, query_params)
-        connection.commit()
-        print(query_set_parts)
-        print(query_params)
 
+        query_get_tweet = f"""
+            SELECT tweet_id, tweet_text, tweet_image_file_name
+            FROM tweets
+            WHERE tweet_id = %(tweet_id)s
+        """
+
+        cursor.execute(query_get_tweet, {"tweet_id": tweet_id})
+        edited_tweet = cursor.fetchone()
+
+        connection.commit()
         # Success
         response.status = 200
-        return "Success"
+        return json.dumps(edited_tweet)
     except Exception as ex:
         print(ex)
         response.status = 500

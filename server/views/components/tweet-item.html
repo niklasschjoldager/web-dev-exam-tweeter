@@ -52,9 +52,11 @@
         </div>
       </div>
     </div>
-    <p data-field="text" class="mb-4">{{ tweet_text }}</p>
+    <p data-field="text" class="mb-4 whitespace-pre-wrap">{{ tweet_text }}</p>
     {% if tweet_image_file_name %}
       <img data-field="image" class="object-cover w-full mb-4 max-h-96 rounded-2xl" src="/static/tweets/{{ tweet_image_file_name }}" alt="#" loading="lazy"/>
+    {% else %}
+      <img data-field="image" class="object-cover w-full mb-4 is-hidden max-h-96 rounded-2xl" src="#" alt="#" loading="lazy"/>
     {% endif %}
     <ul class="flex justify-between text-gray-400">
       <li>
