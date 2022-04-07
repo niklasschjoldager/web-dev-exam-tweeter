@@ -1,4 +1,4 @@
-{% macro tweetItem(tweet_id, tweet_image_file_name, tweet_text, user_username, user_name) -%}
+{% macro tweetItem(tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, tweet_likes, tweet_fk_user_id, is_liked_by_user) -%}
   <form data-id="{{ tweet_id }}" data-form="tweet" class="flex gap-4 p-4 transition-colors border-b border-gray-200 cursor-pointer hover:bg-black/[0.03]">
   <div class="min-w-[3rem]">
     <a class="rounded-full outline-none hover:bg-black/10" href="/users/{{ user_username }}">
@@ -58,8 +58,8 @@
     {% else %}
       <img data-field="image" class="object-cover w-full mb-4 is-hidden max-h-96 rounded-2xl" src="#" alt="#" loading="lazy"/>
     {% endif %}
-    <ul class="flex justify-between text-gray-400">
-      <li>
+    <ul class="flex text-gray-400">
+      <li class="flex-grow">
         <button data-button="comment" class="flex gap-1 group hover:text-primary-200" type="button">
           <div class="relative">
             <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-primary-200/10"></div>
@@ -69,7 +69,7 @@
           <span class="sr-only">Comment</span>
         </button>
       </li>
-      <li>
+      <li class="flex-grow">
         <button data-button="retweet" class="flex gap-1 group hover:text-success" type="button">
           <div class="relative">
             <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-success/10"></div>
@@ -79,17 +79,20 @@
           <span class="sr-only">Retweet</span>
         </button>
       </li>
-      <li>
+      <li class="flex-grow">
         <button data-button="like" data-state="shown" class="flex gap-1 group hover:text-danger-200" type="button">
           <div class="relative">
             <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-danger-200/10"></div>
-            <svg class="w-5 h-5 transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            <svg class="{{ 'stroke-danger-200 fill-danger-200' if is_liked_by_user }} w-5 h-5 transition-colors " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
           </div>
           <span class="sr-only">Like</span>
-          <span data-field="like-counter" class="px-2 text-sm">11.4k</span>
+          <span data-field="like-counter" class="{{ 'text-danger-200' if is_liked_by_user }} px-2 text-sm">
+            {{ tweet_likes if tweet_likes }} 
+          </span>
+
         </button>
       </li>
-      <li>
+      <li class="flex-grow">
         <button data-button="share" class="flex gap-3 group hover:text-primary-200" type="button">
           <div class="relative">
             <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-primary-200/10"></div>

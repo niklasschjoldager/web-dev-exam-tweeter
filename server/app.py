@@ -20,10 +20,10 @@ from api.tweets import (
     tweets_by_id_get,
     tweets_delete,
     tweets_get,
-    tweets_like_put,
+    tweets_like_post,
     tweets_post,
     tweets_put,
-    tweets_unlike_put,
+    tweets_unlike_delete,
 )
 
 # Users

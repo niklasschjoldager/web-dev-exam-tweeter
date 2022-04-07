@@ -1011,6 +1011,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   fill: hsl(204, 88%, 53%);
 }
 
+.fill-danger-200 {
+  fill: hsl(356, 91%, 54%);
+}
+
+.stroke-danger-200 {
+  stroke: hsl(356, 91%, 54%);
+}
+
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
