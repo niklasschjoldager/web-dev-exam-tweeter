@@ -5,7 +5,8 @@
 [data-modal].is-hidden,
 [data-hook].is-hidden,
 [data-field].is-hidden,
-[data-dropdown].is-hidden {
+[data-dropdown].is-hidden,
+[data-button].is-hidden {
   display: none;
 }
 .modal-is-open {

@@ -672,10 +672,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   max-height: 24rem;
 }
 
-.max-h-screen {
-  max-height: 100vh;
-}
-
 .min-h-\[46vh\] {
   min-height: 46vh;
 }
@@ -810,14 +806,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   align-items: center;
 }
 
-.justify-start {
-  justify-content: flex-start;
-}
-
-.justify-end {
-  justify-content: flex-end;
-}
-
 .justify-center {
   justify-content: center;
 }
@@ -846,17 +834,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   gap: 0.75rem;
 }
 
-.gap-6 {
-  gap: 1.5rem;
-}
-
 .gap-x-3 {
   -moz-column-gap: 0.75rem;
        column-gap: 0.75rem;
-}
-
-.gap-y-6 {
-  row-gap: 1.5rem;
 }
 
 .gap-y-4 {
@@ -1116,16 +1096,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 2rem;
 }
 
-.pt-4 {
-  padding-top: 1rem;
+.pt-6 {
+  padding-top: 1.5rem;
 }
 
 .pb-2 {
   padding-bottom: 0.5rem;
 }
 
-.pt-6 {
-  padding-top: 1.5rem;
+.pt-4 {
+  padding-top: 1rem;
 }
 
 .pl-16 {
@@ -1292,7 +1272,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 [data-modal].is-hidden,
 [data-hook].is-hidden,
 [data-field].is-hidden,
-[data-dropdown].is-hidden {
+[data-dropdown].is-hidden,
+[data-button].is-hidden {
   display: none;
 }
 

@@ -14,7 +14,11 @@ const BUTTON_VALUES = [
   },
   {
     name: "like",
-    callback: toggleLikeTweet,
+    callback: likeTweet,
+  },
+  {
+    name: "unlike",
+    callback: unlikeTweet,
   },
   {
     name: "comment",
@@ -121,8 +125,52 @@ function toggleRetweet() {
   console.log("toggleRetweet")
 }
 
-function toggleLikeTweet() {
-  console.log("toggleLikeTweet")
+async function unlikeTweet(id) {
+  const target = event.target
+  const request = await fetch(`/tweets/${id}/unlike`, {
+    method: "DELETE",
+  })
+
+  const response = await request
+
+  if (!response.ok) return alert("Could not unlike tweet")
+
+  const unlikeButton = target.closest("button")
+  const unlikeCounter = unlikeButton.querySelector("[data-field=unlike-counter]")
+  const likeButton = target.closest("form").querySelector("[data-button=like")
+  const likeCounter = likeButton.querySelector("[data-field=like-counter]")
+  const currentLikes = Number(likeCounter.textContent)
+
+  if (currentLikes - 1) {
+    unlikeCounter.textContent = currentLikes - 1
+    likeCounter.textContent = currentLikes - 1
+  } else {
+    unlikeCounter.textContent = ""
+    likeCounter.textContent = ""
+  }
+
+  likeButton.classList.remove("is-hidden")
+  unlikeButton.classList.add("is-hidden")
+}
+
+async function likeTweet(id) {
+  const target = event.target
+  const request = await fetch(`/tweets/${id}/like`, {
+    method: "POST",
+  })
+
+  const response = await request
+
+  if (!response.ok) return alert("Could not like tweet")
+
+  const unlikeButton = target.closest("form").querySelector("[data-button=unlike")
+  const unlikeCounter = unlikeButton.querySelector("[data-field=unlike-counter]")
+  const likeButton = target.closest("button")
+  const likeCounter = likeButton.querySelector("[data-field=like-counter]")
+  likeCounter.textContent = Number(likeCounter.textContent) + 1
+  unlikeCounter.textContent = Number(unlikeCounter.textContent) + 1
+  likeButton.classList.add("is-hidden")
+  unlikeButton.classList.remove("is-hidden")
 }
 
 async function requestDeleteTweet(id, modal) {

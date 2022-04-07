@@ -80,17 +80,26 @@
         </button>
       </li>
       <li class="flex-grow">
-        <button data-button="like" data-state="shown" class="flex gap-1 group hover:text-danger-200" type="button">
-          <div class="relative">
-            <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-danger-200/10"></div>
-            <svg class="{{ 'stroke-danger-200 fill-danger-200' if is_liked_by_user }} w-5 h-5 transition-colors " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-          </div>
-          <span class="sr-only">Like</span>
-          <span data-field="like-counter" class="{{ 'text-danger-200' if is_liked_by_user }} px-2 text-sm">
-            {{ tweet_likes if tweet_likes }} 
-          </span>
-
-        </button>
+          <button data-button="unlike" class="{{ 'is-hidden' if not is_liked_by_user }} flex gap-1 group hover:text-danger-200" type="button">
+            <div class="relative">
+              <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-danger-200/10"></div>
+              <svg data-field="unlike-icon" class="w-5 h-5 transition-colors stroke-danger-200 fill-danger-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            </div>
+            <span class="sr-only">Like</span>
+            <span data-field="unlike-counter" class="px-2 text-sm text-danger-200">
+              {{ tweet_likes if tweet_likes }} 
+            </span>
+          </button>
+          <button data-button="like" class="{{ 'is-hidden' if is_liked_by_user  }} flex gap-1 group hover:text-danger-200" type="button">
+            <div class="relative">
+              <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-danger-200/10"></div>
+              <svg data-field="like-icon" class="w-5 h-5 transition-colors " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            </div>
+            <span class="sr-only">Like</span>
+            <span data-field="like-counter" class="px-2 text-sm">
+              {{ tweet_likes if tweet_likes }} 
+            </span>
+          </button>
       </li>
       <li class="flex-grow">
         <button data-button="share" class="flex gap-3 group hover:text-primary-200" type="button">

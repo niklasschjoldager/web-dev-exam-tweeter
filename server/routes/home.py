@@ -1,5 +1,6 @@
 from bottle import get, response, request, jinja2_template as template
 
+import json
 import jwt
 import mysql.connector
 from utils.user_session import validate_user_session

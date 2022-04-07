@@ -13,13 +13,15 @@ def _(tweet_id):
         # Validate
         validate_user_session()
 
+        if tweet_id < 1:
+            response.status = 400
+            return {"info": "Tweet ID is not a valid ID"}
+
         # Who likes it? The user who is logged in
         encoded_user_session = request.get_cookie("user_session")
         user_session = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
 
         user_id = user_session["user_session_fk_user_id"]
-
-        print(user_id)
 
         # Connect to the db
         connection = mysql.connector.connect(**DATABASE_CONFIG)
