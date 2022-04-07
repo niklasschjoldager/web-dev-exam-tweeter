@@ -1,4 +1,4 @@
-{% macro tweetItem(tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, tweet_likes, tweet_fk_user_id, is_liked_by_user) -%}
+{% macro tweetItem(tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, tweet_likes, tweet_fk_user_id, tweet_created_at, is_liked_by_user) -%}
   <form data-id="{{ tweet_id }}" data-form="tweet" class="flex gap-4 p-4 transition-colors border-b border-gray-200 cursor-pointer hover:bg-black/[0.03]">
   <div class="min-w-[3rem]">
     <a class="rounded-full outline-none hover:bg-black/10" href="/users/{{ user_username }}">
