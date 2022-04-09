@@ -28,7 +28,7 @@ def _(user_username):
         """
 
         cursor.execute(query_get_user, {"user_username": user_username})
-        user = cursor.fetchone()
+        user_profile = cursor.fetchone()
 
         query_get_user_tweets = f"""
             SELECT tweets.tweet_id, tweets.tweet_image_file_name, tweets.tweet_text
@@ -36,17 +36,18 @@ def _(user_username):
             WHERE tweet_fk_user_id = %(user_id)s
             ORDER BY tweet_created_at DESC
         """
-        cursor.execute(query_get_user_tweets, {"user_id": user["user_id"]})
+        cursor.execute(query_get_user_tweets, {"user_id": user_profile["user_id"]})
         tweets = cursor.fetchall()
+
+        print(user_profile)
 
         return template(
             "user-profile",
             dict(
                 currentUrl=f"users/{user_username}",
-                name=user["user_name"],
                 navigation=navigation,
                 tweets=tweets,
-                username=user_username,
+                user_profile=user_profile,
                 logged_in_user=logged_in_user,
             ),
         )

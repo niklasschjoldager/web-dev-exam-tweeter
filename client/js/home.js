@@ -1,5 +1,4 @@
-import "./tweets.js"
-import { handleTweetAddImage, handleTweetRemoveImage } from "./tweets.js"
+import { handleTweetAddImage, handleTweetRemoveImage } from "./global.js"
 
 const QUERIES = {
   forms: {

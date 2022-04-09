@@ -1,15 +1,35 @@
+{############################################################}
+{# Button #}
 {% macro button(children, variant="outlined", size="base", as="button", classes="", attributes="") -%}
-  <{{as}} {{ attributes }} class="{{ variants[variant] }} {{ sizes[size] }} {{ baseButton }} {{ classes }}">{{ children }}</{{as}}>
+  <{{as}} {{ attributes }} class="{{ baseButton }} {{ variants[variant] }} {{ sizes['button'][size] }} {{ classes }}">{{ children }}</{{as}}>
 {% endmacro -%}
 
-{% macro icon_button(text, icon, variant="outlined", size="base", as="button", classes="", attributes="") -%}
-  <{{as}} {{ attributes }} class="{{ variants[variant] }} {{ sizes[size] }} {{ baseButton }} {{ classes }}">
+{############################################################}
+{# Icon Button #}
+{% macro iconButton(text, icon, variant="outlined", size="base", as="button", classes="", attributes="") -%}
+  <{{as}} {{ attributes }} class="{{ baseButton }} {{ variants[variant] }} {{ sizes['iconButton'][size] }} {{ classes }}">
     {{ icon }}
     <span class="sr-only">{{ text }}</span>
   </{{as}}>
 {% endmacro -%}
 
+{############################################################}
+{# Global #}
+
 {% set baseButton = "rounded-full border transition-colors font-semibold cursor-pointer outline-none flex items-center justify-center" %}
+
+{% set sizes = {
+  "button": {
+    "sm": "px-4 h-[2.25rem] min-w-[2.25rem] text-sm",
+    "base": "px-8 h-[2.75rem] min-w-[2.75rem] text-base",
+    "lg": "px-12 h-[3.25rem] min-w-[3.25rem] text-lg"
+  },
+  "iconButton": {
+    "sm": "h-[2.25rem] w-[2.25rem] text-sm",
+    "base": "h-[2.75rem] w-[2.75rem] text-base",
+    "lg": "h-[3.25rem] w-[3.25rem] text-lg"
+  }
+} %}
 
 {% set variants = {
   "primary": "text-white bg-primary-200 border-primary-200 hover:bg-primary-100 focus:bg-primary-100",
@@ -18,12 +38,3 @@
   "dark": "bg-black border-black focus:bg-opacity-90 hover:bg-opacity-90 text-white",
   "danger": "bg-danger-200 border-danger-200 focus:bg-danger-100 hover:bg-danger-100 text-white",
 } %}
-
-{% set sizes = {
-  "sm": "px-4 py-2 text-sm",
-  "base": "px-8 py-2 text-base",
-  "lg": "px-12 py-4 text-lg"
-} %}
-
-
-

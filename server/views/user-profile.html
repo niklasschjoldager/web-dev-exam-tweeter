@@ -1,3 +1,4 @@
+{% from "components/button.html" import button, iconButton %}
 {% from "components/tweet-item.html" import tweetItem %}
 {% extends "layouts/app.html" %}
 
@@ -12,10 +13,10 @@
     </button>
     <div>
       <p class="flex items-center gap-2 text-xl font-bold">
-        <span>Elon Musk</span>
+        <span>{{ user_profile["user_name"] }}</span>
         <svg class="w-6 h-6 min-w-[1.5rem] text-primary-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
       </p>
-      <p class="text-sm text-gray-400">@elonmusk</p>
+      <p class="text-sm text-gray-400">0 tweets</p>
     </div>
   </div>
 {% endblock %}
@@ -32,20 +33,17 @@
         </a>
   
         <div class="flex items-center gap-2">
-          <button class="p-2 transition-colors border border-gray-300 rounded-full hover:bg-black/10" type="button">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Ellipsis Horizontal</title><circle cx="256" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="416" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="96" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>
-          </button>
-          {#
-          <button class="p-2 transition-colors border border-gray-300 rounded-full hover:bg-black/10" type="button">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Notifications</title><path d="M427.68 351.43C402 320 383.87 304 383.87 217.35 383.87 138 343.35 109.73 310 96c-4.43-1.82-8.6-6-9.95-10.55C294.2 65.54 277.8 48 256 48s-38.21 17.55-44 37.47c-1.35 4.6-5.52 8.71-9.95 10.53-33.39 13.75-73.87 41.92-73.87 121.35C128.13 304 110 320 84.32 351.43 73.68 364.45 83 384 101.61 384h308.88c18.51 0 27.77-19.61 17.19-32.57zM320 384v16a64 64 0 01-128 0v-16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-          </button>
-          #}
-          <button class="px-4 p-1.5 font-semibold text-center text-white transition-colors bg-black border border-black rounded-full outline-none hover:bg-opacity-90 focus:bg-opacity-90">Follow</button>
+          {{ iconButton(
+            text="Tweet", 
+            icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Ellipsis Horizontal</title><circle cx="256" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="416" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="96" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>',
+            size="sm"
+          ) }}
+          {{ button(children="Follow", variant="dark", size="sm") }}
         </div>
       </div>
-      <h1 class="text-xl font-bold">Elon Musk <span>Verified</span></h1>
+      <h1 class="text-xl font-bold">{{ user_profile["user_name"] }} <span>Verified</span></h1>
       <div class="flex flex-col gap-2 text-sm text-gray-400 ">
-        <p class="">@elonmusk</p>
+        <p class="">@{{ user_profile["user_username"] }}</p>
         <p class="flex gap-1">
           <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Calendar</title><rect fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" x="48" y="80" width="416" height="384" rx="48"/><circle cx="296" cy="232" r="24"/><circle cx="376" cy="232" r="24"/><circle cx="296" cy="312" r="24"/><circle cx="376" cy="312" r="24"/><circle cx="136" cy="312" r="24"/><circle cx="216" cy="312" r="24"/><circle cx="136" cy="392" r="24"/><circle cx="216" cy="392" r="24"/><circle cx="296" cy="392" r="24"/><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" stroke-linecap="round" d="M128 48v32M384 48v32"/><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" d="M464 160H48"/></svg>
           <span>Joined June 2009</span>
