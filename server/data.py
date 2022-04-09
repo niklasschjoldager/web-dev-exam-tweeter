@@ -89,12 +89,4 @@ navigation = [
             "active": "clipboard.svg",
         },
     },
-    {
-        "name": "Profile",
-        "url": "profile",
-        "icons": {
-            "default": "person-outline.svg",
-            "active": "person.svg",
-        },
-    },
 ]

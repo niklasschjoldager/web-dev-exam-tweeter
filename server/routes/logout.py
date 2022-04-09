@@ -1,5 +1,4 @@
 from bottle import get, redirect, response, request
-
 import jwt
 import mysql.connector
 

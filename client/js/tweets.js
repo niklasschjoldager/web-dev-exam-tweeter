@@ -61,8 +61,6 @@ function handleClick(event) {
     closeAllDropdowns(DROPDOWN)
   }
 
-  if (!target.closest("[data-form=tweet]")) return
-
   BUTTON_VALUES.forEach(({ name, callback }) => {
     const selector = `[data-button=${name}]`
     if (target.matches(selector) || target.closest(selector)) {

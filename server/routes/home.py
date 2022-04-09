@@ -1,12 +1,11 @@
 from bottle import get, response, request, jinja2_template as template
-
 import json
 import jwt
 import mysql.connector
-from utils.user_session import validate_user_session
 
 from data import navigation
 from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
+from utils.user_session import validate_user_session
 
 ############################################################
 @get("/home")
@@ -16,6 +15,11 @@ def _():
     encoded_user_session = request.get_cookie("user_session")
     user_session = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
     user_id = user_session["user_session_fk_user_id"]
+    logged_in_user = {
+        "id": user_id,
+        "name": user_session["user_session_user_name"],
+        "username": user_session["user_session_user_username"],
+    }
 
     try:
         connection = mysql.connector.connect(**DATABASE_CONFIG)
@@ -41,7 +45,9 @@ def _():
         cursor.execute(query_get_user_tweets, {"user_id": user_id})
         tweets = cursor.fetchall()
 
-        return template("home", dict(currentUrl="home", navigation=navigation, tweets=tweets, user_id=31))
+        return template(
+            "home", dict(currentUrl="home", navigation=navigation, tweets=tweets, logged_in_user=logged_in_user)
+        )
     except Exception as ex:
         print(ex)
         response.status = 500

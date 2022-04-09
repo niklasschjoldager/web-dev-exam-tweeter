@@ -1,3 +1,4 @@
+{% from "components/button.html" import button %}
 
 <header class="flex flex-col items-center h-full py-4 text-lg backface-hidden xl:items-start">
   <a class="flex items-center gap-4 p-3 transition-colors rounded-full text-primary-200 hover:bg-primary-200/10" href="/home">
@@ -15,20 +16,61 @@
       <span class="sr-only xl:not-sr-only">{{ link["name"] }}</span>
     </a>
   {% endfor %}
+
+  <a class="flex items-center gap-4 p-3 transition-colors rounded-full hover:bg-black/10" href="/users/{{ logged_in_user['username'] }}">
+    {% if currentUrl == "users/" + logged_in_user['username'] %}
+      <img class="w-7 h-7" src="/static/icons/person.svg" alt="#"/>
+    {% else %}
+      <img class="w-7 h-7" src="/static/icons/person-outline.svg" alt="#"/>
+    {% endif %}
+    <span class="sr-only xl:not-sr-only">Profile</span>
+  </a>
   
   <button class="flex items-center justify-center gap-4 p-3 mb-2 transition-colors rounded-full hover:bg-black/10" type="button">
     <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Ellipsis Horizontal Circle</title><circle cx="256" cy="256" r="26"/><circle cx="346" cy="256" r="26"/><circle cx="166" cy="256" r="26"/><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>
     <span class="sr-only xl:not-sr-only">More</span>
   </button>
 
-  <button data-button="create-tweet" class="flex items-center justify-center font-bold text-white rounded-full shadow-lg w-14 h-14 bg-primary-200 xl:w-11/12" type="button">
+  {{ button(children='
     <svg class="w-7 h-7 xl:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
     </svg>
-    <span class="sr-only xl:not-sr-only">Tweet</span>
-  </button>
+    <span class="sr-only xl:not-sr-only">Tweet</span>', 
+    variant="primary", size="lg", classes="w-14 h-14 xl:w-11/12 px-0 py-0", attributes='data-button="create-tweet"') 
+  }}
 
-  <a href="/logout" class="p-3 mt-auto transition-colors border-transparent rounded-full outline-none border-1 hover:bg-black/10 focus:border-black/30 focus:bg-black/10">
-    <img class="w-10 h-10 rounded-full" src="http://placekitten.com/g/300/300" alt="#">
-  </a>
+  <div data-dropdown-container class="relative z-10 w-full mt-auto">
+    <div data-dropdown-button class="flex items-center gap-3 p-3 transition-colors border-transparent rounded-full outline-none cursor-pointer hover:bg-black/10 focus:border-black/30 focus:bg-black/10 xl:w-11/12 border-1">
+      <img class="w-10 h-10 rounded-full" src="/static/users/default_profile_image.png" alt="#">
+      <p class="flex-col flex-grow hidden overflow-hidden xl:flex">
+        <span class="overflow-hidden text-sm font-bold select-none text-ellipsis whitespace-nowrap">{{ logged_in_user["name"]}}</span>
+        <span class="overflow-hidden text-sm text-gray-400 select-none text-ellipsis whitespace-nowrap">@{{ logged_in_user["username"] }}</span>
+      </p>
+      <div class="hidden xl:block">
+        <svg class="w-5 h-5 transition-colors" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/></svg>
+      </div>
+    </div>
+
+    <div data-dropdown class="is-hidden absolute z-10 bg-white shadow-lg rounded-2xl bottom-[calc(100%_+_theme(space.3))] w-[300px] max-w-[300px]">
+      <svg class="absolute w-5 h-5 rotate-180 text-white -bottom-3.5 left-6 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><g><path d="M12.538 6.478c-.14-.146-.335-.228-.538-.228s-.396.082-.538.228l-9.252 9.53c-.21.217-.27.538-.152.815.117.277.39.458.69.458h18.5c.302 0 .573-.18.69-.457.118-.277.058-.598-.152-.814l-9.248-9.532z"></path></g></svg>
+      <div class="relative py-2 bg-white rounded-2xl">
+        <div class="relative flex items-center gap-3 p-4 border-b border-gray-200">
+          <img class="w-12 h-12 rounded-full" src="/static/users/default_profile_image.png" alt="#">
+          <p class="flex flex-col flex-grow overflow-hidden">
+            <span class="overflow-hidden text-sm font-bold whitespace-nowrap text-ellipsis">{{ logged_in_user["name"]}}</span>
+            <span class="overflow-hidden text-sm text-gray-400 whitespace-nowrap text-ellipsis">@{{ logged_in_user["username"] }}</span>
+          </p>
+          <div>
+            <svg class="w-5 h-5 text-primary-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Checkmark</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
+          </div>
+        </div>
+        <button class="flex items-center w-full gap-3 p-4 text-sm hover:bg-black/5 whitespace-nowrap" type="button">
+          Add an existing account
+        </button>
+        <a class="flex items-center w-full gap-3 p-4 text-sm hover:bg-black/5 whitespace-nowrap" href="/logout">
+          Log out @{{ logged_in_user["username"] }}
+        </a>
+      </div>    
+    </div>
+  </div>
 </header>

@@ -1,13 +1,23 @@
-from bottle import get, response, jinja2_template as template
+from bottle import get, request, response, jinja2_template as template
+import jwt
 import mysql.connector
 
 from data import navigation
-from g import DATABASE_CONFIG
+from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
 
 ############################################################
 @get("/users/<user_username:path>")
 def _(user_username):
     try:
+        encoded_user_session = request.get_cookie("user_session")
+        user_session = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
+        user_id = user_session["user_session_fk_user_id"]
+        logged_in_user = {
+            "id": user_id,
+            "name": user_session["user_session_user_name"],
+            "username": user_session["user_session_user_username"],
+        }
+
         connection = mysql.connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
 
@@ -32,11 +42,12 @@ def _(user_username):
         return template(
             "user-profile",
             dict(
-                currentUrl="users",
+                currentUrl=f"users/{user_username}",
                 name=user["user_name"],
                 navigation=navigation,
                 tweets=tweets,
                 username=user_username,
+                logged_in_user=logged_in_user,
             ),
         )
     except Exception as ex:
