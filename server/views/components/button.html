@@ -1,23 +1,25 @@
 {############################################################}
 {# Button #}
 {% macro button(children, variant="outlined", size="base", as="button", classes="", attributes="") -%}
-  <{{as}} {{ attributes }} class="{{ baseButton }} {{ variants[variant] }} {{ sizes['button'][size] }} {{ classes }}">{{ children }}</{{as}}>
+  <{{as}} {{ attributes }} class="{{ baseButton }} {{ variants['button'][variant] }} {{ sizes['button'][size] }} {{ classes }}">{{ children }}</{{as}}>
 {% endmacro -%}
+
+{% set baseButton = "rounded-full border transition-colors font-semibold cursor-pointer outline-none flex items-center justify-center" %}
 
 {############################################################}
 {# Icon Button #}
-{% macro iconButton(text, icon, variant="outlined", size="base", as="button", classes="", attributes="") -%}
-  <{{as}} {{ attributes }} class="{{ baseButton }} {{ variants[variant] }} {{ sizes['iconButton'][size] }} {{ classes }}">
+{% macro iconButton(text, icon, color="primary-200", as="button", classes="", attributes="") -%}
+  <{{as}} {{ attributes }} class="text-{{ color }} {{ baseIconButton }} {{ classes }}">
+    <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-{{ color }}/10"></div>
     {{ icon }}
     <span class="sr-only">{{ text }}</span>
   </{{as}}>
 {% endmacro -%}
 
+{% set baseIconButton = "relative outline-none group rounded-full" %}
+
 {############################################################}
 {# Global #}
-
-{% set baseButton = "rounded-full border transition-colors font-semibold cursor-pointer outline-none flex items-center justify-center" %}
-
 {% set sizes = {
   "button": {
     "sm": "px-4 h-[2.25rem] min-w-[2.25rem] text-sm",
@@ -32,9 +34,14 @@
 } %}
 
 {% set variants = {
-  "primary": "text-white bg-primary-200 border-primary-200 hover:bg-primary-100 focus:bg-primary-100",
-  "primary-outlined": "text-primary-200 border-gray-300 hover:bg-primary-200/10 focus:bg-primary-200/10",
-  "outlined": "text-black border-gray-300 focus:bg-black/10 hover:bg-black/10",
-  "dark": "bg-black border-black focus:bg-opacity-90 hover:bg-opacity-90 text-white",
-  "danger": "bg-danger-200 border-danger-200 focus:bg-danger-100 hover:bg-danger-100 text-white",
+  "button": {
+    "primary": "text-white bg-primary-200 border-primary-200 hover:bg-primary-100 focus:bg-primary-100",
+    "primary-outlined": "text-primary-200 border-gray-300 hover:bg-primary-200/10 focus:bg-primary-200/10",
+    "outlined": "text-black border-gray-300 focus:bg-black/10 hover:bg-black/10",
+    "dark": "bg-black border-black focus:bg-opacity-90 hover:bg-opacity-90 text-white",
+    "danger": "bg-danger-200 border-danger-200 focus:bg-danger-100 hover:bg-danger-100 text-white",
+  },
+  "iconButton": {
+    "primary": ""
+  }
 } %}

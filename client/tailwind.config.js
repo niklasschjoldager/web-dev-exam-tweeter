@@ -13,7 +13,7 @@ const backfaceVisibility = plugin(function ({ addUtilities }) {
 
 module.exports = {
   mode: "JIT",
-  content: ["../server/views/**/*.html"],
+  content: ["../server/views/**/*.{html,js}"],
   theme: {
     colors: {
       transparent: "transparent",

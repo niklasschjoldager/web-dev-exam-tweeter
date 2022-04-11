@@ -1,4 +1,6 @@
-<form data-form="create-tweet" class="hidden px-4 pt-4 pb-2 border-b border-b-gray-200 sm:block">
+{% from "components/button.html" import button %}
+
+<form data-form="create-tweet" action="/tweets" method="POST" enctype=multipart/form-data class="hidden px-4 pt-4 pb-2 border-b border-b-gray-200 sm:block">
   <div class="flex gap-4 mb-4">
     <div>
       <a class="rounded-full outline-none" href="#">
@@ -51,7 +53,7 @@
         </button>
       </li>
       <li class="ml-auto">
-        <button data-action="tweet" class="px-4 py-2 font-semibold text-center text-white transition-colors border rounded-full bg-primary-200 hover:bg-primary-100" type="submit">Tweet</button>
+        {{ button(children="Tweet", variant="primary", size="sm", attributes='data-action="tweet"') }}
       </li>
     </ul>
   </div>
