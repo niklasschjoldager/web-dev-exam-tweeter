@@ -11,6 +11,20 @@ const backfaceVisibility = plugin(function ({ addUtilities }) {
   })
 })
 
+const hyphens = plugin(function ({ addUtilities }) {
+  addUtilities({
+    ".hyphens-none": {
+      hyphens: "none",
+    },
+    ".hyphens-auto": {
+      hyphens: "auto",
+    },
+    ".hyphens-manual": {
+      hyphens: "manual",
+    },
+  })
+})
+
 module.exports = {
   mode: "JIT",
   content: ["../server/views/**/*.{html,js}"],
@@ -52,5 +66,5 @@ module.exports = {
       },
     },
   },
-  plugins: [backfaceVisibility],
+  plugins: [backfaceVisibility, hyphens],
 }

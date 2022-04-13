@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 [data-modal].is-hidden,
+[data-modal-container].is-hidden,
 [data-hook].is-hidden,
 [data-field].is-hidden,
 [data-dropdown].is-hidden,

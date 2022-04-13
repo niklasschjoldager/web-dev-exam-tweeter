@@ -57,11 +57,11 @@
 {% endblock %}
 
 {% block modals %}
-  {% include "components/modal-delete-tweet.html" %}
-  {% include "components/modal-edit-tweet.html" %}
   {% include "components/modal-create-tweet.html" %}
 {% endblock %}
 
 {% block templates %}
   {{ tweetItem(is_template=true) }}
+  {% include "templates/modal-edit-tweet.html" %}
+  {% include "templates/modal-delete-tweet.html" %}
 {% endblock %}

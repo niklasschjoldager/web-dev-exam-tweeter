@@ -1,0 +1,15 @@
+{% from "components/button.html" import button %}
+
+<template data-template="modal-delete-tweet">
+  <div data-modal="delete-tweet" class="fixed top-0 left-0 w-screen h-screen sm:flex sm:justify-center sm:items-center">
+    <div class="w-full h-full bg-black/50" data-modal-dismiss></div>
+    <div class="absolute top-0 bottom-0 left-0 right-0 flex flex-col max-w-xs m-auto overflow-y-auto bg-white z-1 rounded-2xl h-fit">
+      <div class="flex flex-col flex-grow p-8">
+        <h2 class="mb-2 text-xl font-bold">Delete Tweet?</h2>  
+        <p class="mb-6 text-sm text-gray-400">This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from Tweeter search results. </p>
+        {{ button(children="Delete", variant="danger", classes="mb-3", attributes='data-modal-action="delete" type="submit"') }}
+        {{ button(children="Cancel", variant="outlined", attributes='data-modal-dismiss type="button"') }}
+      </div>
+    </div>
+  </div>
+</template>
