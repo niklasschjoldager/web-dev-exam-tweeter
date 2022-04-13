@@ -45,6 +45,9 @@ def _():
         cursor.execute(query_get_user_tweets, {"user_id": user_id})
         tweets = cursor.fetchall()
 
+        print(logged_in_user)
+        print(tweets[0])
+
         return template(
             "home", dict(currentUrl="home", navigation=navigation, tweets=tweets, logged_in_user=logged_in_user)
         )

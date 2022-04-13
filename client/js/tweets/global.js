@@ -42,10 +42,10 @@ export function prepareTweet(tweet) {
   const likeButton = tweet.querySelector("[data-button=like]")
   const unlikeButton = tweet.querySelector("[data-button=unlike]")
 
-  deleteButton.addEventListener("click", () => handleDeleteTweet(id, tweet))
-  editButton.addEventListener("click", () => handleEditTweet(id, tweet))
-  likeButton.addEventListener("click", () => handleLikeTweet(id, tweet))
-  unlikeButton.addEventListener("click", () => handleUnlikeTweet(id, tweet))
+  deleteButton && deleteButton.addEventListener("click", () => handleDeleteTweet(id, tweet))
+  editButton && editButton.addEventListener("click", () => handleEditTweet(id, tweet))
+  likeButton && likeButton.addEventListener("click", () => handleLikeTweet(id, tweet))
+  unlikeButton && unlikeButton.addEventListener("click", () => handleUnlikeTweet(id, tweet))
 }
 
 export function resetForm(form) {
@@ -65,16 +65,16 @@ export function resetForm(form) {
   }
 }
 
-export function handleAddImage(imageInput, image, imageContainer) {
-  const selectedFile = imageInput.files[0]
+export function handleAddImage(input, image, container) {
+  const selectedFile = input.files[0]
 
-  if (!selectedFile) return imageContainer.classList.add("is-hidden")
+  if (!selectedFile) return container.classList.add("is-hidden")
 
   image.src = URL.createObjectURL(selectedFile)
-  imageContainer.classList.remove("is-hidden")
+  container.classList.remove("is-hidden")
 }
 
-export function handleRemoveImage(image, imageContainer) {
+export function handleRemoveImage(image, container) {
   image.src = ""
-  imageContainer.classList.add("is-hidden")
+  container.classList.add("is-hidden")
 }

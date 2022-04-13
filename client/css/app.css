@@ -1308,6 +1308,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: hsl(356 91% 54% / var(--tw-text-opacity));
 }
 
+.text-gray-300 {
+  --tw-text-opacity: 1;
+  color: hsl(199 20% 84% / var(--tw-text-opacity));
+}
+
 .placeholder-gray-400::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: hsl(206 15% 38% / var(--tw-placeholder-opacity));

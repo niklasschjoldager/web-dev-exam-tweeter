@@ -14,7 +14,7 @@
   <section data-hook="tweets">
     {% if tweets %}
       {% for tweet in tweets %}
-        {{ tweetItem(**tweet) }}
+        {{ tweetItem(logged_in_username=logged_in_user["username"], **tweet) }}
       {% endfor %}
     {% else %}
       No tweets yet
