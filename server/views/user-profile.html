@@ -2,8 +2,17 @@
 {% from "components/tweet-item.html" import tweetItem %}
 {% extends "layouts/app.html" %}
 
+{% block head %}
+  <script src="/js/user-profile.js" type="module"></script>
+{% endblock %}
+
 {% block title -%}
   Profile
+{% endblock %}
+
+{% block body %}
+  data-user-id="{{ user_profile["user_id"] }}"
+  data-user-username="{{ user_profile["user_username"] }}"
 {% endblock %}
 
 {% block topbar %}
@@ -16,7 +25,10 @@
         <span>{{ user_profile["user_name"] }}</span>
         <svg class="w-6 h-6 min-w-[1.5rem] text-primary-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
       </p>
-      <p class="text-sm text-gray-400">??? tweets</p>
+      <p class="text-sm text-gray-400">
+        {{ user_info["tweets"]}} 
+        {{ "tweet" if user_info["tweets"] <= 1 else "tweets" }}
+      </p>
     </div>
   </div>
 {% endblock %}
@@ -37,10 +49,16 @@
             {{ button(children="Edit profile", variant="outlined", size="sm") }}
           {% else %}
             {{ iconButton(
-              text="Tweet", 
+              text="More", 
               icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Ellipsis Horizontal</title><circle cx="256" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="416" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="96" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>',
-            ) }}
-            {{ button(children="Follow", variant="dark", size="sm") }}
+            )}}
+            {% if user_info["is_followed_by_user"] %}
+              {{ button(children="Following", variant="outlined", size="sm", attributes='data-button="unfollow-user"') }}
+              {{ button(children="Follow", variant="dark", size="sm", classes="hidden", attributes='data-button=follow-user') }}
+            {% else %}
+              {{ button(children="Following", variant="outlined", size="sm", classes="hidden", attributes='data-button="unfollow-user"') }}
+              {{ button(children="Follow", variant="dark", size="sm", attributes='data-button="follow-user"') }}
+            {% endif %}
           {% endif %}
         </div>
       </div>
@@ -52,8 +70,13 @@
           <span>Joined ???</span>
         </p>
         <div class="flex gap-2">
-          <p><span class="font-bold text-black">???</span> Following</p>
-          <p><span class="font-bold text-black">???</span> Followers</p>
+          <p>
+            <span class="font-bold text-black">{{ user_info["following"] }}</span> 
+            Following
+          <p>
+            <span data-field="followers" class="font-bold text-black">{{ user_info["followers"] }}</span>
+            {{ "follower" if user_info["followers"] == 1 else "followers" }}</p>
+          </p>
         </div>
       </div>
 
@@ -80,7 +103,7 @@
     
     {% if tweets %}
       {% for tweet in tweets %}
-        {{ tweetItem(user_name=name, user_username=username, **tweet) }}
+        {{ tweetItem(logged_in_username=logged_in_user["username"], **tweet) }}
       {% endfor %}
     {% else %}
       No tweets yet

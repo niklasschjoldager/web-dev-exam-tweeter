@@ -1,0 +1,13 @@
+<template data-template="modal-unfollow-user">
+  <div data-modal="unfollow-user" class="fixed top-0 left-0 w-screen h-screen sm:flex sm:justify-center sm:items-center">
+    <div class="w-full h-full bg-black/50" data-modal-dismiss></div>
+    <div class="absolute top-0 bottom-0 left-0 right-0 flex flex-col max-w-xs m-auto overflow-y-auto bg-white z-1 rounded-2xl h-fit">
+      <div class="flex flex-col flex-grow p-8">
+        <h2 class="mb-2 text-xl font-bold">Unfollow @<span data-field="username"></span></h2>  
+        <p class="mb-6 text-sm text-gray-400">Their Tweets will no longer show up in your home timeline. You can still view their profile, unless their Tweets are protected.</p>
+        {{ button(children="Unfollow", variant="dark", classes="mb-3", attributes='data-modal-action="unfollow" type="submit"') }}
+        {{ button(children="Cancel", variant="outlined", attributes='data-modal-dismiss type="button"') }}
+      </div>
+    </div>
+  </div>
+</template>

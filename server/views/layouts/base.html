@@ -13,11 +13,11 @@
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
     <link rel="stylesheet" href="/css/app.css" />
-    <script src="/js/global.js" type="module" defer></script>
+    <script src="/js/global.js" type="module"></script>
     {% block head %}
     {% endblock %}
   </head>
-  <body class="flex flex-col min-h-full">
+  <body class="flex flex-col min-h-full" {% block body %}{% endblock %}>
     {% block baseContent %}
     {% endblock %} 
 

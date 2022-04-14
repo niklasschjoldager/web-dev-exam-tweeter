@@ -4,10 +4,10 @@
 
 {% block baseContent %}
   <div class="flex-grow w-full h-full mx-auto lg:px-4 sm:flex sm:justify-center lg:w-full xl:max-w-7xl isolate">
-    <div class="hidden minHminW:block min-w-[69px] md:min-w-[89px] xl:min-w-[275px] h-screen sticky z-10 left-0 top-0">
+    <div class="isolate hidden minHminW:block min-w-[69px] md:min-w-[89px] xl:min-w-[275px] h-screen sticky z-10 left-0 top-0">
       {% include "components/header-home.html" %}
     </div>
-    <main class="sm:max-w-[600px] w-full min-w-0 pb-4 border-l border-r border-gray-200">
+    <main class="isolate sm:max-w-[600px] w-full min-w-0 pb-4 border-l border-r border-gray-200">
       <div class="sticky top-0 px-4 py-1 bg-white/[0.97] z-50 min-h-[56px] flex items-center">
           {% block topbar %}
           {% endblock %}
@@ -17,7 +17,7 @@
       {% endblock %}
       
     </main>
-    <div class="hidden w-auto grow lg:block xl:w-full max-w-[400px]">
+    <div class="isolate hidden w-auto grow lg:block xl:w-full max-w-[400px]">
       <aside class="flex flex-col items-center w-full h-full gap-8 py-4 pl-8">
         {% block aside %}
           <h2>Aside</h2>
@@ -64,4 +64,5 @@
   {{ tweetItem(is_template=true) }}
   {% include "templates/modal-edit-tweet.html" %}
   {% include "templates/modal-delete-tweet.html" %}
+  {% include "templates/modal-unfollow-user.html" %}
 {% endblock %}
