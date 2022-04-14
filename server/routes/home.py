@@ -26,24 +26,43 @@ def _():
         cursor = connection.cursor(dictionary=True)
 
         query_get_user_tweets = f"""
-            SELECT tweets.tweet_id, tweets.tweet_text, tweets.tweet_fk_user_id, tweets.tweet_created_at, tweets.tweet_image_file_name, COUNT(likes_quantity.fk_tweet_id) AS tweet_likes, is_liked_by_user.fk_user_id AS is_liked_by_user, users.user_username, users.user_name
+            SELECT 
+                tweets.tweet_id, 
+                tweets.tweet_text, 
+                tweets.tweet_fk_user_id, 
+                tweets.tweet_created_at, 
+                tweets.tweet_image_file_name, 
+                COUNT(likes_quantity.fk_tweet_id) AS tweet_likes, 
+                is_liked_by_user.fk_user_id AS is_liked_by_user, 
+                users.user_username, users.user_name
             FROM tweets
 
             LEFT JOIN likes AS likes_quantity 
                 ON likes_quantity.fk_tweet_id = tweets.tweet_id
-                
+                            
             LEFT JOIN likes AS is_liked_by_user 
                 ON is_liked_by_user.fk_tweet_id = tweets.tweet_id AND is_liked_by_user.fk_user_id = %(user_id)s
-                
+                            
             LEFT JOIN users 
                 ON users.user_id = tweets.tweet_fk_user_id
                 
+            WHERE tweets.tweet_fk_user_id = %(user_id)s OR tweets.tweet_fk_user_id IN (SELECT fk_user_to_id FROM followers WHERE fk_user_from_id = %(user_id)s)
+                            
             GROUP BY tweets.tweet_id
             ORDER BY tweets.tweet_created_at DESC
         """
 
         cursor.execute(query_get_user_tweets, {"user_id": user_id})
         tweets = cursor.fetchall()
+
+        query_get_followed_users_tweets = f"""
+            SELECT *
+            FROM tweets
+        """
+
+        cursor.execute(query_get_followed_users_tweets)
+
+        print(cursor.fetchall())
 
         print(logged_in_user)
         print(tweets[0])
