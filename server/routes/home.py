@@ -59,18 +59,6 @@ def _():
         cursor.execute(query_get_user_tweets, {"user_id": user_id})
         tweets = cursor.fetchall()
 
-        query_get_followed_users_tweets = f"""
-            SELECT *
-            FROM tweets
-        """
-
-        cursor.execute(query_get_followed_users_tweets)
-
-        print(cursor.fetchall())
-
-        print(logged_in_user)
-        print(tweets[0])
-
         return template(
             "home", dict(currentUrl="home", navigation=navigation, tweets=tweets, logged_in_user=logged_in_user)
         )

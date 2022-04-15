@@ -1,4 +1,5 @@
 {% extends "layouts/app.html" %}
+{% from "components/button.html" import button %}
 
 {% block title -%}
   Lists
@@ -9,5 +10,41 @@
 {% endblock %}
 
 {% block content -%}
-  <h1>Hello Lists</h1>
+  <section class="py-4 border-b border-gray-200">
+    <h2 class="px-4 text-xl font-bold">Pinned Lists</h2>
+    <div class="p-8">
+      <p class="text-sm text-gray-400">Nothing to see here yet — pin your favorite Lists to access them quickly.</p>
+    </div>
+  </section>
+  <section class="pt-4 transition-colors border-b border-gray-200">
+    <h2 class="px-4 mb-3 text-xl font-bold">Discover new Lists</h2>
+    <ul class="">
+      {% for list in range(3) %}
+        <li>
+          <a class="flex items-center gap-4 px-4 py-3 transition-colors hover:bg-gray-400/5" href="#">
+            <div class="p-3 rounded-xl bg-primary-100">
+              <svg class="w-6 h-6 text-gray-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Clipboard</title><path d="M336 64h32a48 48 0 0148 48v320a48 48 0 01-48 48H144a48 48 0 01-48-48V112a48 48 0 0148-48h32" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><rect x="176" y="32" width="160" height="64" rx="26.13" ry="26.13" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/></svg>
+            </div>
+            <div class="flex flex-col flex-grow gap-1">
+              <p class="text-sm font-bold">Dansk politi på Twitter</p>
+              <button class="flex gap-1.5 text-xs">
+                <img class="w-4 h-4 rounded-full" src="http://placekitten.com/200/200" alt="#">
+                <span class="font-bold">Jens Anton Bjørnager</span>
+                <span class="text-gray-400">@Jens_Anton</span>
+              </button>
+            </div>
+            {{ button(children="Follow", variant="dark", size="sm") }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+    <button class="w-full p-4 text-left text-primary-200 hover:bg-gray-400/5">Show more</button>
+  </section>
+  <section class="py-4">
+    <h2 class="px-4 text-xl font-bold">Your Lists</h2>
+    <div class="p-8">
+      <p class="text-sm text-gray-400">You haven't created or followed any Lists. When you do, they'll show up here.</p>
+    </div>
+    
+  </section>
 {% endblock %}

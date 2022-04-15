@@ -15,6 +15,8 @@ export function displayTweet(tweet) {
   } = tweet
 
   const hook = document.querySelector("[data-hook=tweets]")
+
+  if (!hook) return
   const template = document.querySelector("[data-template=tweet-item]").content.cloneNode(true)
   const form = template.querySelector("[data-form=tweet]")
   template.querySelector("[data-form=tweet]").setAttribute("data-id", id)
@@ -48,8 +50,8 @@ export function prepareTweet(tweet) {
   const followButton = tweet.querySelector("[data-button=follow]")
   const unfollowButton = tweet.querySelector("[data-button=unfollow]")
 
-  deleteButton && deleteButton.addEventListener("click", () => handleDeleteTweet(userId, tweet))
-  editButton && editButton.addEventListener("click", () => handleEditTweet(userId, tweet))
+  deleteButton && deleteButton.addEventListener("click", () => handleDeleteTweet(tweetId, tweet))
+  editButton && editButton.addEventListener("click", () => handleEditTweet(tweetId, tweet))
   likeButton && likeButton.addEventListener("click", () => handleLikeTweet(tweetId, tweet))
   unlikeButton && unlikeButton.addEventListener("click", () => handleUnlikeTweet(tweetId, tweet))
   followButton && followButton.addEventListener("click", () => handleFollowUser(userId))
