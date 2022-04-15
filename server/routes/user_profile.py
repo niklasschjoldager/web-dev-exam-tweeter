@@ -50,7 +50,7 @@ def _(user_username):
                 tweets.tweet_created_at, 
                 tweets.tweet_image_file_name, 
                 COUNT(likes_quantity.fk_tweet_id) AS tweet_likes, 
-                is_liked_by_user.fk_user_id AS is_liked_by_user, 
+                COUNT(is_liked_by_user.fk_user_id) AS is_liked_by_user, 
                 users.user_username, 
                 users.user_name,
                 COUNT(is_tweet_creator_followed_by_user.fk_user_to_id) AS is_tweet_creator_followed_by_user
@@ -76,6 +76,8 @@ def _(user_username):
             query_get_user_tweets, {"user_profile_id": user_profile["user_id"], "logged_in_user_id": user_id}
         )
         tweets = cursor.fetchall()
+
+        print(tweets)
 
         return template(
             "user-profile",

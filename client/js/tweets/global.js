@@ -39,6 +39,7 @@ export function displayTweet(tweet) {
 export function prepareTweet(tweet) {
   const userId = tweet.dataset.userId
   const username = tweet.dataset.username
+  const tweetId = tweet.dataset.id
 
   const deleteButton = tweet.querySelector("[data-button=delete]")
   const editButton = tweet.querySelector("[data-button=edit]")
@@ -49,8 +50,8 @@ export function prepareTweet(tweet) {
 
   deleteButton && deleteButton.addEventListener("click", () => handleDeleteTweet(userId, tweet))
   editButton && editButton.addEventListener("click", () => handleEditTweet(userId, tweet))
-  likeButton && likeButton.addEventListener("click", () => handleLikeTweet(userId, tweet))
-  unlikeButton && unlikeButton.addEventListener("click", () => handleUnlikeTweet(userId, tweet))
+  likeButton && likeButton.addEventListener("click", () => handleLikeTweet(tweetId, tweet))
+  unlikeButton && unlikeButton.addEventListener("click", () => handleUnlikeTweet(tweetId, tweet))
   followButton && followButton.addEventListener("click", () => handleFollowUser(userId))
   unfollowButton && unfollowButton.addEventListener("click", () => handleUnfollowUser(userId, username))
 }
