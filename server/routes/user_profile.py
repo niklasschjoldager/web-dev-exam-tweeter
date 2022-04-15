@@ -1,6 +1,7 @@
 from bottle import get, request, response, jinja2_template as template
 import jwt
 import mysql.connector
+from datetime import datetime
 
 from data import navigation
 from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
@@ -29,6 +30,8 @@ def _(user_username):
 
         cursor.execute(query_get_user_profile, {"user_username": user_username})
         user_profile = cursor.fetchone()
+        user_joined = datetime.fromtimestamp(user_profile["user_created_at"]).strftime("%B %Y")
+        user_profile["user_joined"] = user_joined
 
         query_get_user_info = f"""
             SELECT
@@ -40,7 +43,6 @@ def _(user_username):
 
         cursor.execute(query_get_user_info, {"user_profile_id": user_profile["user_id"], "logged_in_user_id": user_id})
         user_info = cursor.fetchone()
-        print(user_info)
 
         query_get_user_tweets = f"""
             SELECT 
@@ -76,8 +78,6 @@ def _(user_username):
             query_get_user_tweets, {"user_profile_id": user_profile["user_id"], "logged_in_user_id": user_id}
         )
         tweets = cursor.fetchall()
-
-        print(tweets)
 
         return template(
             "user-profile",
