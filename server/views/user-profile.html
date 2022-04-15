@@ -35,13 +35,23 @@
 
 {% block content -%}
   <section>
-    <a href="#">
-      <img class="w-full aspect-[3/1] object-cover"  src="https://placekitten.com/1280/720" alt="#">
+    <a class="block w-full" href="#">
+      <div class="bg-primary-200 pb-[33.33%] relative">
+        {% if user_profile["user_cover_image"] %}
+          <img data-field="cover-image" class="w-full absolute top-0 left-0 aspect-[3/1] object-cover"  src="/static/users/{{ user_profile['user_cover_image'] }}" alt="#">
+        {% else %}
+          <img data-field="cover-image" class="w-full is-hidden absolute top-0 left-0 aspect-[3/1] object-cover"  src="#" alt="#">
+        {% endif %}
+      </div>
     </a>
     <div class="px-4 pt-3 pb-6">
       <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-        <a class="-mt-[15%] w-1/4 min-w-[88px]" href="#">
-          <img class="border-4 border-white rounded-full" src="/static/users/default_profile_image.png" alt="#">
+        <a class="relative -mt-[15%] w-1/4 min-w-[88px]" href="#">
+          {% if user_profile["user_profile_image"] %}
+            <img class="border-4 border-white rounded-full" src="/static/users/{{ user_profile['user_profile_image'] }}" alt="#">
+          {% else %}
+            <img class="border-4 border-white rounded-full" src="/static/users/default_profile_image.png" alt="#">
+          {% endif %}
         </a>
   
         <div class="flex items-center gap-4">

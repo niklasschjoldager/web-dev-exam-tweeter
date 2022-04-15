@@ -1,0 +1,71 @@
+{% from "components/button.html" import iconButton %}
+
+<div class="fixed top-0 left-0 hidden w-screen h-screen">
+  <div class="w-full h-full bg-black/50" data-modal-dismiss></div>
+  <div class="absolute min-w-[280px] max-w-[70%] top-0 left-0 flex flex-col h-screen bg-white z-1 shadow-2xl">
+    <div class="flex items-center justify-between px-4 py-3.5 bg-white/[0.97]">
+      <h2 class="text-lg font-bold">Account info</h2>
+      {{ iconButton(text="Close menu", icon='<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Close</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/></svg>', color="black") }}
+    </div>
+    <div class="overflow-y-auto">
+
+      <div class="p-4 border-b border-gray-200">
+        <div class="flex items-center justify-between mb-4">
+          <a class="transition-all hover:brightness-90" href="/users/{{ logged_in_user['username'] }}">
+            {% if logged_in_user["user_profile_image"] %}
+              <img class="w-10 h-10 rounded-full" src="/static/users/{{ logged_in_user['user_profile_image'] }}" alt="#">
+            {% else %}
+              <img class="w-10 h-10 rounded-full" src="/static/users/default_profile_image.png" alt="#">
+            {% endif %}
+          </a>
+          {{ iconButton(text="Close menu", variant="outlined", icon='<svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Add</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 112v288M400 256H112"/></svg>', color="black", classes="mr-2") }}
+        </div>
+        <p class="flex flex-col flex-grow mb-4 overflow-hidden">
+          <span class="overflow-hidden text-sm font-bold whitespace-nowrap text-ellipsis">{{ logged_in_user["name"]}}</span>
+          <span class="overflow-hidden text-sm text-gray-400 whitespace-nowrap text-ellipsis">@{{ logged_in_user["username"] }}</span>
+        </p>
+        
+        <div class="flex gap-2 text-sm">
+          <a class="text-black hover:underline" href="#">
+            <span class="font-bold text-black">???</span> 
+            <span class="text-gray-400">Following?</span>
+          </a>
+          <a class="text-black hover:underline" href="#">
+            <span data-field="followers" class="font-bold text-black">???</span>
+            <span class="text-gray-400">Followers?</span>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <a class="flex items-center gap-3 p-4 text-sm transition-colors hover:bg-black/5" href="/users/{{ logged_in_user['username'] }}">
+          <img class="w-5 h-5" src="/static/icons/person-outline.svg" alt="#"/>
+          <span>Profile</span>
+        </a>
+        {% for link in navigation %}
+          {% if loop.index >= 5 %}
+          <a class="flex items-center gap-3 p-4 text-sm transition-colors hover:bg-black/5" href="/{{ link['url'] }}">
+            <img class="w-5 h-5" src="/static/icons/{{ link['icons']['default'] }}" alt="{{ link['name'] }} icon"/>
+            <span>{{ link["name"] }}</span>
+          </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div>
+        {% for link in navigation_dropdown %}
+          <button class="{{ 'border-b border-gray-200' if loop.index == 3 or loop.index == 6 or loop.index == 8 or loop.last }} flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
+            {{ link["icon"] }}
+            <span>{{ link["text"] }}</span>
+          </button>
+        {% endfor %}
+        
+      </div>
+      <div>      
+        <a class="flex p-4 text-sm transition-colors hover:bg-black/5" href="/logout">
+          Logout
+        </a>
+      </div>
+      <div class="pb-8"></div>
+    </div>
+  </div>
+</div>

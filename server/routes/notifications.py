@@ -1,7 +1,7 @@
 from bottle import get, request, jinja2_template as template
 import jwt
 
-from data import navigation
+from data import mobile_navigation, navigation, navigation_dropdown
 from g import JSON_WEB_TOKEN_SECRET
 from utils.user_session import validate_user_session
 
@@ -20,5 +20,12 @@ def _():
     }
 
     return template(
-        "notifications.html", dict(currentUrl="notifications", navigation=navigation, logged_in_user=logged_in_user)
+        "notifications.html",
+        dict(
+            currentUrl="notifications",
+            mobile_navigation=mobile_navigation,
+            navigation=navigation,
+            navigation_dropdown=navigation_dropdown,
+            logged_in_user=logged_in_user,
+        ),
     )

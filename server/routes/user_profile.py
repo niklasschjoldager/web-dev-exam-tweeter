@@ -3,7 +3,7 @@ import jwt
 import mysql.connector
 from datetime import datetime
 
-from data import navigation
+from data import mobile_navigation, navigation, navigation_dropdown
 from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
 
 ############################################################
@@ -83,7 +83,9 @@ def _(user_username):
             "user-profile",
             dict(
                 currentUrl=f"users/{user_username}",
+                mobile_navigation=mobile_navigation,
                 navigation=navigation,
+                navigation_dropdown=navigation_dropdown,
                 tweets=tweets,
                 user_profile=user_profile,
                 user_info=user_info,

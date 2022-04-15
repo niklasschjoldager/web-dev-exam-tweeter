@@ -3,8 +3,12 @@
 <form data-form="create-tweet" action="/tweets" method="POST" enctype=multipart/form-data class="hidden px-4 pt-4 pb-2 border-b border-b-gray-200 sm:block">
   <div class="flex gap-4 mb-4">
     <div>
-      <a class="rounded-full outline-none" href="#">
-        <img class="w-12 h-12 rounded-full" src="/static/users/default_profile_image.png" alt="#">
+      <a class="transition-all rounded-full outline-none hover:brightness-90" href="/users/{{ logged_in_user['username'] }}">
+        {% if logged_in_user["user_profile_image"] %}
+          <img class="w-12 h-12 rounded-full" src="/static/users/{{ logged_in_user['user_profile_image'] }}" alt="#">
+        {% else %}
+          <img class="w-12 h-12 rounded-full" src="/static/users/default_profile_image.png" alt="#">
+        {% endif %}
       </a>
     </div>
     <textarea data-hook="tweet-text" class="flex-grow h-12 pt-2 text-xl placeholder-gray-400 outline-none resize-none" name="tweet_text" id="tweet-text" placeholder="What&apos;s happening?"></textarea>
