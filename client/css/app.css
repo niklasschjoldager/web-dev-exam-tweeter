@@ -1046,6 +1046,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: transparent;
 }
 
+.border-gray-400 {
+  --tw-border-opacity: 1;
+  border-color: hsl(206 15% 38% / var(--tw-border-opacity));
+}
+
 .border-b-gray-200 {
   --tw-border-opacity: 1;
   border-bottom-color: hsl(192 20% 95% / var(--tw-border-opacity));
@@ -1071,6 +1076,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: hsl(356 91% 54% / var(--tw-bg-opacity));
 }
 
+.bg-danger-200\/10 {
+  background-color: hsl(356 91% 54% / 0.1);
+}
+
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: hsl(0 0% 100% / var(--tw-bg-opacity));
@@ -1086,10 +1095,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .bg-white\/\[0\.97\] {
   background-color: hsl(0 0% 100% / 0.97);
-}
-
-.bg-danger-200\/10 {
-  background-color: hsl(356 91% 54% / 0.1);
 }
 
 .fill-primary-200 {
@@ -1312,11 +1317,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: hsl(356 91% 54% / var(--tw-text-opacity));
 }
 
-.text-gray-300 {
-  --tw-text-opacity: 1;
-  color: hsl(199 20% 84% / var(--tw-text-opacity));
-}
-
 .placeholder-gray-400::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: hsl(206 15% 38% / var(--tw-placeholder-opacity));
@@ -1400,6 +1400,7 @@ Ensure the default browser behavior of the `hidden` attribute.
           hyphens: auto;
 }
 
+[data-action].is-hidden,
 [data-modal].is-hidden,
 [data-modal-container].is-hidden,
 [data-hook].is-hidden,
@@ -1435,6 +1436,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: hsl(357 76% 49% / var(--tw-bg-opacity));
 }
 
+.hover\:bg-danger-200\/10:hover {
+  background-color: hsl(356 91% 54% / 0.1);
+}
+
 .hover\:bg-black\/5:hover {
   background-color: hsl(213 27% 8% / 0.05);
 }
@@ -1449,10 +1454,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .hover\:bg-black\/\[0\.03\]:hover {
   background-color: hsl(213 27% 8% / 0.03);
-}
-
-.hover\:bg-danger-200\/10:hover {
-  background-color: hsl(356 91% 54% / 0.1);
 }
 
 .hover\:bg-opacity-90:hover {
@@ -1547,6 +1548,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .group:hover .group-hover\:bg-danger-200\/10 {
   background-color: hsl(356 91% 54% / 0.1);
+}
+
+.group:hover .group-hover\:bg-black\/10 {
+  background-color: hsl(213 27% 8% / 0.1);
 }
 
 .peer:-moz-placeholder-shown ~ .peer-placeholder-shown\:top-4 {
@@ -1655,6 +1660,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   .md\:my-auto {
     margin-top: auto;
     margin-bottom: auto;
+  }
+
+  .md\:mt-0 {
+    margin-top: 0px;
   }
 
   .md\:flex {

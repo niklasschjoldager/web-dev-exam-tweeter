@@ -1,153 +1,153 @@
-{% macro tweetItem(logged_in_username, tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, tweet_likes, tweet_fk_user_id, tweet_created_at, is_liked_by_user, is_template=false) -%}
+{% macro tweetItem(logged_in_username, is_tweet_creator_followed_by_user, tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, tweet_likes, tweet_fk_user_id, tweet_created_at, is_liked_by_user, is_template=false) -%}
   {% if is_template %}
     <template data-template="tweet-item">
   {% endif %}
-  <form data-id="{{ tweet_id }}" data-form="tweet" class="flex gap-4 p-4 transition-colors border-b border-gray-200 cursor-pointer hover:bg-black/[0.03]">
-  <div class="min-w-[3rem]">
-    <a class="rounded-full outline-none hover:bg-black/10" href="/users/{{ user_username }}">
-      <img class="w-12 h-12 rounded-full" src="/static/users/default_profile_image.png" alt="#" loading="lazy" />
-    </a>
-  </div>
-  <div class="flex flex-col flex-grow min-w-0">
-    <div class="flex items-center gap-1 text-gray-400">
-      <a data-field="name-link" class="flex items-center min-w-0 gap-1 font-bold text-black hover:underline" href="/users/{{ user_username }}">
-        <span data-field="name" class="overflow-hidden text-ellipsis whitespace-nowrap">{{ user_name }}</span>
-        <svg class="w-6 h-6 min-w-[1.5rem] text-primary-200" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+  <form data-id="{{ tweet_id }}" data-username="{{ user_username }}" data-user-id="{{ tweet_fk_user_id }}" data-form="tweet" class="flex gap-4 p-4 transition-colors border-b border-gray-200 cursor-pointer hover:bg-black/[0.03]">
+    <div class="min-w-[3rem]">
+      <a class="rounded-full outline-none hover:bg-black/10" href="/users/{{ user_username }}">
+        <img class="w-12 h-12 rounded-full" src="/static/users/default_profile_image.png" alt="#" loading="lazy" />
       </a>
-      <a data-field="username" class="overflow-hidden text-sm text-ellipsis hover:underline" href="/users/{{ user_username }}">@{{ user_username }}</a>
-      <span>&centerdot;</span>
-      <span data-field="date" class="text-sm cursor-pointer whitespace-nowrap hover:underline">Date?</span>
-    
-      <div data-dropdown-container class="relative flex items-center ml-auto">
-        <button data-dropdown-button class="group hover:text-primary-200" type="button">
-          <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-primary-200/10"></div>
-          <svg class="w-5 h-5 transition-colors" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/></svg>
-        </button>
-        <div data-dropdown class="absolute top-0 right-0 z-10 overflow-hidden bg-white rounded-md shadow-md is-hidden w-max">
-          <div data-logged-in-user class="{{ 'hidden' if not logged_in_username == user_username }}"> 
-            <button data-dropdown-dismiss data-button="delete" class="flex items-center w-full gap-3 p-4 text-sm text-danger-200 hover:bg-black/5" type="button">
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-              <span>Delete</span>
-            </button>
+    </div>
+    <div class="flex flex-col flex-grow min-w-0">
+      <div class="flex items-center gap-1 text-gray-400">
+        <a data-field="name-link" class="flex items-center min-w-0 gap-1 font-bold text-black hover:underline" href="/users/{{ user_username }}">
+          <span data-field="name" class="overflow-hidden text-ellipsis whitespace-nowrap">{{ user_name }}</span>
+          <svg class="w-6 h-6 min-w-[1.5rem] text-primary-200" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        </a>
+        <a data-field="username" class="overflow-hidden text-sm text-ellipsis hover:underline" href="/users/{{ user_username }}">@{{ user_username }}</a>
+        <span>&centerdot;</span>
+        <span data-field="date" class="text-sm cursor-pointer whitespace-nowrap hover:underline">Date?</span>
+      
+        <div data-dropdown-container class="relative flex items-center ml-auto">
+          <button data-dropdown-button class="group hover:text-primary-200" type="button">
+            <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-primary-200/10"></div>
+            <svg class="w-5 h-5 transition-colors" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/></svg>
+          </button>
+          <div data-dropdown class="absolute top-0 right-0 z-10 overflow-hidden bg-white rounded-md shadow-md is-hidden w-max">
+            <div data-logged-in-user class="{{ 'hidden' if not logged_in_username == user_username }}"> 
+              <button data-dropdown-dismiss data-button="delete" class="flex items-center w-full gap-3 p-4 text-sm text-danger-200 hover:bg-black/5" type="button">
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                <span>Delete</span>
+              </button>
 
-            <button data-dropdown-dismiss data-button="edit" class="flex items-center w-full gap-3 p-4 text-sm text-black hover:bg-black/5" type="button">
-              <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-              <span>Edit</span>
-            </button>
+              <button data-dropdown-dismiss data-button="edit" class="flex items-center w-full gap-3 p-4 text-sm text-black hover:bg-black/5" type="button">
+                <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                <span>Edit</span>
+              </button>
 
-            <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5 cursor-" type="button" disabled>
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              <span>Add/remove @{{ user_username }} from Lists</span>
-            </button>
+              <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5 cursor-" type="button" disabled>
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span>Add/remove @{{ user_username }} from Lists</span>
+              </button>
 
-            <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-              <span>Change who can reply</span>
-            </button>
+              <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                <span>Change who can reply</span>
+              </button>
 
-            <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-              <span>Embed Tweet</span>
-            </button>
+              <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                <span>Embed Tweet</span>
+              </button>
 
-            <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-              <span>View Tweet activity</span>
-            </button>
-          </div>
-          <div data-user class="{{ 'hidden' if logged_in_username == user_username }}">
-            <button data-dropdown-dismiss data-button="follow" class="flex items-center w-full gap-3 p-4 text-sm text-black hover:bg-black/5" type="button">
-              <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Person Add</title><path d="M376 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M288 304c-87 0-175.3 48-191.64 138.6-2 10.92 4.21 21.4 15.65 21.4H464c11.44 0 17.62-10.48 15.65-21.4C463.3 352 375 304 288 304z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M88 176v112M144 232H32"/></svg>
-              <span>Follow @{{ user_username }}</span>
-            </button>
-            <button data-dropdown-dismiss data-button="unfollow" class="flex items-center w-full gap-3 p-4 text-sm text-black hover:bg-black/5" type="button">
-              <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Person Remove</title><path d="M376 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M288 304c-87 0-175.3 48-191.64 138.6-2 10.92 4.21 21.4 15.65 21.4H464c11.44 0 17.62-10.48 15.65-21.4C463.3 352 375 304 288 304z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M144 232H32"/></svg>
-              <span>Unfollow @{{ user_username }}</span>
-            </button>
-            <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5 cursor-" type="button" disabled>
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              <span>Add/remove @{{ user_username }} from Lists</span>
-            </button>
-            <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M416 432L64 80"/><path fill="currentColor" d="M224 136.92v33.8a4 4 0 001.17 2.82l24 24a4 4 0 006.83-2.82v-74.15a24.53 24.53 0 00-12.67-21.72 23.91 23.91 0 00-25.55 1.83 8.27 8.27 0 00-.66.51l-31.94 26.15a4 4 0 00-.29 5.92l17.05 17.06a4 4 0 005.37.26zM224 375.08l-78.07-63.92a32 32 0 00-20.28-7.16H64v-96h50.72a4 4 0 002.82-6.83l-24-24a4 4 0 00-2.82-1.17H56a24 24 0 00-24 24v112a24 24 0 0024 24h69.76l91.36 74.8a8.27 8.27 0 00.66.51 23.93 23.93 0 0025.85 1.69A24.49 24.49 0 00256 391.45v-50.17a4 4 0 00-1.17-2.82l-24-24a4 4 0 00-6.83 2.82zM125.82 336zM352 256c0-24.56-5.81-47.88-17.75-71.27a16 16 0 00-28.5 14.54C315.34 218.06 320 236.62 320 256q0 4-.31 8.13a8 8 0 002.32 6.25l19.66 19.67a4 4 0 006.75-2A146.89 146.89 0 00352 256zM416 256c0-51.19-13.08-83.89-34.18-120.06a16 16 0 00-27.64 16.12C373.07 184.44 384 211.83 384 256c0 23.83-3.29 42.88-9.37 60.65a8 8 0 001.9 8.26l16.77 16.76a4 4 0 006.52-1.27C410.09 315.88 416 289.91 416 256z"/><path fill="currentColor" d="M480 256c0-74.26-20.19-121.11-50.51-168.61a16 16 0 10-27 17.22C429.82 147.38 448 189.5 448 256c0 47.45-8.9 82.12-23.59 113a4 4 0 00.77 4.55L443 391.39a4 4 0 006.4-1C470.88 348.22 480 307 480 256z"/></svg>
-              <span>Mute @{{ user_username }}</span>
-            </button>
-            <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Ban</title><circle cx="256" cy="256" r="208" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32" d="M108.92 108.92l294.16 294.16"/></svg>
-              <span>Block @{{ user_username }}</span>
-            </button>
-            <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-              <span>Embed Tweet</span>
-            </button>
-            <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
-              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Flag</title><path d="M80 464V68.14a8 8 0 014-6.9C91.81 56.66 112.92 48 160 48c64 0 145 48 192 48a199.53 199.53 0 0077.23-15.77 2 2 0 012.77 1.85v219.36a4 4 0 01-2.39 3.65C421.37 308.7 392.33 320 352 320c-48 0-128-32-192-32s-80 16-80 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"/></svg>
-              <span>Report Tweet</span>
-            </button>
+              <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                <span>View Tweet activity</span>
+              </button>
+            </div>
+            <div data-user class="{{ 'hidden' if logged_in_username == user_username }}">
+              <button data-dropdown-dismiss data-button="follow" data-id="{{ tweet_fk_user_id }}" class="{{ 'is-hidden' if is_tweet_creator_followed_by_user }} flex items-center w-full gap-3 p-4 text-sm text-black hover:bg-black/5" type="button">
+                <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Person Add</title><path d="M376 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M288 304c-87 0-175.3 48-191.64 138.6-2 10.92 4.21 21.4 15.65 21.4H464c11.44 0 17.62-10.48 15.65-21.4C463.3 352 375 304 288 304z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M88 176v112M144 232H32"/></svg>
+                <span>Follow @{{ user_username }}</span>
+              </button>
+              <button data-dropdown-dismiss data-button="unfollow" data-id="{{ tweet_fk_user_id }}" class="{{ 'is-hidden' if not is_tweet_creator_followed_by_user }} flex items-center w-full gap-3 p-4 text-sm text-black hover:bg-black/5" type="button">
+                <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Person Remove</title><path d="M376 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M288 304c-87 0-175.3 48-191.64 138.6-2 10.92 4.21 21.4 15.65 21.4H464c11.44 0 17.62-10.48 15.65-21.4C463.3 352 375 304 288 304z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M144 232H32"/></svg>
+                <span>Unfollow @{{ user_username }}</span>
+              </button>
+              <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5 cursor-" type="button" disabled>
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span>Add/remove @{{ user_username }} from Lists</span>
+              </button>
+              <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M416 432L64 80"/><path fill="currentColor" d="M224 136.92v33.8a4 4 0 001.17 2.82l24 24a4 4 0 006.83-2.82v-74.15a24.53 24.53 0 00-12.67-21.72 23.91 23.91 0 00-25.55 1.83 8.27 8.27 0 00-.66.51l-31.94 26.15a4 4 0 00-.29 5.92l17.05 17.06a4 4 0 005.37.26zM224 375.08l-78.07-63.92a32 32 0 00-20.28-7.16H64v-96h50.72a4 4 0 002.82-6.83l-24-24a4 4 0 00-2.82-1.17H56a24 24 0 00-24 24v112a24 24 0 0024 24h69.76l91.36 74.8a8.27 8.27 0 00.66.51 23.93 23.93 0 0025.85 1.69A24.49 24.49 0 00256 391.45v-50.17a4 4 0 00-1.17-2.82l-24-24a4 4 0 00-6.83 2.82zM125.82 336zM352 256c0-24.56-5.81-47.88-17.75-71.27a16 16 0 00-28.5 14.54C315.34 218.06 320 236.62 320 256q0 4-.31 8.13a8 8 0 002.32 6.25l19.66 19.67a4 4 0 006.75-2A146.89 146.89 0 00352 256zM416 256c0-51.19-13.08-83.89-34.18-120.06a16 16 0 00-27.64 16.12C373.07 184.44 384 211.83 384 256c0 23.83-3.29 42.88-9.37 60.65a8 8 0 001.9 8.26l16.77 16.76a4 4 0 006.52-1.27C410.09 315.88 416 289.91 416 256z"/><path fill="currentColor" d="M480 256c0-74.26-20.19-121.11-50.51-168.61a16 16 0 10-27 17.22C429.82 147.38 448 189.5 448 256c0 47.45-8.9 82.12-23.59 113a4 4 0 00.77 4.55L443 391.39a4 4 0 006.4-1C470.88 348.22 480 307 480 256z"/></svg>
+                <span>Mute @{{ user_username }}</span>
+              </button>
+              <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Ban</title><circle cx="256" cy="256" r="208" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32" d="M108.92 108.92l294.16 294.16"/></svg>
+                <span>Block @{{ user_username }}</span>
+              </button>
+              <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                <span>Embed Tweet</span>
+              </button>
+              <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Flag</title><path d="M80 464V68.14a8 8 0 014-6.9C91.81 56.66 112.92 48 160 48c64 0 145 48 192 48a199.53 199.53 0 0077.23-15.77 2 2 0 012.77 1.85v219.36a4 4 0 01-2.39 3.65C421.37 308.7 392.33 320 352 320c-48 0-128-32-192-32s-80 16-80 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"/></svg>
+                <span>Report Tweet</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
+      <p data-field="text" class="mb-4 break-words whitespace-pre-wrap hyphens-auto">{{ tweet_text }}</p>
+      {% if tweet_image_file_name %}
+        <img data-field="image" class="object-cover w-full mb-4 max-h-96 rounded-2xl" src="/static/tweets/{{ tweet_image_file_name }}" alt="#" loading="lazy"/>
+      {% else %}
+        <img data-field="image" class="object-cover w-full mb-4 is-hidden max-h-96 rounded-2xl" src="#" alt="#" loading="lazy"/>
+      {% endif %}
+      <ul class="flex text-gray-400">
+        <li class="flex-grow">
+          <button data-button="comment" class="flex gap-1 group hover:text-primary-200" type="button">
+            <div class="relative">
+              <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-primary-200/10"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            </div>
+            <span data-field="comment-counter" class="px-2 text-sm transition-colors">?</span>
+            <span class="sr-only">Comment</span>
+          </button>
+        </li>
+        <li class="flex-grow">
+          <button data-button="retweet" class="flex gap-1 group hover:text-success" type="button">
+            <div class="relative">
+              <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-success/10"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+            </div>
+            <span data-field="retweet-counter" class="px-2 text-sm">?</span>
+            <span class="sr-only">Retweet</span>
+          </button>
+        </li>
+        <li class="flex-grow">
+            <button data-button="unlike" class="{{ 'is-hidden' if not is_liked_by_user }} flex gap-1 group hover:text-danger-200" type="button">
+              <div class="relative">
+                <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-danger-200/10"></div>
+                <svg data-field="unlike-icon" class="w-5 h-5 transition-colors stroke-danger-200 fill-danger-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+              </div>
+              <span class="sr-only">Like</span>
+              <span data-field="unlike-counter" class="px-2 text-sm text-danger-200">
+                {{ tweet_likes if tweet_likes }} 
+              </span>
+            </button>
+            <button data-button="like" class="{{ 'is-hidden' if is_liked_by_user  }} flex gap-1 group hover:text-danger-200" type="button">
+              <div class="relative">
+                <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-danger-200/10"></div>
+                <svg data-field="like-icon" class="w-5 h-5 transition-colors " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+              </div>
+              <span class="sr-only">Like</span>
+              <span data-field="like-counter" class="px-2 text-sm">
+                {{ tweet_likes if tweet_likes }} 
+              </span>
+            </button>
+        </li>
+        <li class="flex-grow">
+          <button data-button="share" class="flex gap-3 group hover:text-primary-200" type="button">
+            <div class="relative">
+              <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-primary-200/10"></div>
+              <svg class="w-5 h-5 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Share</title><path d="M336 192h40a40 40 0 0140 40v192a40 40 0 01-40 40H136a40 40 0 01-40-40V232a40 40 0 0140-40h40M336 128l-80-80-80 80M256 321V48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+            </div>
+            <span class="sr-only">Share</span>
+          </button>
+        </li>
+      </ul>
     </div>
-    <p data-field="text" class="mb-4 break-words whitespace-pre-wrap hyphens-auto">{{ tweet_text }}</p>
-    {% if tweet_image_file_name %}
-      <img data-field="image" class="object-cover w-full mb-4 max-h-96 rounded-2xl" src="/static/tweets/{{ tweet_image_file_name }}" alt="#" loading="lazy"/>
-    {% else %}
-      <img data-field="image" class="object-cover w-full mb-4 is-hidden max-h-96 rounded-2xl" src="#" alt="#" loading="lazy"/>
-    {% endif %}
-    <ul class="flex text-gray-400">
-      <li class="flex-grow">
-        <button data-button="comment" class="flex gap-1 group hover:text-primary-200" type="button">
-          <div class="relative">
-            <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-primary-200/10"></div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-          </div>
-          <span data-field="comment-counter" class="px-2 text-sm transition-colors">?</span>
-          <span class="sr-only">Comment</span>
-        </button>
-      </li>
-      <li class="flex-grow">
-        <button data-button="retweet" class="flex gap-1 group hover:text-success" type="button">
-          <div class="relative">
-            <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-success/10"></div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-          </div>
-          <span data-field="retweet-counter" class="px-2 text-sm">?</span>
-          <span class="sr-only">Retweet</span>
-        </button>
-      </li>
-      <li class="flex-grow">
-          <button data-button="unlike" class="{{ 'is-hidden' if not is_liked_by_user }} flex gap-1 group hover:text-danger-200" type="button">
-            <div class="relative">
-              <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-danger-200/10"></div>
-              <svg data-field="unlike-icon" class="w-5 h-5 transition-colors stroke-danger-200 fill-danger-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-            </div>
-            <span class="sr-only">Like</span>
-            <span data-field="unlike-counter" class="px-2 text-sm text-danger-200">
-              {{ tweet_likes if tweet_likes }} 
-            </span>
-          </button>
-          <button data-button="like" class="{{ 'is-hidden' if is_liked_by_user  }} flex gap-1 group hover:text-danger-200" type="button">
-            <div class="relative">
-              <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-danger-200/10"></div>
-              <svg data-field="like-icon" class="w-5 h-5 transition-colors " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-            </div>
-            <span class="sr-only">Like</span>
-            <span data-field="like-counter" class="px-2 text-sm">
-              {{ tweet_likes if tweet_likes }} 
-            </span>
-          </button>
-      </li>
-      <li class="flex-grow">
-        <button data-button="share" class="flex gap-3 group hover:text-primary-200" type="button">
-          <div class="relative">
-            <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-primary-200/10"></div>
-            <svg class="w-5 h-5 transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Share</title><path d="M336 192h40a40 40 0 0140 40v192a40 40 0 01-40 40H136a40 40 0 01-40-40V232a40 40 0 0140-40h40M336 128l-80-80-80 80M256 321V48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-          </div>
-          <span class="sr-only">Share</span>
-        </button>
-      </li>
-    </ul>
-  </div>
   </form>
   {% if is_template %}
     </template>

@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+[data-action].is-hidden,
 [data-modal].is-hidden,
 [data-modal-container].is-hidden,
 [data-hook].is-hidden,
@@ -10,6 +11,7 @@
 [data-button].is-hidden {
   display: none;
 }
+
 .modal-is-open {
   overflow: hidden;
 }

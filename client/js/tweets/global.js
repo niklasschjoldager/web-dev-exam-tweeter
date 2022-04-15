@@ -2,6 +2,8 @@ import handleDeleteTweet from "./deleteTweet.js"
 import handleEditTweet from "./editTweet.js"
 import handleLikeTweet from "./likeTweet.js"
 import handleUnlikeTweet from "./unlikeTweet.js"
+import handleFollowUser from "../users/followUser.js"
+import handleUnfollowUser from "../users/unfollowUser.js"
 
 export function displayTweet(tweet) {
   const {
@@ -35,17 +37,22 @@ export function displayTweet(tweet) {
 }
 
 export function prepareTweet(tweet) {
-  const id = tweet.dataset.id
+  const userId = tweet.dataset.userId
+  const username = tweet.dataset.username
 
   const deleteButton = tweet.querySelector("[data-button=delete]")
   const editButton = tweet.querySelector("[data-button=edit]")
   const likeButton = tweet.querySelector("[data-button=like]")
   const unlikeButton = tweet.querySelector("[data-button=unlike]")
+  const followButton = tweet.querySelector("[data-button=follow]")
+  const unfollowButton = tweet.querySelector("[data-button=unfollow]")
 
-  deleteButton && deleteButton.addEventListener("click", () => handleDeleteTweet(id, tweet))
-  editButton && editButton.addEventListener("click", () => handleEditTweet(id, tweet))
-  likeButton && likeButton.addEventListener("click", () => handleLikeTweet(id, tweet))
-  unlikeButton && unlikeButton.addEventListener("click", () => handleUnlikeTweet(id, tweet))
+  deleteButton && deleteButton.addEventListener("click", () => handleDeleteTweet(userId, tweet))
+  editButton && editButton.addEventListener("click", () => handleEditTweet(userId, tweet))
+  likeButton && likeButton.addEventListener("click", () => handleLikeTweet(userId, tweet))
+  unlikeButton && unlikeButton.addEventListener("click", () => handleUnlikeTweet(userId, tweet))
+  followButton && followButton.addEventListener("click", () => handleFollowUser(userId))
+  unfollowButton && unfollowButton.addEventListener("click", () => handleUnfollowUser(userId, username))
 }
 
 export function resetForm(form) {

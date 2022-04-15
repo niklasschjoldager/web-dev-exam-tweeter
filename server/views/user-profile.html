@@ -44,25 +44,41 @@
           <img class="border-4 border-white rounded-full" src="/static/users/default_profile_image.png" alt="#">
         </a>
   
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-4">
           {% if user_profile["user_username"] == logged_in_user["username"] %}
             {{ button(children="Edit profile", variant="outlined", size="sm") }}
           {% else %}
             {{ iconButton(
               text="More", 
+              color="black",
+              variant="outlined",
               icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Ellipsis Horizontal</title><circle cx="256" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="416" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="96" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>',
             )}}
+
+            {% set unfollow_button_attributes = [
+              'data-id="' + user_profile["user_id"]|string + '"',
+              'data-button="unfollow-user"'
+            ]|join(' ') %}
+
+            {% set follow_button_attributes = [
+              'data-id="' + user_profile["user_id"]|string + '"',
+              'data-button="follow-user"'
+            ]|join(' ') %}
+            
             {% if user_info["is_followed_by_user"] %}
-              {{ button(children="Following", variant="outlined", size="sm", attributes='data-button="unfollow-user"') }}
-              {{ button(children="Follow", variant="dark", size="sm", classes="hidden", attributes='data-button=follow-user') }}
+              {{ button(children="Following", variant="outlined", size="sm", attributes=unfollow_button_attributes) }}
+              {{ button(children="Follow", variant="dark", size="sm", classes="is-hidden", attributes=follow_button_attributes) }}
             {% else %}
-              {{ button(children="Following", variant="outlined", size="sm", classes="hidden", attributes='data-button="unfollow-user"') }}
-              {{ button(children="Follow", variant="dark", size="sm", attributes='data-button="follow-user"') }}
+              {{ button(children="Following", variant="outlined", size="sm", classes="is-hidden", attributes=unfollow_button_attributes) }}
+              {{ button(children="Follow", variant="dark", size="sm", attributes=follow_button_attributes) }}
             {% endif %}
           {% endif %}
         </div>
       </div>
-      <h1 class="text-xl font-bold">{{ user_profile["user_name"] }} <span>Verified</span></h1>
+      <h1 class="flex items-center gap-1 text-xl font-bold">
+        {{ user_profile["user_name"] }}
+        <svg class="w-6 h-6 min-w-[1.5rem] text-primary-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+      </h1>
       <div class="flex flex-col gap-2 text-sm text-gray-400 ">
         <p class="">@{{ user_profile["user_username"] }}</p>
         <p class="flex gap-1">
@@ -70,13 +86,14 @@
           <span>Joined ???</span>
         </p>
         <div class="flex gap-2">
-          <p>
+          <a class="text-black hover:underline" href="#">
             <span class="font-bold text-black">{{ user_info["following"] }}</span> 
-            Following
-          <p>
+            <span class="text-gray-400">Following</span>
+          </a>
+          <a class="text-black hover:underline" href="#">
             <span data-field="followers" class="font-bold text-black">{{ user_info["followers"] }}</span>
-            {{ "follower" if user_info["followers"] == 1 else "followers" }}</p>
-          </p>
+            <span class="text-gray-400">{{ "Follower" if user_info["followers"] == 1 else "Followers" }}</span>
+          </a>
         </div>
       </div>
 

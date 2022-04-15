@@ -43,7 +43,17 @@ def _(user_username):
         print(user_info)
 
         query_get_user_tweets = f"""
-            SELECT tweets.tweet_id, tweets.tweet_text, tweets.tweet_fk_user_id, tweets.tweet_created_at, tweets.tweet_image_file_name, COUNT(likes_quantity.fk_tweet_id) AS tweet_likes, is_liked_by_user.fk_user_id AS is_liked_by_user, users.user_username, users.user_name
+            SELECT 
+                tweets.tweet_id, 
+                tweets.tweet_text, 
+                tweets.tweet_fk_user_id, 
+                tweets.tweet_created_at, 
+                tweets.tweet_image_file_name, 
+                COUNT(likes_quantity.fk_tweet_id) AS tweet_likes, 
+                is_liked_by_user.fk_user_id AS is_liked_by_user, 
+                users.user_username, 
+                users.user_name,
+                COUNT(is_tweet_creator_followed_by_user.fk_user_to_id) AS is_tweet_creator_followed_by_user
             FROM tweets
 
             LEFT JOIN likes AS likes_quantity 
@@ -54,6 +64,9 @@ def _(user_username):
                 
             LEFT JOIN users 
                 ON users.user_id = tweets.tweet_fk_user_id
+
+            LEFT JOIN followers AS is_tweet_creator_followed_by_user
+                ON is_tweet_creator_followed_by_user.fk_user_from_id = %(logged_in_user_id)s AND is_tweet_creator_followed_by_user.fk_user_to_id = tweets.tweet_fk_user_id
             
             WHERE tweets.tweet_fk_user_id = %(user_profile_id)s
             GROUP BY tweets.tweet_id

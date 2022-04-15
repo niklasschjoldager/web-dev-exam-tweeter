@@ -8,9 +8,9 @@
 
 {############################################################}
 {# Icon Button #}
-{% macro iconButton(text, icon, color="primary-200", as="button", classes="", attributes="") -%}
+{% macro iconButton(text, icon, variant="text", color="primary-200", as="button", classes="", attributes="") -%}
   <{{as}} {{ attributes }} class="text-{{ color }} {{ baseIconButton }} {{ classes }}">
-    <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-{{ color }}/10"></div>
+    <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full {{ variants['iconButton'][variant] }} group-hover:bg-{{ color }}/10"></div>
     {{ icon }}
     <span class="sr-only">{{ text }}</span>
   </{{as}}>
@@ -42,8 +42,9 @@
     "danger": "bg-danger-200 border-danger-200 focus:bg-danger-100 hover:bg-danger-100 text-white",
   },
   "iconButton": {
-    "primary": ""
+    "text": "",
+    "outlined": "border border-gray-300"
   }
 } %}
 
-<button class="text-black text-white bg-black border-black border-gray-300 hover:border-danger-200/50 hover:bg-danger-200/10 bg-danger-200/10 bg-primary-200 border-primary-200 hover:bg-primary-100 focus:bg-primary-100 text-primary-200 hover:bg-primary-200/10 focus:bg-primary-200/10 focus:bg-black/10 hover:bg-black/10 focus:bg-opacity-90 hover:bg-opacity-90 bg-danger-200 border-danger-200 focus:bg-danger-100 hover:bg-danger-100"></button>
+<button class="text-black text-white bg-black border-black border-gray-300 group-hover:bg-black/10 hover:border-danger-200/50 hover:bg-danger-200/10 bg-danger-200/10 bg-primary-200 border-primary-200 hover:bg-primary-100 focus:bg-primary-100 text-primary-200 hover:bg-primary-200/10 focus:bg-primary-200/10 focus:bg-black/10 hover:bg-black/10 focus:bg-opacity-90 hover:bg-opacity-90 bg-danger-200 border-danger-200 focus:bg-danger-100 hover:bg-danger-100"></button>
