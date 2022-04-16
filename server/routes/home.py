@@ -36,6 +36,7 @@ def _():
                 COUNT(is_liked_by_user.fk_user_id) AS is_liked_by_user,
                 users.user_username,
                 users.user_name,
+                users.user_profile_image,
                 COUNT(is_tweet_creator_followed_by_user.fk_user_to_id) AS is_tweet_creator_followed_by_user
             FROM tweets
 

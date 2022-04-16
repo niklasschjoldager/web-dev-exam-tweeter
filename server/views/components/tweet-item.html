@@ -1,14 +1,14 @@
-{% macro tweetItem(logged_in_username, is_tweet_creator_followed_by_user, tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, tweet_likes, tweet_fk_user_id, tweet_created_at, is_liked_by_user, is_template=false) -%}
+{% macro tweetItem(logged_in_username, is_tweet_creator_followed_by_user, tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, user_profile_image, tweet_likes, tweet_fk_user_id, tweet_created_at, is_liked_by_user, is_template=false) -%}
   {% if is_template %}
     <template data-template="tweet-item">
   {% endif %}
   <form data-id="{{ tweet_id }}" data-username="{{ user_username }}" data-user-id="{{ tweet_fk_user_id }}" data-form="tweet" class="flex gap-4 p-4 transition-colors border-b border-gray-200 cursor-pointer hover:bg-black/[0.03]">
     <div class="min-w-[3rem]">
       <a class="transition-all rounded-full outline-none hover:brightness-90" href="/users/{{ user_username }}">
-        {% if tweet_image_file_name %}
-          <img class="w-12 h-12 rounded-full" src="/static/users/{{ tweet_image_file_name }}" alt="#">
+        {% if user_profile_image %}
+          <img class="w-12 h-12 rounded-full" src="/static/users/{{ user_profile_image }}" alt="{{ user_name }} profile image">
         {% else %}
-          <img class="w-12 h-12 rounded-full" src="/static/users/default_profile_image.png" alt="#">
+          <img class="w-12 h-12 rounded-full" src="/static/users/default_profile_image.png" alt="Default profile image">
         {% endif %}
       </a>
     </div>

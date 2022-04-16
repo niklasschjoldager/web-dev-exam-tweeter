@@ -1,14 +1,13 @@
 {% from "components/button.html" import iconButton %}
 
-<div class="fixed top-0 left-0 hidden w-screen h-screen">
-  <div class="w-full h-full bg-black/50" data-modal-dismiss></div>
-  <div class="absolute min-w-[280px] max-w-[70%] top-0 left-0 flex flex-col h-screen bg-white z-1 shadow-2xl">
+<div data-menu="mobile" class="fixed top-0 left-0 invisible w-screen h-screen">
+  <div data-menu-backdrop data-menu-dismiss class="w-full h-full transition-opacity opacity-0 bg-black/50"></div>
+  <div data-menu-content class="absolute -translate-x-full transition-transform min-w-[280px] max-w-[70%] top-0 left-0 flex flex-col h-screen bg-white z-1 shadow-2xl">
     <div class="flex items-center justify-between px-4 py-3.5 bg-white/[0.97]">
       <h2 class="text-lg font-bold">Account info</h2>
-      {{ iconButton(text="Close menu", icon='<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Close</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/></svg>', color="black") }}
+      {{ iconButton(text="Close menu", icon='<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Close</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/></svg>', color="black", attributes='data-menu-dismiss') }}
     </div>
     <div class="overflow-y-auto">
-
       <div class="p-4 border-b border-gray-200">
         <div class="flex items-center justify-between mb-4">
           <a class="transition-all hover:brightness-90" href="/users/{{ logged_in_user['username'] }}">
@@ -57,8 +56,7 @@
             {{ link["icon"] }}
             <span>{{ link["text"] }}</span>
           </button>
-        {% endfor %}
-        
+        {% endfor %}        
       </div>
       <div>      
         <a class="flex p-4 text-sm transition-colors hover:bg-black/5" href="/logout">
