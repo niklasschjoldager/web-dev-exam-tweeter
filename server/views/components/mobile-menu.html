@@ -25,11 +25,11 @@
         </p>
         
         <div class="flex gap-2 text-sm">
-          <a class="text-black hover:underline" href="#">
+          <a class="text-black hover:underline" href="/users/{{ logged_in_user['username'] }}/following">
             <span class="font-bold text-black">???</span> 
             <span class="text-gray-400">Following?</span>
           </a>
-          <a class="text-black hover:underline" href="#">
+          <a class="text-black hover:underline" href="/users/{{ logged_in_user['username'] }}/followers">
             <span data-field="followers" class="font-bold text-black">???</span>
             <span class="text-gray-400">Followers?</span>
           </a>

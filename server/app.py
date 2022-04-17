@@ -12,6 +12,8 @@ from routes import (
     messages,
     notifications,
     search,
+    followers,
+    following,
     user_profile,
 )
 

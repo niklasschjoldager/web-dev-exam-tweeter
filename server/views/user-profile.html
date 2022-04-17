@@ -96,11 +96,11 @@
           <span>Joined {{ user_profile["user_joined"] }}</span>
         </p>
         <div class="flex gap-2">
-          <a class="text-black hover:underline" href="#">
+          <a class="text-black hover:underline" href="/users/{{ user_profile['user_username'] }}/following">
             <span class="font-bold text-black">{{ user_info["following"] }}</span> 
             <span class="text-gray-400">Following</span>
           </a>
-          <a class="text-black hover:underline" href="#">
+          <a class="text-black hover:underline" href="/users/{{ user_profile['user_username'] }}/followers">
             <span data-field="followers" class="font-bold text-black">{{ user_info["followers"] }}</span>
             <span class="text-gray-400">{{ "Follower" if user_info["followers"] == 1 else "Followers" }}</span>
           </a>

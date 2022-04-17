@@ -1,0 +1,44 @@
+{% from "components/button.html" import button %}
+{% extends "layouts/app.html" %}
+
+{% block title -%}
+  People followed by {{ user_profile["user_name"]}} (@{{ user_profile["user_username"] }})
+{% endblock %}
+
+{% block topbar %}
+  <div class="flex gap-8">
+    <button data-button="back" type="button">
+      <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Arrow Back</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>
+    </button>
+    <div>
+      <p class="flex items-center gap-2 font-bold">
+        <span>{{ user_profile["user_name"] }}</span>
+        <svg class="w-6 h-6 min-w-[1.5rem] text-primary-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+      </p>
+      <p class="text-sm text-gray-400">@{{ user_profile["user_username"] }}</p>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content -%}
+  <section>
+    <ul class="flex overflow-x-auto border-b border-gray-200">
+      <li class="flex-grow">
+        <a class="block w-full h-full px-6 py-4 text-sm font-bold text-center text-gray-400 transition-colors whitespace-nowrap hover:bg-black/10" href="/users/{{ user_profile['user_username']}}/followers">Followers</a>
+      </li>
+      <li class="flex-grow">
+        <a class="block w-full px-6 text-sm font-bold text-center text-black transition-colors hover:bg-black/10" href="/users/{{ user_profile['user_username']}}/following">
+          <div class="inline-flex flex-col">
+            <div class="py-4 whitespace-nowrap">Following</div> 
+            <div class="w-full h-1 rounded-full bg-primary-200"></div>
+          </div>
+        </a>
+      </li>
+    </ul>
+    <div class="max-w-sm p-8 mx-auto">
+      <h1 class="mb-2 text-3xl font-black">You aren&apos;t following anyone yet</h1>
+      <p class="mb-8 text-sm text-gray-400">When you do, they&apos;ll be listed here and you&apos;ll see their Tweets in your timeline.</p>
+      {{ button(children="Find people to follow", variant="primary", size="lg") }}
+    </div>
+  </section>  
+{% endblock %}
