@@ -18,6 +18,8 @@ def _():
         "id": user_id,
         "name": user_session["user_session_user_name"],
         "username": user_session["user_session_user_username"],
+        "profile_image": user_session["user_session_user_profile_image"],
+        "cover_image": user_session["user_session_user_cover_image"],
     }
 
     return template(

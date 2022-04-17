@@ -73,6 +73,8 @@ def _():
         "user_session_fk_user_id": user_in_database["user_id"],
         "user_session_user_username": user_in_database["user_username"],
         "user_session_user_name": user_in_database["user_name"],
+        "user_session_user_profile_image": user_in_database["user_profile_image"],
+        "user_session_user_cover_image": user_in_database["user_cover_image"],
     }
 
     # Add user session

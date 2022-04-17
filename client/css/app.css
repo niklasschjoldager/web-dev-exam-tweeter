@@ -657,6 +657,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   aspect-ratio: 3 / 1;
 }
 
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
 .h-5 {
   height: 1.25rem;
 }
@@ -1170,6 +1174,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.object-center {
+  -o-object-position: center;
+     object-position: center;
 }
 
 .p-8 {

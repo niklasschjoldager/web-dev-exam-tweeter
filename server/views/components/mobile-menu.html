@@ -11,8 +11,8 @@
       <div class="p-4 border-b border-gray-200">
         <div class="flex items-center justify-between mb-4">
           <a class="transition-all hover:brightness-90" href="/users/{{ logged_in_user['username'] }}">
-            {% if logged_in_user["user_profile_image"] %}
-              <img class="w-10 h-10 rounded-full" src="/static/users/{{ logged_in_user['user_profile_image'] }}" alt="#">
+            {% if logged_in_user["profile_image"] %}
+              <img class="w-10 h-10 rounded-full" src="/static/users/{{ logged_in_user['profile_image'] }}" alt="#">
             {% else %}
               <img class="w-10 h-10 rounded-full" src="/static/images/default-profile-image.png" alt="#">
             {% endif %}
