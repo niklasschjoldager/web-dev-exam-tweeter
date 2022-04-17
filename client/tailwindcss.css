@@ -13,6 +13,7 @@
   display: none;
 }
 
+.menu-is-open,
 .modal-is-open {
   overflow: hidden;
 }

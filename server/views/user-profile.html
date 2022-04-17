@@ -50,7 +50,7 @@
           {% if user_profile["user_profile_image"] %}
             <img class="border-4 border-white rounded-full" src="/static/users/{{ user_profile['user_profile_image'] }}" alt="#">
           {% else %}
-            <img class="border-4 border-white rounded-full" src="/static/users/default_profile_image.png" alt="#">
+            <img class="border-4 border-white rounded-full" src="/static/images/default-profile-image.png" alt="#">
           {% endif %}
         </a>
   
@@ -140,4 +140,8 @@
       </div>
     {% endif %}
   </section>
+{% endblock %}
+
+{% block modals %}
+  {% include "components/modal-edit-user.html" %}
 {% endblock %}

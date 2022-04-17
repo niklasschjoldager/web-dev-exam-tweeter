@@ -8,7 +8,7 @@ import json
 from utils.user_session import validate_user_session
 from g import (
     DATABASE_CONFIG,
-    TWEET_IMAGE_ALLOWED_FILE_EXTENSIONS,
+    IMAGE_ALLOWED_FILE_EXTENSIONS,
     TWEET_IMAGE_PATH,
     TWEET_TEXT_MAX_LENGTH,
     TWEET_TEXT_MIN_LENGTH,
@@ -60,7 +60,7 @@ def _(tweet_id):
             image = request.files.get("tweet_image")
             file_name, file_extension = os.path.splitext(image.filename)
 
-            if file_extension not in TWEET_IMAGE_ALLOWED_FILE_EXTENSIONS:
+            if file_extension not in IMAGE_ALLOWED_FILE_EXTENSIONS:
                 response.status = 400
                 return {"info": f"Image format not allowed"}
 
@@ -90,7 +90,7 @@ def _(tweet_id):
         query_set_parts = ",".join(query_set_parts)
 
         # ############################################################
-        # # Connect to the db
+        # Connect to the db
         connection = mysql.connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
 

@@ -12,6 +12,7 @@ export default function setupMobileMenu(trigger) {
   triggerButton.addEventListener("click", openMenu)
 
   function openMenu() {
+    document.body.classList.add("menu-is-open")
     menu.classList.remove("invisible")
     content.classList.remove("-translate-x-full")
     backdrop.classList.remove("opacity-0")
@@ -24,6 +25,7 @@ export default function setupMobileMenu(trigger) {
   }
 
   function setMenuInvisible() {
+    document.body.classList.remove("menu-is-open")
     menu.classList.add("invisible")
     backdrop.removeEventListener("transitionend", setMenuInvisible)
   }

@@ -10,10 +10,11 @@
     <a class="flex items-center gap-4 p-3 transition-colors rounded-full hover:bg-black/10" href="/{{ link['url'] }}">
       {% if link["url"] == currentUrl %}
         <img class="w-7 h-7" src="/static/icons/{{ link['icons']['active'] }}" alt="{{ link['name'] }} icon"/>
+        <span class="font-bold sr-only xl:not-sr-only">{{ link["name"] }}</span>
       {% else %}
         <img class="w-7 h-7" src="/static/icons/{{ link['icons']['default'] }}" alt="{{ link['name'] }} icon"/>
+        <span class="sr-only xl:not-sr-only">{{ link["name"] }}</span>
       {% endif %}
-      <span class="sr-only xl:not-sr-only">{{ link["name"] }}</span>
     </a>
   {% endfor %}
 
@@ -55,7 +56,7 @@
       {% if logged_in_user["user_profile_image"] %}
         <img class="w-10 h-10 rounded-full" src="/static/users/{{ logged_in_user['user_profile_image'] }}" alt="#">
       {% else %}
-        <img class="w-10 h-10 rounded-full" src="/static/users/default_profile_image.png" alt="#">
+        <img class="w-10 h-10 rounded-full" src="/static/images/default-profile-image.png" alt="#">
       {% endif %}
       <p class="flex-col flex-grow hidden overflow-hidden xl:flex">
         <span class="overflow-hidden text-sm font-bold select-none text-ellipsis whitespace-nowrap">{{ logged_in_user["name"]}}</span>
@@ -73,7 +74,7 @@
           {% if logged_in_user["user_profile_image"] %}
             <img class="w-12 h-12 rounded-full" src="/static/users/{{ logged_in_user['user_profile_image'] }}" alt="#">
           {% else %}
-            <img class="w-12 h-12 rounded-full" src="/static/users/default_profile_image.png" alt="#">
+            <img class="w-12 h-12 rounded-full" src="/static/images/default-profile-image.png" alt="#">
           {% endif %}
           <p class="flex flex-col flex-grow overflow-hidden">
             <span class="overflow-hidden text-sm font-bold whitespace-nowrap text-ellipsis">{{ logged_in_user["name"]}}</span>

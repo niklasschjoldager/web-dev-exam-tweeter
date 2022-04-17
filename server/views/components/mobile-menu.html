@@ -14,7 +14,7 @@
             {% if logged_in_user["user_profile_image"] %}
               <img class="w-10 h-10 rounded-full" src="/static/users/{{ logged_in_user['user_profile_image'] }}" alt="#">
             {% else %}
-              <img class="w-10 h-10 rounded-full" src="/static/users/default_profile_image.png" alt="#">
+              <img class="w-10 h-10 rounded-full" src="/static/images/default-profile-image.png" alt="#">
             {% endif %}
           </a>
           {{ iconButton(text="Close menu", variant="outlined", icon='<svg class="w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Add</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 112v288M400 256H112"/></svg>', color="black", classes="mr-2") }}
