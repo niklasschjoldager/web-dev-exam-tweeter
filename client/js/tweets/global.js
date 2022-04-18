@@ -8,11 +8,14 @@ import handleUnfollowUser from "../users/unfollowUser.js"
 export function displayTweet(tweet) {
   const {
     tweet_id: id,
-    tweet_image_file_name: image_file_name,
+    tweet_image_file_name: imageFileName,
     tweet_text: text,
     user_username: username,
     user_name: name,
+    user_profile_image: profileImage,
   } = tweet
+
+  console.log(tweet)
 
   const hook = document.querySelector("[data-hook=tweets]")
 
@@ -25,9 +28,14 @@ export function displayTweet(tweet) {
   template.querySelector("[data-field=username]").textContent = `@${username}`
   template.querySelector("[data-field=name-link]").href = `/users/${username}`
   template.querySelector("[data-field=name]").textContent = name
+  if (profileImage) {
+    template.querySelector("[data-field=profile-image]").src = `/static/users/${profileImage}`
+  } else {
+    template.querySelector("[data-field=profile-image]").src = "/static/images/default-profile-image.png"
+  }
 
-  if (image_file_name) {
-    template.querySelector("[data-field=image]").src = `static/tweets/${image_file_name}`
+  if (imageFileName) {
+    template.querySelector("[data-field=image]").src = `static/tweets/${imageFileName}`
     template.querySelector("[data-field=image]").classList.remove("is-hidden")
   } else {
     template.querySelector("[data-field=image]").src = "#"

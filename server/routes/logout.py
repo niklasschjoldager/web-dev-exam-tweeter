@@ -2,7 +2,8 @@ from bottle import get, redirect, response, request
 import jwt
 import mysql.connector
 
-from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
+from g import DATABASE_CONFIG
+from utils.user_session import get_logged_in_user
 
 ############################################################
 @get("/logout")
@@ -11,8 +12,7 @@ def _():
         if not request.get_cookie("user_session"):
             return redirect("/")
 
-        encoded_user_session = request.get_cookie("user_session")
-        jwt_decoded = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
+        logged_in_user = get_logged_in_user()
 
         connection = mysql.connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor()
@@ -23,7 +23,7 @@ def _():
             WHERE user_session_id = %(user_session_id)s
         """
 
-        cursor.execute(query_user_session, {"user_session_id": jwt_decoded["user_session_id"]})
+        cursor.execute(query_user_session, {"user_session_id": logged_in_user["id"]})
         user_session_in_database = cursor.fetchone()
 
         if user_session_in_database:
@@ -31,9 +31,8 @@ def _():
                 DELETE FROM user_sessions
                 WHERE user_session_id = %(user_session_id)s
             """
-
-        cursor.execute(query_delete_user_session, {"user_session_id": jwt_decoded["user_session_id"]})
-        connection.commit()
+            cursor.execute(query_delete_user_session, {"user_session_id": logged_in_user["id"]})
+            connection.commit()
 
         response.delete_cookie("user_session")
         return redirect("/")

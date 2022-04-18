@@ -5,11 +5,10 @@ import mysql.connector
 import os
 import uuid
 
-from utils.user_session import validate_user_session
+from utils.user_session import validate_user_session, get_logged_in_user
 from g import (
     DATABASE_CONFIG,
     IMAGE_ALLOWED_FILE_EXTENSIONS,
-    JSON_WEB_TOKEN_SECRET,
     USER_BIO_MAX_LENGTH,
     USER_BIO_MIN_LENGTH,
     USER_IMAGE_PATH,
@@ -25,18 +24,17 @@ from g import (
 @put("/users/<user_id:int>")
 def _(user_id):
     validate_user_session()
+    logged_in_user = get_logged_in_user()
+
+    print(logged_in_user)
 
     try:
         if user_id < 1:
             response.status = 400
             return {"info": "User ID is not a valid ID"}
 
-        encoded_user_session = request.get_cookie("user_session")
-        user_session = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
-        logged_in_user_id = user_session["user_session_fk_user_id"]
-
         # User ID
-        if user_id != logged_in_user_id:
+        if user_id != logged_in_user["id"]:
             response.status = 400
             return {"info": "Wrong user"}
 

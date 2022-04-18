@@ -1,25 +1,16 @@
-from bottle import get, request, response, jinja2_template as template
+from bottle import get, response, jinja2_template as template
 from datetime import datetime
-import jwt
 import mysql.connector
 
 from data import mobile_navigation, navigation, navigation_dropdown
-from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
+from g import DATABASE_CONFIG
+from utils.user_session import get_logged_in_user
 
 ############################################################
 @get("/users/<user_username>/following")
 def _(user_username):
     try:
-        encoded_user_session = request.get_cookie("user_session")
-        user_session = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
-        user_id = user_session["user_session_fk_user_id"]
-        logged_in_user = {
-            "id": user_id,
-            "name": user_session["user_session_user_name"],
-            "username": user_session["user_session_user_username"],
-            "profile_image": user_session["user_session_user_profile_image"],
-            "cover_image": user_session["user_session_user_cover_image"],
-        }
+        logged_in_user = get_logged_in_user()
 
         connection = mysql.connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)

@@ -1,25 +1,16 @@
-from bottle import get, request, response, jinja2_template as template
+from bottle import get, response, jinja2_template as template
 from datetime import datetime
-import jwt
 import mysql.connector
 
+from utils.user_session import get_logged_in_user
 from data import mobile_navigation, navigation, navigation_dropdown
-from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
+from g import DATABASE_CONFIG
 
 ############################################################
-@get("/users/<user_username>/followers")
-def _(user_username):
+@get("/users/<username>/followers")
+def _(username):
     try:
-        encoded_user_session = request.get_cookie("user_session")
-        user_session = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
-        user_id = user_session["user_session_fk_user_id"]
-        logged_in_user = {
-            "id": user_id,
-            "name": user_session["user_session_user_name"],
-            "username": user_session["user_session_user_username"],
-            "profile_image": user_session["user_session_user_profile_image"],
-            "cover_image": user_session["user_session_user_cover_image"],
-        }
+        logged_in_user = get_logged_in_user()
 
         connection = mysql.connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
@@ -30,7 +21,7 @@ def _(user_username):
             WHERE user_username = %(user_username)s
         """
 
-        cursor.execute(query_get_user_profile, {"user_username": user_username})
+        cursor.execute(query_get_user_profile, {"user_username": username})
         user_profile = cursor.fetchone()
         user_joined = datetime.fromtimestamp(user_profile["user_created_at"]).strftime("%B %Y")
         user_profile["user_joined"] = user_joined
@@ -41,7 +32,7 @@ def _(user_username):
         return template(
             "user-followers",
             dict(
-                currentUrl=f"users/{user_username}",
+                currentUrl=f"users/{username}",
                 mobile_navigation=mobile_navigation,
                 navigation=navigation,
                 navigation_dropdown=navigation_dropdown,

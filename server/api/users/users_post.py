@@ -1,5 +1,4 @@
 from bottle import post, response, request
-
 import jwt
 import mysql.connector
 import re
@@ -12,7 +11,6 @@ from g import (
     REGEX_EMAIL,
     REGEX_PASSWORD,
     REGEX_USERNAME,
-    USER_IMAGE_PATH,
     USER_NAME_MAX_LENGTH,
     USER_NAME_MIN_LENGTH,
     USER_PASSWORD_MIN_LENGTH,

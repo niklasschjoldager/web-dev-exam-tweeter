@@ -1,25 +1,16 @@
-from bottle import get, request, response, jinja2_template as template
-import jwt
+from bottle import get, response, jinja2_template as template
 import mysql.connector
 from datetime import datetime
 
 from data import mobile_navigation, navigation, navigation_dropdown
-from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
+from g import DATABASE_CONFIG
+from utils.user_session import get_logged_in_user
 
 ############################################################
 @get("/users/<user_username:path>")
 def _(user_username):
     try:
-        encoded_user_session = request.get_cookie("user_session")
-        user_session = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
-        user_id = user_session["user_session_fk_user_id"]
-        logged_in_user = {
-            "id": user_id,
-            "name": user_session["user_session_user_name"],
-            "username": user_session["user_session_user_username"],
-            "profile_image": user_session["user_session_user_profile_image"],
-            "cover_image": user_session["user_session_user_cover_image"],
-        }
+        logged_in_user = get_logged_in_user()
 
         connection = mysql.connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
@@ -43,7 +34,9 @@ def _(user_username):
                 (SELECT COUNT(*) FROM followers WHERE followers.fk_user_from_id = %(user_profile_id)s) AS following
         """
 
-        cursor.execute(query_get_user_info, {"user_profile_id": user_profile["user_id"], "logged_in_user_id": user_id})
+        cursor.execute(
+            query_get_user_info, {"user_profile_id": user_profile["user_id"], "logged_in_user_id": logged_in_user["id"]}
+        )
         user_info = cursor.fetchone()
 
         query_get_user_tweets = f"""
@@ -78,7 +71,8 @@ def _(user_username):
             ORDER BY tweets.tweet_created_at DESC
         """
         cursor.execute(
-            query_get_user_tweets, {"user_profile_id": user_profile["user_id"], "logged_in_user_id": user_id}
+            query_get_user_tweets,
+            {"user_profile_id": user_profile["user_id"], "logged_in_user_id": logged_in_user["id"]},
         )
         tweets = cursor.fetchall()
 

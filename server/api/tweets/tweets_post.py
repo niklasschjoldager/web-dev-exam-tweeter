@@ -1,16 +1,14 @@
-from bottle import post, redirect, response, request
+from bottle import post, response, request
 
 import imghdr
-import jwt
 import mysql.connector
 import os
 import time
 import uuid
 
-from utils.user_session import validate_user_session
+from utils.user_session import get_logged_in_user, validate_user_session
 from g import (
     DATABASE_CONFIG,
-    JSON_WEB_TOKEN_SECRET,
     IMAGE_ALLOWED_FILE_EXTENSIONS,
     TWEET_IMAGE_PATH,
     TWEET_TEXT_MAX_LENGTH,
@@ -23,12 +21,7 @@ def _():
     try:
         validate_user_session()
 
-        if request.get_cookie("user_session"):
-            encoded_user_session = request.get_cookie("user_session")
-            jwt_decoded = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
-            user_session = jwt_decoded
-
-        print(user_session)
+        logged_in_user = get_logged_in_user()
 
         ############################################################
         # Validate text
@@ -81,7 +74,7 @@ def _():
         tweet_created_at = int(time.time())
 
         db_tweet = {
-            "tweet_fk_user_id": user_session["user_session_fk_user_id"],
+            "tweet_fk_user_id": logged_in_user["id"],
             "tweet_created_at": tweet_created_at,
             "tweet_text": tweet_text,
             "tweet_fk_media_type_id": 1,
@@ -89,13 +82,14 @@ def _():
         }
 
         response_tweet = {
-            "tweet_fk_user_id": user_session["user_session_fk_user_id"],
+            "tweet_fk_user_id": logged_in_user["id"],
             "tweet_created_at": tweet_created_at,
             "tweet_text": tweet_text,
             "tweet_fk_media_type_id": 1,
             "tweet_image_file_name": image_url,
-            "user_name": user_session["user_session_user_name"],
-            "user_username": user_session["user_session_user_username"],
+            "user_name": logged_in_user["name"],
+            "user_username": logged_in_user["username"],
+            "user_profile_image": logged_in_user["profile_image"],
         }
 
         ############################################################

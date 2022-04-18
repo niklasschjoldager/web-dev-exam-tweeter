@@ -994,6 +994,15 @@ Ensure the default browser behavior of the `hidden` attribute.
        column-gap: 0.75rem;
 }
 
+.gap-x-2 {
+  -moz-column-gap: 0.5rem;
+       column-gap: 0.5rem;
+}
+
+.gap-y-4 {
+  row-gap: 1rem;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
