@@ -49,8 +49,6 @@ def _(user_username):
 
         user_following = cursor.fetchall()
 
-        print(user_following[0])
-
         cursor.close()
         connection.close()
 

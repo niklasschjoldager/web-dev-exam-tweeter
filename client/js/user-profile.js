@@ -1,5 +1,6 @@
 import handleUnfollowUser from "./users/unfollowUser.js"
 import handleFollowUser from "./users/followUser.js"
+import { enterUnfollowButton, leaveUnfollowButton } from "./users/global.js"
 
 const followButton = document.querySelector("[data-button=follow-user]")
 const unfollowButton = document.querySelector("[data-button=unfollow-user]")
@@ -18,27 +19,8 @@ if (followButton) {
 }
 
 if (unfollowButton) {
-  unfollowButton.addEventListener("mouseenter", () => {
-    unfollowButton.style.width = `${unfollowButton.offsetWidth}px`
-    unfollowButton.textContent = "Unfollow"
-    unfollowButton.classList.add(
-      "text-danger-200",
-      "border-danger-200",
-      "hover:bg-danger-200/10",
-      "hover:border-danger-200/50"
-    )
-  })
-
-  unfollowButton.addEventListener("mouseleave", () => {
-    unfollowButton.textContent = "Following"
-    unfollowButton.classList.remove(
-      "text-danger-200",
-      "border-danger-200",
-      "hover:bg-danger-200/10",
-      "hover:border-danger-200/50"
-    )
-  })
-
+  unfollowButton.addEventListener("mouseenter", () => enterUnfollowButton(unfollowButton))
+  unfollowButton.addEventListener("mouseleave", () => leaveUnfollowButton(unfollowButton))
   unfollowButton.addEventListener("click", () => {
     handleUnfollowUser(id, username)
     const currentFollowers = Number(followersField.textContent)

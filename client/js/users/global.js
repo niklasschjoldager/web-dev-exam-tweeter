@@ -32,13 +32,13 @@ async function handleFollowButton(id, followButton, unfollowButton) {
   unfollowButton.classList.remove("is-hidden")
 }
 
-function enterUnfollowButton(button) {
+export function enterUnfollowButton(button) {
   button.style.width = `${button.offsetWidth}px`
   button.textContent = "Unfollow"
   button.classList.add("text-danger-200", "border-danger-200", "hover:bg-danger-200/10", "hover:border-danger-200/50")
 }
 
-function leaveUnfollowButton(button) {
+export function leaveUnfollowButton(button) {
   button.textContent = "Following"
   button.classList.remove(
     "text-danger-200",

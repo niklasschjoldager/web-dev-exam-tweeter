@@ -39,10 +39,15 @@
       {% for user in user_followers %}
         {{ userItem(logged_in_user_id=logged_in_user["id"], **user) }}
       {% endfor %}
-    {% else %}
+    {% elif logged_in_user["id"] == user_profile["user_id"] %}
       <div class="max-w-sm p-8 mx-auto">
         <h1 class="mb-2 text-3xl font-black">You don&apos;t have any followers yet</h1>
         <p class="text-sm text-gray-400">When someone follows you, you&apos;ll see them here.</p>
+      </div>
+    {% else %}
+      <div class="max-w-sm p-8 mx-auto">
+        <h1 class="mb-2 text-3xl font-black">@{{ user_profile["user_username"] }} don&apos;t have any followers yet</h1>
+        <p class="text-sm text-gray-400">When someone follows them, they&apos;ll be listed here.</p>
       </div>
     {% endif %}
 

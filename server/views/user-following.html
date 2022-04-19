@@ -34,16 +34,21 @@
         </a>
       </li>
     </ul>
-
+    
     {% if user_following %}
       {% for user in user_following %}
         {{ userItem(logged_in_user_id=logged_in_user["id"], **user) }}
       {% endfor %}
-    {% else %}
+    {% elif logged_in_user["id"] == user_profile["user_id"] %}
       <div class="max-w-sm p-8 mx-auto">
         <h1 class="mb-2 text-3xl font-black">You aren&apos;t following anyone yet</h1>
         <p class="mb-8 text-sm text-gray-400">When you do, they&apos;ll be listed here and you&apos;ll see their Tweets in your timeline.</p>
         {{ button(children="Find people to follow", variant="primary", size="lg") }}
+      </div>
+    {% else %}
+      <div class="max-w-sm p-8 mx-auto">
+        <h1 class="mb-2 text-3xl font-black">@{{ user_profile["user_username"] }} isn’t following anyone</h1>
+        <p class="text-sm text-gray-400">When they do, they&apos;ll be listed here.</p>
       </div>
     {% endif %}
   </section>  
