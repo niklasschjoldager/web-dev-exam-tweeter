@@ -39,13 +39,15 @@ def _(user_username):
                 ON followers.fk_user_from_id = %(user_id)s
                 
             LEFT JOIN followers AS is_followed_by_logged_in_user
-                ON is_followed_by_logged_in_user.fk_user_from_id = %(user_id)s AND is_followed_by_logged_in_user.fk_user_to_id = users.user_id
+                ON is_followed_by_logged_in_user.fk_user_from_id = %(logged_in_user_id)s AND is_followed_by_logged_in_user.fk_user_to_id = users.user_id
 
             WHERE users.user_id = followers.fk_user_to_id
             GROUP BY users.user_id
         """
 
-        cursor.execute(query_get_user_following, {"user_id": user_profile["user_id"]})
+        cursor.execute(
+            query_get_user_following, {"user_id": user_profile["user_id"], "logged_in_user_id": logged_in_user["id"]}
+        )
 
         user_following = cursor.fetchall()
 
