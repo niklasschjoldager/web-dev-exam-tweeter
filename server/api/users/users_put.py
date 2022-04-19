@@ -26,8 +26,6 @@ def _(user_id):
     validate_user_session()
     logged_in_user = get_logged_in_user()
 
-    print(logged_in_user)
-
     try:
         if user_id < 1:
             response.status = 400

@@ -621,6 +621,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: -15%;
 }
 
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
 .mt-auto {
   margin-top: auto;
 }
@@ -729,6 +733,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 4rem;
 }
 
+.h-max {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+}
+
 .h-fit {
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -737,12 +747,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .h-11 {
   height: 2.75rem;
-}
-
-.h-max {
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
 }
 
 .max-h-96 {
@@ -994,15 +998,6 @@ Ensure the default browser behavior of the `hidden` attribute.
        column-gap: 0.75rem;
 }
 
-.gap-x-2 {
-  -moz-column-gap: 0.5rem;
-       column-gap: 0.5rem;
-}
-
-.gap-y-4 {
-  row-gap: 1rem;
-}
-
 .overflow-hidden {
   overflow: hidden;
 }
@@ -1166,6 +1161,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .bg-black\/40 {
   background-color: hsl(213 27% 8% / 0.4);
+}
+
+.bg-gray-100 {
+  --tw-bg-opacity: 1;
+  background-color: hsl(180 12% 97% / var(--tw-bg-opacity));
+}
+
+.bg-gray-400 {
+  --tw-bg-opacity: 1;
+  background-color: hsl(206 15% 38% / var(--tw-bg-opacity));
 }
 
 .fill-primary-200 {
@@ -1424,6 +1429,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: hsl(356 91% 54% / var(--tw-text-opacity));
 }
 
+.text-transparent {
+  color: transparent;
+}
+
 .placeholder-gray-400::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: hsl(206 15% 38% / var(--tw-placeholder-opacity));
@@ -1676,6 +1685,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .focus\:outline-black\/30:focus {
   outline-color: hsl(213 27% 8% / 0.3);
+}
+
+.focus\:brightness-90:focus {
+  --tw-brightness: brightness(.9);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .group:hover .group-hover\:bg-black\/10 {

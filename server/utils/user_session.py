@@ -60,19 +60,22 @@ def get_logged_in_user():
         cursor = connection.cursor(dictionary=True)
 
         query_user_data = f"""
-            SELECT 
-                user_id AS id,
-                user_username AS username,
-                user_name AS name,
-                user_email AS email,
-                user_created_at AS created_at,
-                user_bio AS bio,
-                user_website AS website,
-                user_location AS location,
-                user_profile_image AS profile_image,
-                user_cover_image AS cover_image
+            SELECT
+                users.user_id AS id,
+                users.user_username AS username,
+                users.user_name AS name,
+                users.user_email AS email,
+                users.user_created_at AS created_at,
+                users.user_bio AS bio,
+                users.user_website AS website,
+                users.user_location AS location,
+                users.user_profile_image AS profile_image,
+                users.user_cover_image AS cover_image,
+                (SELECT COUNT(*) FROM followers WHERE followers.fk_user_from_id = 31) AS following,
+                (SELECT COUNT(*) FROM followers WHERE followers.fk_user_to_id = 31) AS followers
             FROM users
-            WHERE user_id = %(user_id)s
+
+            WHERE users.user_id = 31
         """
 
         cursor.execute(query_user_data, {"user_id": user_id})

@@ -54,8 +54,6 @@ def _(tweet_id):
 
         ############################################################
         # Validate media (image / video)
-        print(request.files.get("tweet_image"))
-        print(request.forms.get("tweet_image"))
         if request.files.get("tweet_image"):
             image = request.files.get("tweet_image")
             file_name, file_extension = os.path.splitext(image.filename)

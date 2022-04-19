@@ -26,12 +26,12 @@
         
         <div class="flex gap-2 text-sm">
           <a class="text-black hover:underline" href="/users/{{ logged_in_user['username'] }}/following">
-            <span class="font-bold text-black">???</span> 
-            <span class="text-gray-400">Following?</span>
+            <span class="font-bold text-black">{{ logged_in_user["following"] }}</span> 
+            <span class="text-gray-400">Following</span>
           </a>
           <a class="text-black hover:underline" href="/users/{{ logged_in_user['username'] }}/followers">
-            <span data-field="followers" class="font-bold text-black">???</span>
-            <span class="text-gray-400">Followers?</span>
+            <span data-field="followers" class="font-bold text-black">{{ logged_in_user["followers"] }}</span>
+            <span class="text-gray-400">{{ "Follower" if logged_in_user["followers"] == 1 else "Followers" }}</span>
           </a>
         </div>
       </div>
