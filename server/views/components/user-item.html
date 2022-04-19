@@ -1,7 +1,7 @@
 {% from "components/button.html" import button %}
 
 {% macro userItem(user_id, user_profile_image, user_username, user_name, is_followed_by_logged_in_user, logged_in_user_id) -%}
-  <a data-form="user" data-id="{{ user_id }}" class="flex w-full gap-3 px-4 py-3 text-sm transition-colors hover:bg-black/5 focus:bg-black-5" href="/users/{{ user_username }}">
+  <a data-form="user" data-id="{{ user_id }}" data-username="{{ user_username }}" class="flex w-full gap-3 px-4 py-3 text-sm transition-colors hover:bg-black/5 focus:bg-black-5" href="/users/{{ user_username }}">
     {% if user_profile_image %}
       <img class="w-12 h-12 text-transparent transition-all rounded-full hover:brightness-90 focus:brightness-90" src="/static/users/{{ user_profile_image }}" alt="#">
     {% else %}
