@@ -1,0 +1,61 @@
+{% from "components/button.html" import iconButton %}
+{% from "components/user-item.html" import userItem %}
+{% extends "layouts/base.html" %}
+
+{% block title -%}
+  Administrator
+{% endblock %}
+
+{% block baseContent -%}
+  <main class="w-full max-w-4xl py-8 mx-auto">
+    <h1 class="px-4 mb-2 text-3xl font-black">Admin page</h1>
+    <section class="px-4 py-8">
+      <h2 class="mb-2 text-2xl font-bold">User statistics</h2>
+      <div class="grid gap-4 xs:grid-cols-2 md:grid-cols-4">
+
+        <div class="p-8 text-center bg-gray-100 border border-gray-200 rounded-2xl">
+          <h2 class="text-xl font-bold">Tweets</h2>
+          <p class="mb-4 text-4xl font-black ">{{ user_stats["total_tweets"] }}</p>
+          <p class="text-sm">Average per user</p>
+          <p class="font-black">{{ user_stats["average_tweets"] }}</p>
+        </div>
+
+        <div class="p-8 text-center bg-gray-100 border border-gray-200 rounded-2xl">
+          <h2 class="text-xl font-bold">Likes</h2>
+          <p class="mb-4 text-4xl font-black">{{ user_stats["total_likes"] }}</p>
+          <p class="text-sm">Average per user</p>
+          <p class="font-black">{{ user_stats["average_likes"] }}</p>
+        </div>
+
+        <div class="p-8 text-center bg-gray-100 border border-gray-200 rounded-2xl">
+          <h2 class="text-xl font-bold">Followers</h2>
+          <p class="mb-4 text-4xl font-black ">{{ user_stats["total_followers"] }}</p>
+          <p class="text-sm">Average per user</p>
+          <p class="font-black">{{ user_stats["average_followers"] }}</p>
+        </div>
+        
+        <div class="p-8 text-center bg-gray-100 border border-gray-200 rounded-2xl">
+          <h2 class="text-xl font-bold">Bookmarks</h2>
+          <p class="mb-4 text-4xl font-black ">{{ user_stats["total_bookmarks"] }}</p>
+          <p class="text-sm">Average per user</p>
+          <p class="font-black">{{ user_stats["average_bookmarks"] }}</p>
+        </div>
+        
+      </div>
+    </section>
+    
+    <section class="py-8">
+      <h2 class="px-4 mb-2 text-2xl font-bold">All users ({{ user_stats["total_users"] }})</h2>
+      {% if users %}
+        {% for user in users %}
+          {{ userItem(logged_in_user_id=logged_in_user["id"], **user) }}
+        {% endfor %}
+      {% else %}
+        <div class="max-w-sm p-8 mx-auto">
+          <h1 class="mb-2 text-3xl font-black">@{{ user_profile["user_username"] }} don&apos;t have any followers yet</h1>
+          <p class="text-sm text-gray-400">When someone follows them, they&apos;ll be listed here.</p>
+        </div>
+      {% endif %}
+    </section>
+  </main>
+{% endblock %}

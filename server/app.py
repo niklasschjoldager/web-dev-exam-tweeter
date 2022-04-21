@@ -2,6 +2,7 @@ from bottle import default_app, get, run, static_file
 
 # Routes
 from routes import (
+    admin,
     all_tweets,
     bookmarks,
     fourOhFour,
