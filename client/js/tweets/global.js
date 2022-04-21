@@ -15,8 +15,6 @@ export function displayTweet(tweet) {
     user_profile_image: profileImage,
   } = tweet
 
-  console.log(tweet)
-
   const hook = document.querySelector("[data-hook=tweets]")
 
   if (!hook) return
@@ -66,6 +64,17 @@ export function prepareTweet(tweet) {
   unfollowButton && unfollowButton.addEventListener("click", () => handleUnfollowUser(userId, username))
 }
 
+export function prepareActions(modal) {
+  const buttonAddImage = modal.querySelector("[data-action=add-image]")
+  const buttonRemoveImage = modal.querySelector("[data-action=remove-image]")
+  const inputTweetImage = modal.querySelector("[data-hook=input-tweet-image")
+  const tweetImageContainer = modal.querySelector("[data-hook=tweet-image-container]")
+  const tweetImage = modal.querySelector("[data-hook=tweet-image]")
+  inputTweetImage.addEventListener("change", () => handleAddImage(inputTweetImage, tweetImage, tweetImageContainer))
+  buttonAddImage.addEventListener("click", () => inputTweetImage.click())
+  buttonRemoveImage.addEventListener("click", () => handleRemoveImage(inputTweetImage, tweetImage, tweetImageContainer))
+}
+
 export function resetForm(form) {
   const tweetImageContainer = form.querySelector("[data-hook=tweet-image-container]")
   const tweetImage = form.querySelector("[data-hook=tweet-image]")
@@ -92,7 +101,8 @@ export function handleAddImage(input, image, container) {
   container.classList.remove("is-hidden")
 }
 
-export function handleRemoveImage(image, container) {
+export function handleRemoveImage(input, image, container) {
+  input.value = ""
   image.src = ""
   container.classList.add("is-hidden")
 }

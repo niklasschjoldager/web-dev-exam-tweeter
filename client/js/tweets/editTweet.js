@@ -45,17 +45,6 @@ function showTweet(modal, tweet) {
   textField.style.height = `${textField.scrollHeight}px`
 }
 
-function prepareActions(modal) {
-  const buttonAddImage = modal.querySelector("[data-action=add-image]")
-  const buttonRemoveImage = modal.querySelector("[data-action=remove-image]")
-  const inputAddImage = modal.querySelector("[data-hook=input-tweet-image")
-  const tweetImageContainer = modal.querySelector("[data-hook=tweet-image-container]")
-  const tweetImage = modal.querySelector("[data-hook=tweet-image]")
-  inputAddImage.addEventListener("change", () => handleAddImage(inputAddImage, tweetImage, tweetImageContainer))
-  buttonAddImage.addEventListener("click", () => inputAddImage.click())
-  buttonRemoveImage.addEventListener("click", () => handleRemoveImage(tweetImage, tweetImageContainer))
-}
-
 async function requestEditTweet(id, modal) {
   event.preventDefault()
   const form = modal.querySelector("[data-form=edit-tweet]")
