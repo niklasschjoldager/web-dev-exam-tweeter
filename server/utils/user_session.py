@@ -71,15 +71,18 @@ def get_logged_in_user():
                 users.user_location AS location,
                 users.user_profile_image AS profile_image,
                 users.user_cover_image AS cover_image,
-                (SELECT COUNT(*) FROM followers WHERE followers.fk_user_from_id = 31) AS following,
-                (SELECT COUNT(*) FROM followers WHERE followers.fk_user_to_id = 31) AS followers
+                (SELECT COUNT(*) FROM followers WHERE followers.fk_user_from_id = %(user_id)s) AS following,
+                (SELECT COUNT(*) FROM followers WHERE followers.fk_user_to_id = %(user_id)s) AS followers
             FROM users
 
-            WHERE users.user_id = 31
+            WHERE users.user_id = %(user_id)s
         """
 
         cursor.execute(query_user_data, {"user_id": user_id})
         logged_in_user = cursor.fetchone()
+
+        cursor.close()
+        connection.close()
 
         return logged_in_user
 

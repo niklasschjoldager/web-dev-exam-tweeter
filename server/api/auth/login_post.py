@@ -84,6 +84,8 @@ def _():
         """
     cursor.execute(query_add_user_session, tuple(db_user_session.values()))
     connection.commit()
+    cursor.close()
+    connection.close()
 
     encoded_jwt = jwt.encode(cookie_user_session, JSON_WEB_TOKEN_SECRET, algorithm="HS256")
     response.set_cookie("user_session", encoded_jwt)
