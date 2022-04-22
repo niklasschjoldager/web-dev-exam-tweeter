@@ -7,7 +7,7 @@
   </a>
 
   {% for link in navigation %}
-    <a class="flex items-center gap-4 p-3 transition-colors rounded-full hover:bg-black/10" href="/{{ link['url'] }}">
+    <a class="flex items-center gap-4 p-3 transition-colors rounded-full hover:bg-black-200/10" href="/{{ link['url'] }}">
       {% if link["url"] == currentUrl %}
         <img class="w-7 h-7" src="/static/icons/{{ link['icons']['active'] }}" alt="{{ link['name'] }} icon"/>
         <span class="font-bold sr-only xl:not-sr-only">{{ link["name"] }}</span>
@@ -18,7 +18,7 @@
     </a>
   {% endfor %}
 
-  <a class="flex items-center gap-4 p-3 transition-colors rounded-full hover:bg-black/10" href="/users/{{ logged_in_user['username'] }}">
+  <a class="flex items-center gap-4 p-3 transition-colors rounded-full hover:bg-black-200/10" href="/users/{{ logged_in_user['username'] }}">
     {% if currentUrl == "users/" + logged_in_user['username'] %}
       <img class="w-7 h-7" src="/static/icons/person.svg" alt="#"/>
     {% else %}
@@ -28,14 +28,14 @@
   </a>
   
   <div data-dropdown-container class="relative z-20">
-    <button data-dropdown-button class="flex items-center justify-center gap-4 p-3 mb-2 transition-colors rounded-full hover:bg-black/10" type="button">
+    <button data-dropdown-button class="flex items-center justify-center gap-4 p-3 mb-2 transition-colors rounded-full hover:bg-black-200/10" type="button">
       <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Ellipsis Horizontal Circle</title><circle cx="256" cy="256" r="26"/><circle cx="346" cy="256" r="26"/><circle cx="166" cy="256" r="26"/><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>
       <span class="sr-only xl:not-sr-only">More</span>
     </button>
 
     <div data-dropdown class="absolute left-0 z-10 overflow-hidden translate-y-1/2 bg-white rounded-md shadow-md bottom-1/2 is-hidden w-max">
       {% for item in navigation_dropdown %}
-        <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5" type="button" disabled>
+        <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black-200/5" type="button" disabled>
           {{ item["icon"] }}
           <span>{{ item["text"] }}</span>
         </button>
@@ -52,9 +52,9 @@
   }}
 
   <div data-dropdown-container class="relative z-10 mt-auto xl:w-full">
-    <div data-dropdown-button class="flex items-center gap-3 p-3 transition-colors border-transparent rounded-full outline-none cursor-pointer hover:bg-black/10 focus:border-black/30 focus:bg-black/10 xl:w-11/12 border-1">
-      {% if logged_in_user["user_profile_image"] %}
-        <img class="w-10 h-10 rounded-full" src="/static/users/{{ logged_in_user['user_profile_image'] }}" alt="#">
+    <div data-dropdown-button class="flex items-center gap-3 p-3 transition-colors border-transparent rounded-full outline-none cursor-pointer hover:bg-black-200/10 focus:border-black-200/30 focus:bg-black-200/10 xl:w-11/12 border-1">
+      {% if logged_in_user["profile_image"] %}
+        <img class="w-10 h-10 rounded-full" src="/static/users/{{ logged_in_user['profile_image'] }}" alt="#">
       {% else %}
         <img class="w-10 h-10 rounded-full" src="/static/images/default-profile-image.png" alt="#">
       {% endif %}
@@ -71,8 +71,8 @@
       <svg class="absolute w-5 h-5 rotate-180 text-white -bottom-3.5 left-6 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><g><path d="M12.538 6.478c-.14-.146-.335-.228-.538-.228s-.396.082-.538.228l-9.252 9.53c-.21.217-.27.538-.152.815.117.277.39.458.69.458h18.5c.302 0 .573-.18.69-.457.118-.277.058-.598-.152-.814l-9.248-9.532z"></path></g></svg>
       <div class="relative py-2 bg-white rounded-2xl">
         <div class="relative flex items-center gap-3 p-4 border-b border-gray-200">
-          {% if logged_in_user["user_profile_image"] %}
-            <img class="w-12 h-12 rounded-full" src="/static/users/{{ logged_in_user['user_profile_image'] }}" alt="#">
+          {% if logged_in_user["profile_image"] %}
+            <img class="w-12 h-12 rounded-full" src="/static/users/{{ logged_in_user['profile_image'] }}" alt="#">
           {% else %}
             <img class="w-12 h-12 rounded-full" src="/static/images/default-profile-image.png" alt="#">
           {% endif %}
@@ -84,10 +84,10 @@
             <svg class="w-5 h-5 text-primary-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Checkmark</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
           </div>
         </div>
-        <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black/5 whitespace-nowrap" type="button" disabled>
+        <button class="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black-200/5 whitespace-nowrap" type="button" disabled>
           Add an existing account
         </button>
-        <a data-dropdown-dismiss class="flex items-center w-full gap-3 p-4 text-sm hover:bg-black/5 whitespace-nowrap" href="/logout">
+        <a data-dropdown-dismiss class="flex items-center w-full gap-3 p-4 text-sm hover:bg-black-200/5 whitespace-nowrap" href="/logout">
           Log out @{{ logged_in_user["username"] }}
         </a>
       </div>    

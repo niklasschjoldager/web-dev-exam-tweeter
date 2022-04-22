@@ -8,7 +8,7 @@
 
 {% block topbar %}
   <div class="flex items-center gap-8">
-    {{ iconButton(text="Close", color="black", icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Arrow Back</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>', classes="sm:hidden", attributes='data-button="back" type="button"') }}
+    {{ iconButton(text="Close", color="black-200", icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Arrow Back</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>', classes="sm:hidden", attributes='data-button="back" type="button"') }}
     <div>
       <p class="flex items-center gap-2 text-lg font-bold">
         <span>{{ user_profile["user_name"] }}</span>
@@ -23,10 +23,10 @@
   <section>
     <ul class="flex overflow-x-auto border-b border-gray-200">
       <li class="flex-grow">
-        <a class="block w-full h-full px-6 py-4 text-sm font-bold text-center text-gray-400 transition-colors whitespace-nowrap hover:bg-black/10" href="/users/{{ user_profile['user_username']}}/followers">Followers</a>
+        <a class="block w-full h-full px-6 py-4 text-sm font-bold text-center text-gray-400 transition-colors whitespace-nowrap hover:bg-black-200/10" href="/users/{{ user_profile['user_username']}}/followers">Followers</a>
       </li>
       <li class="flex-grow">
-        <a class="block w-full px-6 text-sm font-bold text-center text-black transition-colors hover:bg-black/10" href="/users/{{ user_profile['user_username']}}/following">
+        <a class="block w-full px-6 text-sm font-bold text-center text-black-200 transition-colors hover:bg-black-200/10" href="/users/{{ user_profile['user_username']}}/following">
           <div class="inline-flex flex-col">
             <div class="py-4 whitespace-nowrap">Following</div> 
             <div class="w-full h-1 rounded-full bg-primary-200"></div>
@@ -41,13 +41,13 @@
       {% endfor %}
     {% elif logged_in_user["id"] == user_profile["user_id"] %}
       <div class="max-w-sm p-8 mx-auto">
-        <h1 class="mb-2 text-3xl font-black">You aren&apos;t following anyone yet</h1>
+        <h1 class="mb-2 text-3xl font-black-200">You aren&apos;t following anyone yet</h1>
         <p class="mb-8 text-sm text-gray-400">When you do, they&apos;ll be listed here and you&apos;ll see their Tweets in your timeline.</p>
         {{ button(children="Find people to follow", variant="primary", size="lg") }}
       </div>
     {% else %}
       <div class="max-w-sm p-8 mx-auto">
-        <h1 class="mb-2 text-3xl font-black">@{{ user_profile["user_username"] }} isn’t following anyone</h1>
+        <h1 class="mb-2 text-3xl font-black-200">@{{ user_profile["user_username"] }} isn’t following anyone</h1>
         <p class="text-sm text-gray-400">When they do, they&apos;ll be listed here.</p>
       </div>
     {% endif %}

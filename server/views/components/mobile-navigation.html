@@ -15,10 +15,10 @@
           {% set iconText = link['url'] %}
           {% if link["url"] == currentUrl %}
             {% set iconImage = '<img class="w-7 h-7" src="/static/icons/' + link['icons']['active']  + '" alt="' + link['name'] + ' icon"/>' %}
-            {{ iconButton(text=iconText, icon=iconImage, color="black") }}
+            {{ iconButton(text=iconText, icon=iconImage, color="black-200") }}
           {% else %}
             {% set iconImage = '<img class="w-7 h-7" src="/static/icons/' + link['icons']['default']  + '" alt="' + link['name'] + ' icon"/>' %}
-            {{ iconButton(text=iconText, icon=iconImage, color="black") }}
+            {{ iconButton(text=iconText, icon=iconImage, color="black-200") }}
           {% endif %}
           <span class="sr-only">{{ link["name"] }}</span>
         </a>
