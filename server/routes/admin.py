@@ -25,6 +25,43 @@ def _():
     cursor.execute(query_get_users)
     users = cursor.fetchall()
 
+    query_get_tweets = f"""
+        SELECT
+            tweets.tweet_id,
+            tweets.tweet_text,
+            tweets.tweet_fk_user_id,
+            tweets.tweet_created_at,
+            tweets.tweet_image_file_name,
+            COUNT(likes_quantity.fk_tweet_id) AS tweet_likes,
+            COUNT(is_liked_by_user.fk_user_id) AS is_liked_by_user,
+            users.user_username,
+            users.user_name,
+            users.user_profile_image,
+            COUNT(is_tweet_creator_followed_by_user.fk_user_to_id) AS is_tweet_creator_followed_by_user
+        FROM tweets
+
+        LEFT JOIN likes AS likes_quantity
+            ON likes_quantity.fk_tweet_id = tweets.tweet_id
+
+        LEFT JOIN likes AS is_liked_by_user
+            ON is_liked_by_user.fk_tweet_id = tweets.tweet_id AND is_liked_by_user.fk_user_id = %(user_id)s
+            
+        LEFT JOIN users 
+            ON users.user_id = tweets.tweet_fk_user_id
+            
+        LEFT JOIN followers AS is_tweet_creator_followed_by_user
+            ON is_tweet_creator_followed_by_user.fk_user_from_id = %(user_id)s AND is_tweet_creator_followed_by_user.fk_user_to_id = tweets.tweet_fk_user_id
+
+        WHERE tweets.tweet_fk_user_id = %(user_id)s OR tweets.tweet_fk_user_id IN(SELECT fk_user_to_id FROM followers WHERE fk_user_from_id = %(user_id)s)
+        GROUP BY tweets.tweet_id
+        ORDER BY tweets.tweet_created_at DESC
+    """
+
+    print(logged_in_user)
+
+    cursor.execute(query_get_tweets, {"user_id": logged_in_user["id"]})
+    tweets = cursor.fetchall()
+
     query_get_user_stats = f"""
         SELECT
             (SELECT COUNT(*) FROM users) AS total_users,
@@ -36,15 +73,16 @@ def _():
     cursor.execute(query_get_user_stats)
     user_stats = cursor.fetchone()
 
-    alphabet = list("abcdefghijklmnopqrstuvwzyxæøå")
+    alphabet = list("1234567890abcdefghijklmnopqrstuvwzyxæøå")
     sorted_users = []
     for letter in alphabet:
         user_list = {"letter": letter, "users": []}
         for user in users:
             if user["user_name"][0].lower() == letter:
+                user["user_tweets"] = [tweet for tweet in tweets if tweet["tweet_fk_user_id"] == user["user_id"]]
                 user_list["users"].append(user)
-
-        sorted_users.append(user_list)
+        if len(user_list["users"]):
+            sorted_users.append(user_list)
 
     # Destructoring
     total_users, total_tweets, total_followers, total_bookmarks, total_likes = itemgetter(
@@ -56,7 +94,7 @@ def _():
     user_stats["average_bookmarks"] = round(total_bookmarks / total_users, 1)
     user_stats["average_likes"] = round(total_likes / total_users, 1)
 
-    print(user_stats)
+    print(sorted_users)
 
     return template(
         "admin.html",
@@ -66,7 +104,8 @@ def _():
             navigation=navigation,
             navigation_dropdown=navigation_dropdown,
             logged_in_user=logged_in_user,
-            users=users,
+            users=sorted_users,
             user_stats=user_stats,
+            tweets=tweets,
         ),
     )

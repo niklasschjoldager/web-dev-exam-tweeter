@@ -1,5 +1,6 @@
 {% from "components/button.html" import iconButton %}
-{% from "components/user-item.html" import userItem %}
+{% from "components/admin/user-item.html" import userItem %}
+{% from "components/admin/tweet-item.html" import tweetItem %}
 {% extends "layouts/base.html" %}
 
 {% block title -%}
@@ -47,15 +48,34 @@
     <section class="py-8">
       <h2 class="px-4 mb-2 text-2xl font-bold">All users ({{ user_stats["total_users"] }})</h2>
       {% if users %}
-        {% for user in users %}
-          {{ userItem(logged_in_user_id=logged_in_user["id"], **user) }}
+        {% for letter in users %}
+          <h3 class="px-4 text-xl font-bold">{{ letter["letter"]|upper }} ({{ letter["users"]|length}})</h3>
+          <div class="{{ 'mb-8' if not loop.last }}">
+            {% for user in letter["users"] %}
+              <div class="relative overflow-hidden">
+                {{ userItem(user_id=user["user_id"], user_profile_image=user["user_profile_image"], user_username=user["user_username"], user_name=user["user_name"]) }}
+                {% if user["user_tweets"] %}
+                  <div class="absolute w-1 h-full bg-gray-200 top-4 left-10 -z-10"></div>
+                  <div class="pl-14">
+                    {% for tweet in user["user_tweets"] %}
+                      {{ tweetItem(**tweet) }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
         {% endfor %}
       {% else %}
         <div class="max-w-sm p-8 mx-auto">
-          <h1 class="mb-2 text-3xl font-black">@{{ user_profile["user_username"] }} don&apos;t have any followers yet</h1>
-          <p class="text-sm text-gray-400">When someone follows them, they&apos;ll be listed here.</p>
+          <h1 class="mb-2 text-3xl font-black">No users yet</h1>
+          <p class="text-sm text-gray-400">When someone signs up for Tweeter, they&apos;ll be listed here.</p>
         </div>
       {% endif %}
     </section>
   </main>
+{% endblock %}
+
+{% block templates %}
+  {% include "templates/modal-delete-tweet.html" %}
 {% endblock %}

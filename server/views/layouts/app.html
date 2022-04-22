@@ -2,6 +2,10 @@
 {% from "components/button.html" import button %}
 {% from "components/tweet-item.html" import tweetItem %}
 
+{% block baseHead %}
+  <script src="/js/global.js" type="module"></script>
+{% endblock %}
+
 {% block baseContent %}
   <div class="flex-grow w-full h-full mx-auto lg:px-4 sm:flex sm:justify-center lg:w-full xl:max-w-7xl isolate">
     <div class="isolate hidden minHminW:block min-w-[69px] md:min-w-[89px] xl:min-w-[275px] h-screen sticky z-10 left-0 top-0">

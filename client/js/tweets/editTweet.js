@@ -1,4 +1,4 @@
-import { handleAddImage, handleRemoveImage } from "./global.js"
+import { prepareActions } from "./global.js"
 
 export default async function handleEditTweet(id, tweet) {
   const template = document.querySelector("[data-template=modal-edit-tweet]").content.cloneNode(true)
