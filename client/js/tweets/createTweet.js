@@ -1,4 +1,5 @@
-import { displayTweet, resetForm, handleAddImage, handleRemoveImage } from "./global.js"
+import { displayTweet, resetForm } from "./global.js"
+import { handleAddImage, handleRemoveImage } from "../utils.js"
 
 export default function setupCreateTweet(target) {
   const forms = document.querySelectorAll(target)
@@ -33,7 +34,6 @@ async function requestCreateTweet(form) {
   })
 
   const response = await request.json()
-
   if (!request.ok) return alert("Could not tweet")
 
   return response

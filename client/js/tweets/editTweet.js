@@ -1,4 +1,4 @@
-import { handleAddImage, handleRemoveImage } from "./global.js"
+import { handleAddImage, handleRemoveImage } from "../utils.js"
 
 export default async function handleEditTweet(id, tweet) {
   const template = document.querySelector("[data-template=modal-edit-tweet]").content.cloneNode(true)
@@ -45,15 +45,15 @@ function showTweet(modal, tweet) {
   textField.style.height = `${textField.scrollHeight}px`
 }
 
-function prepareActions(modal) {
+export function prepareActions(modal) {
   const buttonAddImage = modal.querySelector("[data-action=add-image]")
   const buttonRemoveImage = modal.querySelector("[data-action=remove-image]")
-  const inputAddImage = modal.querySelector("[data-hook=input-tweet-image")
+  const inputTweetImage = modal.querySelector("[data-hook=input-tweet-image")
   const tweetImageContainer = modal.querySelector("[data-hook=tweet-image-container]")
   const tweetImage = modal.querySelector("[data-hook=tweet-image]")
-  inputAddImage.addEventListener("change", () => handleAddImage(inputAddImage, tweetImage, tweetImageContainer))
-  buttonAddImage.addEventListener("click", () => inputAddImage.click())
-  buttonRemoveImage.addEventListener("click", () => handleRemoveImage(tweetImage, tweetImageContainer))
+  inputTweetImage.addEventListener("change", () => handleAddImage(inputTweetImage, tweetImage, tweetImageContainer))
+  buttonAddImage.addEventListener("click", () => inputTweetImage.click())
+  buttonRemoveImage.addEventListener("click", () => handleRemoveImage(inputTweetImage, tweetImage, tweetImageContainer))
 }
 
 async function requestEditTweet(id, modal) {

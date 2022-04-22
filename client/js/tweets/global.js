@@ -15,8 +15,6 @@ export function displayTweet(tweet) {
     user_profile_image: profileImage,
   } = tweet
 
-  console.log(tweet)
-
   const hook = document.querySelector("[data-hook=tweets]")
 
   if (!hook) return
@@ -81,18 +79,4 @@ export function resetForm(form) {
     document.body.classList.remove("modal-is-open")
     isModal.classList.add("is-hidden")
   }
-}
-
-export function handleAddImage(input, image, container) {
-  const selectedFile = input.files[0]
-
-  if (!selectedFile) return container.classList.add("is-hidden")
-
-  image.src = URL.createObjectURL(selectedFile)
-  container.classList.remove("is-hidden")
-}
-
-export function handleRemoveImage(image, container) {
-  image.src = ""
-  container.classList.add("is-hidden")
 }

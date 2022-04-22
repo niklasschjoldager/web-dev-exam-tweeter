@@ -4,6 +4,7 @@ import imghdr
 import mysql.connector
 import os
 import uuid
+import json
 
 from utils.user_session import validate_user_session, get_logged_in_user
 from g import (
@@ -55,7 +56,7 @@ def _(user_id):
             query_params["user_name"] = user_name
 
         # User bio
-        if request.forms.get("user_bio"):
+        if request.forms.get("user_bio") or request.forms.get("user_bio") is not None:
             user_bio = request.forms.get("user_bio").strip()
 
             if len(user_bio) < USER_BIO_MIN_LENGTH:
@@ -68,6 +69,10 @@ def _(user_id):
 
             query_set_parts.append("user_bio = %(user_bio)s")
             query_params["user_bio"] = user_bio
+
+        if not request.forms.get("user_bio") and request.forms.get("user_bio") is not None:
+            query_set_parts.append("user_bio = %(user_bio)s")
+            query_params["user_bio"] = None
 
         # User location
         if request.forms.get("user_location"):
@@ -84,6 +89,10 @@ def _(user_id):
             query_set_parts.append("user_location = %(user_location)s")
             query_params["user_location"] = user_location
 
+        if not request.forms.get("user_location") and request.forms.get("user_location") is not None:
+            query_set_parts.append("user_location = %(user_location)s")
+            query_params["user_location"] = None
+
         # User website
         if request.forms.get("user_website"):
             user_website = request.forms.get("user_website").strip()
@@ -98,6 +107,10 @@ def _(user_id):
 
             query_set_parts.append("user_website = %(user_website)s")
             query_params["user_website"] = user_website
+
+        if not request.forms.get("user_website") and request.forms.get("user_website") is not None:
+            query_set_parts.append("user_website = %(user_website)s")
+            query_params["user_website"] = None
 
         # User profile image
         if request.files.get("user_profile_image"):
@@ -155,24 +168,29 @@ def _(user_id):
             query_set_parts.append("user_cover_image = %(user_cover_image)s")
             query_params["user_cover_image"] = image_name
 
+        if request.forms.get("user_cover_image") is not None:
+            query_set_parts.append("user_cover_image = %(user_cover_image)s")
+            query_params["user_cover_image"] = None
+
         query_set_parts = ",".join(query_set_parts)
 
         connection = mysql.connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
 
-        query_edit_tweet = f"""
+        query_edit_user = f"""
             UPDATE users
             SET {query_set_parts}
             WHERE user_id = %(user_id)s
         """
-
-        cursor.execute(query_edit_tweet, query_params)
+        cursor.execute(query_edit_user, query_params)
 
         connection.commit()
 
+        print(query_set_parts)
+
         # Success
         response.status = 200
-        return {"info": f"Successfully edited user with ID {user_id}"}
+        return json.dumps(query_params)
     except Exception as ex:
         print(ex)
         response.status = 500

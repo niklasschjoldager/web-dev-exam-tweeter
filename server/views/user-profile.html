@@ -17,14 +17,14 @@
 
 {% block topbar %}
   <div class="flex items-center gap-8">
-    {{ iconButton(text="Close", color="black", icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Arrow Back</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>', classes="sm:hidden", attributes='data-button="back" type="button"') }}
+    {{ iconButton(text="Close", color="black-200", icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Arrow Back</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>', attributes='data-button="back" type="button"') }}
     <div>
       <p class="flex items-center gap-2 text-lg font-bold">
         <span>{{ user_profile["user_name"] }}</span>
         <svg class="w-6 h-6 min-w-[1.5rem] text-primary-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
       </p>
       <p class="text-sm text-gray-400">
-        {{ user_info["tweets"]}} 
+        {{ user_info["tweets"] }} 
         {{ "tweet" if user_info["tweets"] <= 1 else "tweets" }}
       </p>
     </div>
@@ -36,29 +36,30 @@
     <a class="block w-full" href="#">
       <div class="bg-primary-200 pb-[33.33%] relative">
         {% if user_profile["user_cover_image"] %}
-          <img data-field="cover-image" class="w-full absolute top-0 left-0 aspect-[3/1] object-cover"  src="/static/users/{{ user_profile['user_cover_image'] }}" alt="#">
+          <img data-field="user-cover-image" class="w-full absolute top-0 left-0 aspect-[3/1] object-cover" src="/static/users/{{ user_profile['user_cover_image'] }}" alt="#">
         {% else %}
-          <img data-field="cover-image" class="w-full is-hidden absolute top-0 left-0 aspect-[3/1] object-cover"  src="#" alt="#">
+          <img data-field="user-cover-image" class="w-full is-hidden absolute top-0 left-0 aspect-[3/1] object-cover" src="#" alt="#">
         {% endif %}
       </div>
     </a>
     <div class="px-4 pt-3 pb-6">
       <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-        <a class="relative -mt-[15%] w-1/4 min-w-[88px] aspect-square" href="#">
+        <a class="relative -mt-[15%] w-1/4 min-w-[88px] aspect-square rounded-full overflow-hidden" href="#">
           {% if user_profile["user_profile_image"] %}
-            <img class="object-cover object-center w-full h-full border-4 border-white rounded-full aspect-square" src="/static/users/{{ user_profile['user_profile_image'] }}" alt="#">
+            <img data-field="user-profile-image" class="object-cover object-center w-full h-full border-4 border-white rounded-full aspect-square" src="/static/users/{{ user_profile['user_profile_image'] }}" alt="#">
           {% else %}
-            <img class="object-cover object-center w-full h-full border-4 border-white rounded-full aspect-square" src="/static/images/default-profile-image.png" alt="#">
+            <img data-field="user-profile-image" class="object-cover object-center w-full h-full border-4 border-white rounded-full aspect-square" src="/static/images/default-profile-image.png" alt="#">
           {% endif %}
+          <div class="absolute inset-0 shadow-inner"></div>
         </a>
   
         <div class="flex items-center gap-4">
           {% if user_profile["user_username"] == logged_in_user["username"] %}
-            {{ button(children="Edit profile", variant="outlined", size="sm") }}
+            {{ button(children="Edit profile", variant="outlined", size="sm", attributes='data-button="edit-user"') }}
           {% else %}
             {{ iconButton(
               text="More", 
-              color="black",
+              color="black-200",
               variant="outlined",
               icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Ellipsis Horizontal</title><circle cx="256" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="416" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="96" cy="256" r="32" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>',
             )}}
@@ -84,26 +85,38 @@
         </div>
       </div>
       <h1 class="flex items-center gap-1 text-xl font-bold">
-        {{ user_profile["user_name"] }}
+        <span data-field="user-name">{{ user_profile["user_name"] }}</span>
         <svg class="w-6 h-6 min-w-[1.5rem] text-primary-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
       </h1>
       <p class="mb-4 text-gray-400">@{{ user_profile["user_username"] }}</p>
       {% if user_profile["user_bio"] %}
-        <p class="mb-3">{{ user_profile["user_bio"] }}</p>
+        <p data-field="user-bio" class="mb-3">{{ user_profile["user_bio"] }}</p>
+      {% else %}
+        <p data-field="user-bio" class="mb-3 is-hidden"></p>
       {% endif %}
 
       <div class="flex gap-4 mb-1 text-sm text-gray-400">
         {% if user_profile["user_location"] %}
-          <p class="flex gap-1">
+          <p data-field="user-location-container" class="flex gap-1">
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Location</title><path d="M256 48c-79.5 0-144 61.39-144 137 0 87 96 224.87 131.25 272.49a15.77 15.77 0 0025.5 0C304 409.89 400 272.07 400 185c0-75.61-64.5-137-144-137z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="256" cy="192" r="48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-            <span>{{ user_profile["user_location"] }}</span>
+            <span data-field="user-location">{{ user_profile["user_location"] }}</span>
+          </p>
+        {% else %}
+          <p data-field="user-location-container" class="flex gap-1 is-hidden">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Location</title><path d="M256 48c-79.5 0-144 61.39-144 137 0 87 96 224.87 131.25 272.49a15.77 15.77 0 0025.5 0C304 409.89 400 272.07 400 185c0-75.61-64.5-137-144-137z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="256" cy="192" r="48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+            <span data-field="user-location"></span>
           </p>
         {% endif %}
         {% if user_profile["user_website"] %}
-          <a class="flex gap-1" href="https://{{ user_profile['user_website'] }}" target="_blank">
+          <a data-field="user-website-link" class="flex gap-1" href="https://{{ user_profile['user_website'] }}" target="_blank">
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Link</title><path d="M208 352h-64a96 96 0 010-192h64M304 160h64a96 96 0 010 192h-64M163.29 256h187.42" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="36"/></svg>
-            <span class="text-primary-200">{{ user_profile["user_website"] }}</span>
-          </>
+            <span data-field="user-website-text" class="text-primary-200">{{ user_profile["user_website"] }}</span>
+          </a>
+        {% else %}
+          <a data-field="user-website-link" class="flex gap-1 is-hidden" href="#" target="_blank">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Link</title><path d="M208 352h-64a96 96 0 010-192h64M304 160h64a96 96 0 010 192h-64M163.29 256h187.42" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="36"/></svg>
+            <span data-field="user-website-text" class="text-primary-200"></span>
+          </a>
         {% endif %}
         <p class="flex gap-1">
           <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Calendar</title><rect fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" x="48" y="80" width="416" height="384" rx="48"/><circle cx="296" cy="232" r="24"/><circle cx="376" cy="232" r="24"/><circle cx="296" cy="312" r="24"/><circle cx="376" cy="312" r="24"/><circle cx="136" cy="312" r="24"/><circle cx="216" cy="312" r="24"/><circle cx="136" cy="392" r="24"/><circle cx="216" cy="392" r="24"/><circle cx="296" cy="392" r="24"/><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" stroke-linecap="round" d="M128 48v32M384 48v32"/><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" d="M464 160H48"/></svg>
@@ -113,12 +126,12 @@
 
       <div class="flex flex-col gap-2 text-sm text-gray-400">
         <div class="flex gap-2">
-          <a class="text-black hover:underline" href="/users/{{ user_profile['user_username'] }}/following">
-            <span class="font-bold text-black">{{ user_info["following"] }}</span> 
+          <a class="text-black-200 hover:underline" href="/users/{{ user_profile['user_username'] }}/following">
+            <span class="font-bold text-black-200">{{ user_info["following"] }}</span> 
             <span class="text-gray-400">Following</span>
           </a>
-          <a class="text-black hover:underline" href="/users/{{ user_profile['user_username'] }}/followers">
-            <span data-field="followers" class="font-bold text-black">{{ user_info["followers"] }}</span>
+          <a class="text-black-200 hover:underline" href="/users/{{ user_profile['user_username'] }}/followers">
+            <span data-field="followers" class="font-bold text-black-200">{{ user_info["followers"] }}</span>
             <span class="text-gray-400">{{ "Follower" if user_info["followers"] == 1 else "Followers" }}</span>
           </a>
         </div>
@@ -130,7 +143,7 @@
   <section>
     <ul class="flex overflow-x-auto border-b border-gray-200">
       <li class="flex-grow">
-        <button class="w-full px-6 text-sm font-bold text-black transition-colors hover:bg-black/10" type="button">
+        <button class="w-full px-6 text-sm font-bold transition-colors text-black-200 hover:bg-black-200/10" type="button">
           <div class="inline-flex flex-col">
             <div class="py-4 whitespace-nowrap">Tweets</div> 
             <div class="w-full h-1 rounded-full bg-primary-200"></div>
@@ -140,7 +153,7 @@
 
       {% for buttonText in ("Tweets & replies", "Media", "Likes") %}
         <li class="flex-grow">
-          <button class="w-full h-full px-6 py-4 text-sm font-bold text-gray-400 transition-colors whitespace-nowrap hover:bg-black/10" type="button">{{ buttonText }}</button>
+          <button class="w-full h-full px-6 py-4 text-sm font-bold text-gray-400 transition-colors whitespace-nowrap hover:bg-black-200/10" type="button">{{ buttonText }}</button>
         </li>
       {% endfor %}
     </ul>
@@ -152,7 +165,7 @@
         {% endfor %}
       {% else %}
         <div class="max-w-sm p-8 mx-auto">
-          <h2 class="mb-2 text-3xl font-black">Welcome to your timeline!</h2>
+          <h2 class="mb-2 text-3xl font-black-200">Welcome to your timeline!</h2>
           <p class="mb-8 text-sm text-gray-400">This is the best place to see what’s happening on Tweeter for you. The more people and interests you follow, the better your timeline becomes. We have some suggestions to help you get started.</p>
           {{ button(children="Let's go", variant="primary", size="lg") }}
         </div>
@@ -161,7 +174,6 @@
   </section>
 {% endblock %}
 
-{% block modals %}
-  {% include "components/modal-create-tweet.html" %}
-  {% include "components/modal-edit-user.html" %}
+{% block templates %}
+  {% include "templates/modal-edit-user.html" %}
 {% endblock %}
