@@ -4,7 +4,7 @@ import handleLikeTweet from "./likeTweet.js"
 import handleUnlikeTweet from "./unlikeTweet.js"
 import handleFollowUser from "../users/followUser.js"
 import handleUnfollowUser from "../users/unfollowUser.js"
-import { handleAddImage } from "../utils.js"
+import { handleAddImage, handleRemoveImage } from "../utils.js"
 
 export function displayTweet(tweet) {
   const {
