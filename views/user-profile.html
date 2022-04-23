@@ -50,7 +50,6 @@
           {% else %}
             <img data-field="user-profile-image" class="object-cover object-center w-full h-full border-4 border-white rounded-full aspect-square" src="/static/images/default-profile-image.png" alt="#">
           {% endif %}
-          <div class="absolute inset-0 shadow-inner"></div>
         </a>
   
         <div class="flex items-center gap-4">
@@ -176,4 +175,5 @@
 
 {% block templates %}
   {% include "templates/modal-edit-user.html" %}
+  {% include "templates/modal-user-image-viewer.html" %}
 {% endblock %}
