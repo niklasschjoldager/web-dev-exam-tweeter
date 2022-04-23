@@ -88,6 +88,6 @@ def _():
     connection.close()
 
     encoded_jwt = jwt.encode(cookie_user_session, JSON_WEB_TOKEN_SECRET, algorithm="HS256")
-    response.set_cookie("user_session", encoded_jwt)
+    response.set_cookie("user_session", encoded_jwt, secret=JSON_WEB_TOKEN_SECRET)
 
     return redirect("/home")

@@ -170,7 +170,7 @@ def _():
         # Success
 
         encoded_jwt = jwt.encode(cookie_user_session, JSON_WEB_TOKEN_SECRET, algorithm="HS256")
-        response.set_cookie("user_session", encoded_jwt)
+        response.set_cookie("user_session", encoded_jwt, secret=JSON_WEB_TOKEN_SECRET)
         response.status = 201
         return {"user_id": 12312312312}  # TODO get user id
     except Exception as ex:

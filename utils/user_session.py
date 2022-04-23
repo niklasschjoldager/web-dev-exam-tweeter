@@ -15,7 +15,7 @@ def validate_user_session(successUrl=None, errorUrl=None):
             return
 
     try:
-        encoded_user_session = request.get_cookie("user_session")
+        encoded_user_session = request.get_cookie("user_session", secret=JSON_WEB_TOKEN_SECRET)
         jwt_decoded = jwt.decode(encoded_user_session, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
 
         connection = mysql.connector.connect(**DATABASE_CONFIG)
@@ -52,7 +52,7 @@ def validate_user_session(successUrl=None, errorUrl=None):
 
 def get_logged_in_user():
     try:
-        user_session_cookie = request.get_cookie("user_session")
+        user_session_cookie = request.get_cookie("user_session", secret=JSON_WEB_TOKEN_SECRET)
         decoded_user_session = jwt.decode(user_session_cookie, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
         user_id = decoded_user_session["user_session_fk_user_id"]
 
