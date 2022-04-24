@@ -17,3 +17,15 @@
 .modal-is-open {
   overflow: hidden;
 }
+
+input.is-invalid {
+  @apply border-danger-200 focus:border-danger-200 focus:shadow-danger-200;
+}
+
+label.is-invalid {
+  @apply text-danger-200 peer-focus:text-danger-200;
+}
+
+[data-counter].is-invalid {
+  @apply visible;
+}

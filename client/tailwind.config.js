@@ -27,7 +27,7 @@ const hyphens = plugin(function ({ addUtilities }) {
 
 module.exports = {
   mode: "JIT",
-  content: ["../server/views/**/*.{html,js}"],
+  content: ["../views/**/*.{html,js}"],
   theme: {
     colors: {
       transparent: "transparent",
