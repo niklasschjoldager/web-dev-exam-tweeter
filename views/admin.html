@@ -7,9 +7,16 @@
   Administrator
 {% endblock %}
 
+{% block baseHead %}
+  <script src="/js/admin.js" type="module"></script>
+{% endblock %}
+
 {% block baseContent -%}
   <main class="w-full max-w-4xl py-8 mx-auto">
-    <h1 class="px-4 mb-2 text-3xl font-black">Admin page</h1>
+    <div class="flex items-center justify-between w-full gap-8 flex-wap">
+      <h1 class="px-4 mb-2 text-3xl font-black">Admin page</h1>
+      <a href="/logout">Logout</a>
+    </div>
     <section class="px-4 py-8">
       <h2 class="mb-2 text-2xl font-bold">User statistics</h2>
       <div class="grid gap-4 xs:grid-cols-2 md:grid-cols-4">

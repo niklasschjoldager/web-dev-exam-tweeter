@@ -25,13 +25,22 @@ def _(tweet_id):
         connection = mysql.connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor()
 
-        # Delete the tweet
-        query_delete_tweet = f"""
-            DELETE FROM tweets
-            WHERE tweet_id = %(tweet_id)s AND tweet_fk_user_id = %(user_id)s
-        """
 
-        cursor.execute(query_delete_tweet, {"tweet_id": tweet_id, "user_id": logged_in_user["id"]})
+        if logged_in_user["role_id"] == 2:
+            # Delete the tweet as an admin
+            query_delete_tweet = f"""
+                DELETE FROM tweets
+                WHERE tweet_id = %(tweet_id)s
+            """
+            cursor.execute(query_delete_tweet, {"tweet_id": tweet_id})
+        else:
+             # Delete the tweet as normal user
+            query_delete_tweet = f"""
+                DELETE FROM tweets
+                WHERE tweet_id = %(tweet_id)s AND tweet_fk_user_id = %(user_id)s
+            """
+            cursor.execute(query_delete_tweet, {"tweet_id": tweet_id, "user_id": logged_in_user["id"]})
+
         connection.commit()
         is_tweet_deleted = cursor.rowcount
 

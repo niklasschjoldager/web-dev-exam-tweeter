@@ -71,6 +71,7 @@ def get_logged_in_user():
                 users.user_location AS location,
                 users.user_profile_image AS profile_image,
                 users.user_cover_image AS cover_image,
+                users.fk_user_roles_id AS role_id,
                 (SELECT COUNT(*) FROM followers WHERE followers.fk_user_from_id = %(user_id)s) AS following,
                 (SELECT COUNT(*) FROM followers WHERE followers.fk_user_to_id = %(user_id)s) AS followers
             FROM users
