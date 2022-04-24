@@ -23,7 +23,7 @@
   <section>
     <ul class="flex overflow-x-auto border-b border-gray-200">
       <li class="flex-grow">
-        <a class="block w-full px-6 text-sm font-bold text-center text-black-200 transition-colors hover:bg-black-200/10" href="/users/{{ user_profile['user_username']}}/followers">
+        <a class="block w-full px-6 text-sm font-bold text-center transition-colors text-black-200 hover:bg-black-200/10" href="/users/{{ user_profile['user_username']}}/followers">
           <div class="inline-flex flex-col">
             <div class="py-4 whitespace-nowrap">Followers</div> 
             <div class="w-full h-1 rounded-full bg-primary-200"></div>
@@ -41,12 +41,12 @@
       {% endfor %}
     {% elif logged_in_user["id"] == user_profile["user_id"] %}
       <div class="max-w-sm p-8 mx-auto">
-        <h1 class="mb-2 text-3xl font-black-200">You don&apos;t have any followers yet</h1>
+        <h1 class="mb-2 text-3xl font-black">You don&apos;t have any followers yet</h1>
         <p class="text-sm text-gray-400">When someone follows you, you&apos;ll see them here.</p>
       </div>
     {% else %}
       <div class="max-w-sm p-8 mx-auto">
-        <h1 class="mb-2 text-3xl font-black-200">@{{ user_profile["user_username"] }} don&apos;t have any followers yet</h1>
+        <h1 class="mb-2 text-3xl font-black">@{{ user_profile["user_username"] }} don&apos;t have any followers yet</h1>
         <p class="text-sm text-gray-400">When someone follows them, they&apos;ll be listed here.</p>
       </div>
     {% endif %}
