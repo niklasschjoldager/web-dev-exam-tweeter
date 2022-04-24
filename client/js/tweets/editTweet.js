@@ -1,19 +1,22 @@
 import { prepareActions } from "./global.js"
+import { prepareForm } from "../forms/forms.js"
 
 export default async function handleEditTweet(id, tweet) {
   const template = document.querySelector("[data-template=modal-edit-tweet]").content.cloneNode(true)
   const modal = template.querySelector("[data-modal=edit-tweet]")
-  const editButton = template.querySelector("[data-modal-action=edit-tweet]")
+  const form = template.querySelector("[data-form]")
   const dismissButtons = template.querySelectorAll("[data-modal-dismiss]")
   const tweetCopy = getTweet(tweet)
   showTweet(modal, tweetCopy)
 
   dismissButtons.forEach((button) => button.addEventListener("click", () => modal.remove()))
-  editButton.addEventListener("click", async function () {
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault()
     await requestEditTweet(id, modal)
     modal.remove()
   })
   prepareActions(modal)
+  prepareForm(form)
   document.body.append(template)
 
   modal.querySelector("[data-hook=tweet-text]").focus()

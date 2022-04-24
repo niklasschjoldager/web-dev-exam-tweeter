@@ -16,7 +16,7 @@ const profileImage = document.querySelector("[data-field=user-profile-image]")
 const imagesToView = [coverImage, profileImage]
 setupImageViewer(imagesToView)
 
-editProfileButton.addEventListener("click", () => handleEditUser(id))
+editProfileButton && editProfileButton.addEventListener("click", () => handleEditUser(id))
 
 if (followButton) {
   followButton.addEventListener("click", async function () {

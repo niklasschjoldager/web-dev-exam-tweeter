@@ -2,7 +2,7 @@
 <template data-template="modal-edit-user">
   <div data-modal="edit-user" class="fixed top-0 left-0 w-screen h-screen sm:flex sm:justify-center sm:items-center">
     <div data-modal-dismiss class="w-full h-full bg-black-200/50"></div>
-    <form data-form="edit-user" data-modal-content action="/users" method="POST" enctype="multipart/form-data" class="absolute top-0 bottom-0 left-0 right-0 flex flex-col h-full m-auto bg-white z-1 sm:rounded-2xl overflow-hidden sm:max-w-xl sm:h-fit sm:max-h-[90vh]">
+    <form data-form="edit-user" data-validate data-modal-content action="/users" method="POST" enctype="multipart/form-data" class="absolute top-0 bottom-0 left-0 right-0 flex flex-col h-full m-auto bg-white z-1 sm:rounded-2xl overflow-hidden sm:max-w-xl sm:h-fit sm:max-h-[90vh]">
       
       <div class="sticky top-0 left-0 z-10 flex items-center justify-between w-full h-16 gap-2 px-4 py-3 bg-white/[0.97]">
         <div class="flex items-center gap-8">
@@ -51,23 +51,66 @@
           </div>  
 
           <div class="relative w-full mb-6">
-            <input data-field="edit-user-name" class="w-full px-2 pt-6 pb-2 placeholder-transparent border border-gray-300 rounded-md outline-none focus:border-primary-200 focus:shadow-focus h-14 peer" type="text" name="user_name" id="user-edit-name" placeholder="Name">
+            <input 
+              data-field="edit-user-name" 
+              id="edit-user-name"
+              name="user_name" 
+              type="text" 
+              placeholder="Name"
+              minlength="4"
+              maxlength="20"
+              data-error-too-short="Name must be at least 4 letters."
+              data-error-too-long="Name can only have a maximum of 20 letters"
+              class="w-full px-2 pt-6 pb-2 placeholder-transparent border border-gray-300 rounded-md outline-none focus:border-primary-200 focus:shadow-focus h-14 peer"
+              required
+            >
             <label class="absolute left-0 px-2 text-sm transition-all text-primary-200 top-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 peer-focus:top-1 peer-focus:text-primary-200 peer-focus:text-sm" for="user-edit-name">Name</label>
+            <div data-counter="edit-user-name" class="absolute right-0 invisible px-2 text-sm text-gray-400 top-1 peer-focus:visible"><span data-current="edit-user-name"></span> / <span data-max="edit-user-name"></span></div>
+            <p data-error="edit-user-name" class="hidden mt-1 ml-2 text-xs text-danger-200"></p>
           </div>
       
           <div class="relative w-full mb-6">
-            <input data-field="edit-user-bio" class="w-full px-2 pt-6 pb-2 placeholder-transparent border border-gray-300 rounded-md outline-none focus:border-primary-200 focus:shadow-focus h-14 peer" type="text" name="user_bio" id="user-edit-bio" placeholder="Bio">
+            <input 
+              data-field="edit-user-bio" 
+              id="user-edit-bio"
+              name="user_bio"
+              type="text"
+              maxlength="160"
+              placeholder="Bio"
+              class="w-full px-2 pt-6 pb-2 placeholder-transparent border border-gray-300 rounded-md outline-none focus:border-primary-200 focus:shadow-focus h-14 peer"
+            >
             <label class="absolute left-0 px-2 text-sm transition-all text-primary-200 top-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 peer-focus:top-1 peer-focus:text-primary-200 peer-focus:text-sm" for="user-edit-bio">Bio</label>
+            <div data-counter="user-edit-bio" class="absolute right-0 invisible px-2 text-sm text-gray-400 top-1 peer-focus:visible"><span data-current="user-edit-bio"></span> / <span data-max="user-edit-bio"></span></div>
+            <p data-error="user-edit-bio" class="hidden mt-1 ml-2 text-xs text-danger-200"></p>
           </div>
       
           <div class="relative w-full mb-6">
-            <input data-field="edit-user-location" class="w-full px-2 pt-6 pb-2 placeholder-transparent border border-gray-300 rounded-md outline-none focus:border-primary-200 focus:shadow-focus h-14 peer" type="text" name="user_location" id="user-edit-location" placeholder="Location">
+            <input 
+              data-field="edit-user-location" 
+              id="user-edit-location"
+              name="user_location"
+              type="text"
+              maxlength="30"
+              placeholder="Location"
+              class="w-full px-2 pt-6 pb-2 placeholder-transparent border border-gray-300 rounded-md outline-none focus:border-primary-200 focus:shadow-focus h-14 peer" 
+            >
             <label class="absolute left-0 px-2 text-sm transition-all text-primary-200 top-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 peer-focus:top-1 peer-focus:text-primary-200 peer-focus:text-sm" for="user-edit-location">Location</label>
+            <div data-counter="user-edit-location" class="absolute right-0 invisible px-2 text-sm text-gray-400 top-1 peer-focus:visible"><span data-current="user-edit-location"></span> / <span data-max="user-edit-location"></span></div>
+            <p data-error="user-edit-location" class="hidden mt-1 ml-2 text-xs text-danger-200"></p>
           </div>
       
           <div class="relative w-full mb-6">
-            <input data-field="edit-user-website" class="w-full px-2 pt-6 pb-2 placeholder-transparent border border-gray-300 rounded-md outline-none focus:border-primary-200 focus:shadow-focus h-14 peer" type="text" name="user_website" id="user-edit-website" placeholder="Website">
+            <input 
+              data-field="edit-user-website" 
+              id="user-edit-website"
+              name="user_website" 
+              type="text"  
+              placeholder="Website"
+              class="w-full px-2 pt-6 pb-2 placeholder-transparent border border-gray-300 rounded-md outline-none focus:border-primary-200 focus:shadow-focus h-14 peer"
+            >
             <label class="absolute left-0 px-2 text-sm transition-all text-primary-200 top-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 peer-focus:top-1 peer-focus:text-primary-200 peer-focus:text-sm" for="user-edit-website">Website</label>
+            <div data-counter="user-edit-website" class="absolute right-0 invisible px-2 text-sm text-gray-400 top-1 peer-focus:visible"><span data-current="user-edit-website"></span> / <span data-max="user-edit-website"></span></div>
+            <p data-error="user-edit-website" class="hidden mt-1 ml-2 text-xs text-danger-200"></p>
           </div>
         </div>
       </div>

@@ -1439,6 +1439,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-weight: 600;
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
 .text-gray-400 {
   --tw-text-opacity: 1;
   color: hsl(206 15% 38% / var(--tw-text-opacity));

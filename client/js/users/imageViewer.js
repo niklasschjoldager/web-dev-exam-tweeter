@@ -6,8 +6,6 @@ function handleImageViewer(event) {
   const image = event.target
   document.body.classList.add("modal-is-open")
 
-  console.log(image)
-
   if (image.src == "#") return
 
   const template = document.querySelector("[data-template=modal-user-image-viewer]").content.cloneNode(true)

@@ -1,6 +1,6 @@
 {% from "components/button.html" import button %}
 
-<form data-form="create-tweet" action="/tweets" method="POST" enctype=multipart/form-data class="hidden px-4 pt-4 pb-2 border-b border-b-gray-200 sm:block">
+<form data-form="create-tweet" data-validate action="/tweets" method="POST" enctype=multipart/form-data class="hidden px-4 pt-4 pb-2 border-b border-b-gray-200 sm:block">
   <div class="flex gap-4 mb-4">
     <div>
       <a class="transition-all rounded-full outline-none hover:brightness-90" href="/users/{{ logged_in_user['username'] }}">
@@ -11,7 +11,8 @@
         {% endif %}
       </a>
     </div>
-    <textarea data-hook="tweet-text" class="flex-grow h-12 pt-2 text-xl placeholder-gray-400 outline-none resize-none" name="tweet_text" id="tweet-text" placeholder="What&apos;s happening?"></textarea>
+    <textarea id="tweet-text" data-hook="tweet-text" name="tweet_text" placeholder="What&apos;s happening?" minlength="1" maxlength="250" class="flex-grow h-12 pt-2 text-xl placeholder-gray-400 outline-none resize-none" required></textarea>
+    <div data-counter="tweet-text" class="px-2 text-sm text-gray-400"><span data-current="tweet-text"></span> / <span data-max="tweet-text"></span></div>
   </div>
   <input data-hook="input-tweet-image" type="file" name="tweet_image" id="tweet-image" hidden>
 
@@ -27,9 +28,7 @@
     <ul class="flex items-center pt-2 -ml-2 text-primary-200">
       <li>
         <button class="block p-2 transition-colors border-2 border-white rounded-full outline-none hover:bg-primary-200/10 focus:border-primary-200/30 focus:bg-primary-200/10" type="button" data-action="add-image">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
           <span class="sr-only">Add image</span>
         </button>
       </li>
@@ -41,23 +40,18 @@
       </li>
       <li>
         <button class="block p-2 transition-colors border-2 border-white rounded-full outline-none text-primary-200/50 hover:bg-primary-200/10 focus:border-primary-200/30 focus:bg-primary-200/10" type="button" data-action="show-emojis" disabled>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           <span class="sr-only">Show list of emojis</span>
         </button>
       </li>
       <li>
         <button class="block p-2 transition-colors border-2 border-white rounded-full outline-none hover:bg-primary-200/10 focus:border-primary-200/30 text-primary-200/50 focus:bg-primary-200/10" type="button" data-action="add-location" disabled>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
           <span class="sr-only">Add location</span>
         </button>
       </li>
       <li class="ml-auto">
-        {{ button(children="Tweet", variant="primary", size="sm", attributes='data-action="tweet"') }}
+        {{ button(children="Tweet", variant="primary", size="sm", attributes='data-action="tweet" type="submit"') }}
       </li>
     </ul>
   </div>

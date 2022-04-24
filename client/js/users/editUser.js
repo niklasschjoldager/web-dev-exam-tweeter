@@ -1,8 +1,10 @@
 import { handleAddImage } from "../utils.js"
+import { prepareForm } from "../forms/forms.js"
 
 export default async function handleEditUser(id) {
   const template = document.querySelector("[data-template=modal-edit-user]").content.cloneNode(true)
   const modal = template.querySelector("[data-modal=edit-user")
+  const form = template.querySelector("[data-form]")
   const saveButton = template.querySelector("[data-modal-action=save-user]")
   const dismissButtons = template.querySelectorAll("[data-modal-dismiss]")
 
@@ -19,7 +21,6 @@ export default async function handleEditUser(id) {
   setUser(modal, user)
 
   const hasUserCoverImage = coverImageField.getAttribute("src") != "#" ? true : false
-  console.log(hasUserCoverImage)
   if (hasUserCoverImage) {
     removeCoverImageButton.classList.remove("is-hidden")
   }
@@ -34,7 +35,6 @@ export default async function handleEditUser(id) {
   profileImageButton.addEventListener("click", () => profileImageInput.click())
 
   coverImageInput.addEventListener("change", () => {
-    console.log("Yep")
     handleAddImage(coverImageInput, coverImageField)
     coverImageField.classList.remove("is-hidden")
     removeCoverImageButton.classList.remove("is-hidden")
@@ -53,9 +53,10 @@ export default async function handleEditUser(id) {
     document.body.classList.remove("modal-is-open")
     modal.remove()
   })
-  // prepareActions(modal)
+
   document.body.classList.add("modal-is-open")
   document.body.append(template)
+  prepareForm(form)
 }
 
 function updateUser(user) {
@@ -105,8 +106,6 @@ function updateUser(user) {
     websiteLink.classList.add("is-hidden")
   }
 
-  console.log(coverImageField, coverImage)
-
   if (coverImage) {
     coverImageField.src = `/static/users/${coverImage}`
     coverImageField.classList.remove("is-hidden")
@@ -140,8 +139,6 @@ function setUser(modal, user) {
   const coverImageField = modal.querySelector('[data-field="cover-image"]')
   const profileImageField = modal.querySelector('[data-field="profile-image"]')
 
-  console.log(user)
-
   if (coverImage != "#") {
     coverImageField.src = coverImage
     coverImageField.classList.remove("is-hidden")
@@ -167,8 +164,6 @@ async function requestEditUser(id, modal) {
 
   const coverImageField = modal.querySelector('[data-field="cover-image"]').getAttribute("src")
   const userCoverImage = document.querySelector('[data-field="user-cover-image"]').getAttribute("src")
-  console.log(userCoverImage)
-  console.log(coverImageField)
 
   if (coverImageField == userCoverImage) {
     formData.delete("user_cover_image")

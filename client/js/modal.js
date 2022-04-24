@@ -28,7 +28,7 @@ elements.forEach((element) => {
         document.body.classList.remove("modal-is-open")
         break
       default:
-        console.log("Action does not exist.")
+        console.warn("Action does not exist.")
         return
     }
   })

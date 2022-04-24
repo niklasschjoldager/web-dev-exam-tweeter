@@ -19,7 +19,8 @@
               <img class="w-12 h-12 rounded-full" src="/static/images/default-profile-image.png" alt="#">
             {% endif %}
           </div>
-          <textarea data-hook="tweet-text" class="flex-grow h-12 min-h-[6rem] pt-2 text-xl placeholder-gray-400 outline-none resize-none" name="tweet_text" id="tweet-text"></textarea>
+          <textarea data-hook="tweet-text" class="flex-grow h-12 min-h-[6rem] pt-2 text-xl placeholder-gray-400 outline-none resize-none" name="tweet_text" id="tweet-text" maxlength="250"></textarea>
+          <div data-counter="tweet-text" class="px-2 text-sm text-gray-400"><span data-current="tweet-text"></span> / <span data-max="tweet-text"></span></div> 
         </div>
         <input data-hook="input-tweet-image" type="file" name="tweet_image" id="tweet-image" hidden>
         

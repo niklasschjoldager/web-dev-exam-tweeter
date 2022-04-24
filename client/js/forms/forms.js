@@ -1,108 +1,114 @@
 export default function setupForms(selector) {
-  const forms = document.querySelectorAll(selector)
+  const forms = Array.from(document.querySelectorAll(selector)).filter((form) => form.hasAttribute("data-validate"))
   forms.forEach(prepareForm)
 }
 
-function prepareForm(form) {
+export function prepareForm(form) {
   form.setAttribute("novalidate", "")
 
-  const inputs = Array.from(form.elements).filter((element) => element.tagName == "INPUT")
-  const inputsWithCounters = inputs.filter((element) =>
+  const fields = Array.from(form.elements).filter(
+    (element) => element.tagName == "INPUT" || element.tagName == "TEXTAREA"
+  )
+  const fieldsWithCounters = fields.filter((element) =>
     form.querySelector(`[data-counter="${element.getAttribute("id")}"]`)
   )
-  inputs.forEach((input) => {
-    const id = input.getAttribute("id")
+  fields.forEach((field) => {
+    const id = field.getAttribute("id")
     const label = form.querySelector(`label[for="${id}"]`)
     const error = form.querySelector(`[data-error="${id}"]`)
-    const type = input.getAttribute("type")
-    const counter = form.querySelector(`[data-counter=${id}]`)
 
-    input.addEventListener("blur", () => {
-      checkInputValidity(input, label, error)
-      validateInput(input, type, label, error)
+    field.addEventListener("blur", () => {
+      checkFieldValidity(field, label, error)
+      validateField(field, label, error)
     })
-    input.addEventListener("input", () => {
-      checkInputValidity(input, label, counter, error)
+    field.addEventListener("input", () => {
+      checkFieldValidity(field, label, error)
       validateForm(form)
     })
   })
 
-  inputsWithCounters.forEach((input) => {
-    handleInputCounter(input)
-    input.addEventListener("input", () => handleInputCounter(input))
+  fieldsWithCounters.forEach((field) => {
+    handleFieldCounter(field, form)
+    field.addEventListener("input", () => handleFieldCounter(field, form))
+    field.addEventListener("change", () => handleFieldCounter(field, form))
+    form.addEventListener("submit", () => resetFieldCounter(field, form))
   })
 
   validateForm(form)
 }
 
-function handleInputCounter(input) {
-  const maxLength = input.getAttribute("maxlength")
+function handleFieldCounter(field, form) {
+  const maxLength = field.getAttribute("maxlength")
   if (!maxLength) return
 
-  const currentLength = input.value.length
-  const id = input.getAttribute("id")
+  const currentLength = field.value.length
+  const id = field.getAttribute("id")
 
-  const counterCurrent = document.querySelector(`[data-current="${id}"]`)
-  const counterMax = document.querySelector(`[data-max="${id}"]`)
+  const counterCurrent = form.querySelector(`[data-current="${id}"]`)
+  const counterMax = form.querySelector(`[data-max="${id}"]`)
 
   counterCurrent.textContent = currentLength
   counterMax.textContent = maxLength
 }
 
+function resetFieldCounter(field, form) {
+  const maxLength = field.getAttribute("maxlength")
+  if (!maxLength) return
+  const id = field.getAttribute("id")
+
+  const counterCurrent = form.querySelector(`[data-current="${id}"]`)
+
+  counterCurrent.textContent = "0"
+}
+
 function validateForm(form) {
   const submitButton = form.querySelector('button[type="submit"]')
 
-  console.log(form.checkValidity())
-
   if (!form.checkValidity()) {
     submitButton.setAttribute("disabled", "")
-    return false
-  }
-
-  submitButton.removeAttribute("disabled")
-  return true
-}
-
-function validateInput(input, type, label, error) {
-  if (!input.value) {
-    label.classList.remove("is-invalid")
-    input.classList.remove("is-invalid")
-    error.classList.add("hidden")
     return
   }
 
-  const errorMessages = {
-    email: {
-      valueMissing: "What's your e-mail?",
-      patternMismatch: "Please enter a valid e-mail.",
-      typeMismatch: "Please enter a valid e-mail",
-    },
-    password: {
-      valueMissing: "Please enter a password.",
-      patternMismatch:
-        "Password must be at least 8 characters long, have 1 uppercase letter, 1 lowercase letter and 1 number or symbol",
-      tooShort:
-        "Password must be at least 8 characters long, have 1 uppercase letter, 1 lowercase letter and 1 number or symbol",
-    },
+  submitButton.removeAttribute("disabled")
+}
+
+function validateField(field, label, error) {
+  if (!field.value) {
+    label && label.classList.remove("is-invalid")
+    field.classList.remove("is-invalid")
+    error && error.classList.add("hidden")
+    return
   }
 
-  for (const key in input.validity) {
-    console.log(type)
-    if (input.validity[key] && key != "valid") {
-      if (errorMessages[type] && errorMessages[type][key]) error.textContent = errorMessages[type][key]
-      input.classList.add("is-invalid")
-      label.classList.add("is-invalid")
-      error.classList.remove("hidden")
+  for (const key in field.validity) {
+    if (field.validity[key] && key != "valid") {
+      const formattedKey = uppercaseToDashesAndLowercase(key)
+      const errorMessage = field.getAttribute(`data-error-${formattedKey}`)
+      if (error) {
+        error.textContent = errorMessage
+        error.classList.remove("hidden")
+      }
+      field.classList.add("is-invalid")
+      label && label.classList.add("is-invalid")
       break
     }
   }
 }
 
-function checkInputValidity(input, label, error) {
-  if (input.checkValidity()) {
-    input.classList.remove("is-invalid")
-    label.classList.remove("is-invalid")
-    error.classList.add("hidden")
-    error.textContent = ""
+function uppercaseToDashesAndLowercase(string) {
+  return string
+    .split(/(?=[A-Z])/)
+    .join("-")
+    .toLowerCase()
+}
+
+function checkFieldValidity(field, label, error) {
+  if (field.checkValidity()) {
+    field.classList.remove("is-invalid")
+    label && label.classList.remove("is-invalid")
+    if (error) {
+      error.classList.add("hidden")
+      error.textContent = ""
+    }
   }
 }

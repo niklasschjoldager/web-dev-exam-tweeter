@@ -27,8 +27,6 @@ async function requestSignup(event) {
   })
 
   const response = await request
-
-  console.log(response)
   if (!response.ok) {
     console.log(await response.json())
     return
