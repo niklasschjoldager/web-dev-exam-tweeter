@@ -24,7 +24,17 @@
     <div class="isolate hidden w-auto grow lg:block xl:w-full max-w-[400px]">
       <aside class="flex flex-col items-center w-full h-full gap-8 py-4 pl-8">
         {% block aside %}
-          <h2>Aside</h2>
+          {% if who_to_follow %}
+            <div class="w-full overflow-hidden bg-gray-100 border border-gray-200 rounded-2xl">
+              <h2 class="px-4 pt-3 mb-3 text-xl font-bold">Who to follow</h2>
+              
+                {% for user in who_to_follow %}
+                  {{ userItem(logged_in_user_id=logged_in_user["id"], **user) }}
+                {% endfor %}
+      
+              <a class="flex w-full px-4 py-3 text-sm transition-colors text-primary-200 hover:bg-black-200/5 focus:bg-black-200-5 " href="#">Show more</a>
+            </div>
+          {% endif %}
         {% endblock %}
       </aside>
     </div>

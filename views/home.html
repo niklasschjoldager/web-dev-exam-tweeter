@@ -1,5 +1,6 @@
 {% from "components/tweet-item.html" import tweetItem %}
 {% from "components/button.html" import button, iconButton %}
+{% from "components/user-item.html" import userItem %}
 {% extends "layouts/app.html" %}
 
 {% block title -%}
@@ -39,13 +40,4 @@
       </div>
     {% endif %}
   </section>
-{% endblock %}
-
-{% block aside %}
-  <div class="w-full h-64 bg-gray-100 border border-gray-200 rounded-2xl">
-    <h2 class="px-4 pt-3 text-xl font-bold">Trends for you</h2>
-  </div>
-  <div class="w-full h-48 bg-gray-100 border border-gray-200 rounded-2xl">
-    <h2 class="px-4 pt-3 text-xl font-bold">Who to follow</h2>
-  </div>
 {% endblock %}

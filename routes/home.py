@@ -50,6 +50,29 @@ def _():
         cursor.execute(query_get_user_tweets, {"user_id": logged_in_user["id"]})
         tweets = cursor.fetchall()
 
+
+        query_get_user_followers = f"""
+            SELECT
+                users.user_id,
+                users.user_name,
+                users.user_username,
+                users.user_profile_image,
+                COUNT(is_followed_by_logged_in_user.fk_user_to_id) AS is_followed_by_logged_in_user
+            FROM users
+                
+            LEFT JOIN followers AS is_followed_by_logged_in_user
+                ON is_followed_by_logged_in_user.fk_user_from_id = %(logged_in_user_id)s AND is_followed_by_logged_in_user.fk_user_to_id = users.user_id
+
+            WHERE NOT users.user_id = %(logged_in_user_id)s
+
+            GROUP BY users.user_id
+            HAVING COUNT(is_followed_by_logged_in_user.fk_user_from_id = %(logged_in_user_id)s AND is_followed_by_logged_in_user.fk_user_to_id = users.user_id) < 1
+            LIMIT 3
+        """
+
+        cursor.execute(query_get_user_followers, {"logged_in_user_id": logged_in_user["id"]})
+        who_to_follow = cursor.fetchall()
+
         return template(
             "home",
             dict(
@@ -59,6 +82,7 @@ def _():
                 navigation_dropdown=navigation_dropdown,
                 tweets=tweets,
                 logged_in_user=logged_in_user,
+                who_to_follow=who_to_follow
             ),
         )
     except Exception as ex:
