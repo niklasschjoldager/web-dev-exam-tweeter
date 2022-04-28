@@ -54,9 +54,9 @@
   <div data-dropdown-container class="relative z-10 mt-auto xl:w-full">
     <div data-dropdown-button class="flex items-center gap-3 p-3 transition-colors border-transparent rounded-full outline-none cursor-pointer hover:bg-black-200/10 focus:border-black-200/30 focus:bg-black-200/10 xl:w-11/12 border-1">
       {% if logged_in_user["profile_image"] %}
-        <img class="w-10 h-10 rounded-full" src="/static/users/{{ logged_in_user['profile_image'] }}" alt="#">
+        <img class="object-cover w-10 h-10 rounded-full" src="/static/users/{{ logged_in_user['profile_image'] }}" alt="#">
       {% else %}
-        <img class="w-10 h-10 rounded-full" src="/static/images/default-profile-image.png" alt="#">
+        <img class="object-cover w-10 h-10 rounded-full" src="/static/images/default-profile-image.png" alt="#">
       {% endif %}
       <p class="flex-col flex-grow hidden overflow-hidden xl:flex">
         <span class="overflow-hidden text-sm font-bold select-none text-ellipsis whitespace-nowrap">{{ logged_in_user["name"]}}</span>
@@ -72,9 +72,9 @@
       <div class="relative py-2 bg-white rounded-2xl">
         <div class="relative flex items-center gap-3 p-4 border-b border-gray-200">
           {% if logged_in_user["profile_image"] %}
-            <img class="w-12 h-12 rounded-full" src="/static/users/{{ logged_in_user['profile_image'] }}" alt="#">
+            <img class="object-cover w-12 h-12 rounded-full" src="/static/users/{{ logged_in_user['profile_image'] }}" alt="#">
           {% else %}
-            <img class="w-12 h-12 rounded-full" src="/static/images/default-profile-image.png" alt="#">
+            <img class="object-cover w-12 h-12 rounded-full" src="/static/images/default-profile-image.png" alt="#">
           {% endif %}
           <p class="flex flex-col flex-grow overflow-hidden">
             <span class="overflow-hidden text-sm font-bold whitespace-nowrap text-ellipsis">{{ logged_in_user["name"]}}</span>

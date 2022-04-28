@@ -3,9 +3,9 @@
 {% macro userItem(user_id, user_profile_image, user_username, user_name) -%}
   <a data-form="user" data-id="{{ user_id }}" data-username="{{ user_username }}" class="flex w-full gap-3 px-4 py-3 text-sm transition-colors hover:bg-black/5 focus:bg-black-5" href="/users/{{ user_username }}">
     {% if user_profile_image %}
-      <img class="w-12 h-12 text-transparent transition-all rounded-full hover:brightness-90 focus:brightness-90" src="/static/users/{{ user_profile_image }}" alt="#">
+      <img class="object-cover w-12 h-12 text-transparent transition-all rounded-full hover:brightness-90 focus:brightness-90" src="/static/users/{{ user_profile_image }}" alt="#">
     {% else %}
-      <img class="w-12 h-12 text-transparent transition-all rounded-full hover:brightness-90 focus:brightness-90" src="/static/images/default-profile-image.png" alt="#">
+      <img class="object-cover w-12 h-12 text-transparent transition-all rounded-full hover:brightness-90 focus:brightness-90" src="/static/images/default-profile-image.png" alt="#">
     {% endif %}
     <div class="flex flex-col flex-grow gap-2">
       <div class="flex items-center justify-between flex-grow">

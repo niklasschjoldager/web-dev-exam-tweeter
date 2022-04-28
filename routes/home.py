@@ -50,7 +50,6 @@ def _():
         cursor.execute(query_get_user_tweets, {"user_id": logged_in_user["id"]})
         tweets = cursor.fetchall()
 
-
         query_get_user_followers = f"""
             SELECT
                 users.user_id,
@@ -82,7 +81,7 @@ def _():
                 navigation_dropdown=navigation_dropdown,
                 tweets=tweets,
                 logged_in_user=logged_in_user,
-                who_to_follow=who_to_follow
+                who_to_follow=who_to_follow,
             ),
         )
     except Exception as ex:

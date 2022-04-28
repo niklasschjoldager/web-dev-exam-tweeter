@@ -5,9 +5,9 @@
     <div>
       <a class="transition-all rounded-full outline-none hover:brightness-90" href="/users/{{ logged_in_user['username'] }}">
         {% if logged_in_user["profile_image"] %}
-          <img class="w-12 h-12 rounded-full" src="/static/users/{{ logged_in_user['profile_image'] }}" alt="#">
+          <img class="object-cover w-12 h-12 rounded-full" src="/static/users/{{ logged_in_user['profile_image'] }}" alt="#">
         {% else %}
-          <img class="w-12 h-12 rounded-full" src="/static/images/default-profile-image.png" alt="#">
+          <img class="object-cover w-12 h-12 rounded-full" src="/static/images/default-profile-image.png" alt="#">
         {% endif %}
       </a>
     </div>
