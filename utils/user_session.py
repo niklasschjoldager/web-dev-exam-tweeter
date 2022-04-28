@@ -52,6 +52,9 @@ def validate_user_session(successUrl=None, errorUrl=None):
 
 def get_logged_in_user():
     try:
+        if not request.get_cookie("user_session", secret=JSON_WEB_TOKEN_SECRET):
+            return None
+
         user_session_cookie = request.get_cookie("user_session", secret=JSON_WEB_TOKEN_SECRET)
         decoded_user_session = jwt.decode(user_session_cookie, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
         user_id = decoded_user_session["user_session_fk_user_id"]
@@ -89,4 +92,4 @@ def get_logged_in_user():
 
     except Exception as ex:
         print(ex)
-        return {"info": "Ups, something went wrong"}
+        return None

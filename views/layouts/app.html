@@ -9,7 +9,9 @@
 {% block baseContent %}
   <div class="flex-grow w-full h-full mx-auto lg:px-4 sm:flex sm:justify-center lg:w-full xl:max-w-7xl isolate">
     <div class="isolate hidden minHminW:block min-w-[69px] md:min-w-[89px] xl:min-w-[275px] h-screen sticky z-10 left-0 top-0">
-      {% include "components/header-home.html" %}
+      {% if logged_in_user %}
+        {% include "components/header-home.html" %}
+      {% endif %}
     </div>
     <main class="isolate sm:max-w-[600px] w-full min-w-0 pb-4 sm:border-l sm:border-r sm:border-gray-200">
       <div class="sticky top-0 px-4 py-1 bg-white/[0.97] z-50 min-h-[56px] flex items-center">
@@ -41,7 +43,9 @@
 
     {% include "components/mobile-navigation.html" %}
   </div>
-  {% include "components/mobile-menu.html" %}
+  {% if logged_in_user %}
+    {% include "components/mobile-menu.html" %}
+  {% endif %}
 {% endblock %}
 
 {% block baseModals %}
