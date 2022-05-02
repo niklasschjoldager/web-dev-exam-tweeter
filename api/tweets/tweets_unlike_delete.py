@@ -2,7 +2,7 @@ from bottle import delete, response
 import mysql.connector
 
 from g import DATABASE_CONFIG
-from utils.user_session import get_logged_in_user, validate_user_session
+from utils import get_logged_in_user, validate_user_session
 
 ############################################################
 @delete("/tweets/<tweet_id:int>/unlike")

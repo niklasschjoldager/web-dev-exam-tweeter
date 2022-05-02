@@ -7,7 +7,7 @@ import time
 import uuid
 
 from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET, REGEX_EMAIL, REGEX_PASSWORD
-from utils.user_session import validate_user_session
+from utils import validate_user_session
 
 ############################################################
 @post("/login")
@@ -22,7 +22,7 @@ def _():
     user_email = request.forms.get("user_email").strip()
 
     if not re.match(REGEX_EMAIL, user_email):
-        response.statis = 400
+        response.status = 400
         return {"info": "Email is not invalid"}
 
     # Validate Password

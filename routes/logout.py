@@ -3,7 +3,7 @@ import jwt
 import mysql.connector
 
 from g import DATABASE_CONFIG
-from utils.user_session import get_logged_in_user
+from utils import get_logged_in_user
 
 ############################################################
 @get("/logout")

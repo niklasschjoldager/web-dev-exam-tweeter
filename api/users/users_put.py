@@ -6,7 +6,7 @@ import os
 import uuid
 import json
 
-from utils.user_session import validate_user_session, get_logged_in_user
+from utils import validate_user_session, get_logged_in_user
 from g import (
     DATABASE_CONFIG,
     IMAGE_ALLOWED_FILE_EXTENSIONS,

@@ -2,7 +2,7 @@ from bottle import delete, response, request
 import jwt
 import mysql.connector
 
-from utils.user_session import validate_user_session, get_logged_in_user
+from utils import validate_user_session, get_logged_in_user
 from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
 
 ############################################################
@@ -25,7 +25,6 @@ def _(tweet_id):
         connection = mysql.connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor()
 
-
         if logged_in_user["role_id"] == 2:
             # Delete the tweet as an admin
             query_delete_tweet = f"""
@@ -34,7 +33,7 @@ def _(tweet_id):
             """
             cursor.execute(query_delete_tweet, {"tweet_id": tweet_id})
         else:
-             # Delete the tweet as normal user
+            # Delete the tweet as normal user
             query_delete_tweet = f"""
                 DELETE FROM tweets
                 WHERE tweet_id = %(tweet_id)s AND tweet_fk_user_id = %(user_id)s

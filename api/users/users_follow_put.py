@@ -4,7 +4,7 @@ import mysql.connector
 import time
 
 from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
-from utils.user_session import get_logged_in_user, validate_user_session
+from utils import get_logged_in_user, validate_user_session
 
 ############################################################
 @put("/users/<user_to_id:int>/follow")

@@ -6,7 +6,7 @@ import os
 import time
 import uuid
 
-from utils.user_session import get_logged_in_user, validate_user_session
+from utils import get_logged_in_user, validate_user_session
 from g import (
     DATABASE_CONFIG,
     IMAGE_ALLOWED_FILE_EXTENSIONS,

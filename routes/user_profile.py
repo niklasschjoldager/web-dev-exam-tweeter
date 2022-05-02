@@ -4,7 +4,7 @@ from datetime import datetime
 
 from data import mobile_navigation, navigation, navigation_dropdown, user_page_default_messages, user_page_tabs
 from g import DATABASE_CONFIG
-from utils.user_session import get_logged_in_user
+from utils import format_time_since_epoch, get_logged_in_user
 
 ############################################################
 @get("/users/<user_username:path>")
@@ -137,5 +137,9 @@ def get_user_tweets(user_id, cursor, logged_in_user_id=0):
 
     cursor.execute(query, params)
     tweets = cursor.fetchall()
+
+    for index, tweet in enumerate(tweets):
+        tweet_created_at = tweets[index]["tweet_created_at"]
+        tweets[index]["tweet_created_at_formatted"] = format_time_since_epoch(tweet_created_at)
 
     return tweets

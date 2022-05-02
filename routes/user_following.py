@@ -4,7 +4,7 @@ import mysql.connector
 
 from data import mobile_navigation, navigation, navigation_dropdown
 from g import DATABASE_CONFIG
-from utils.user_session import get_logged_in_user
+from utils import get_logged_in_user
 
 ############################################################
 @get("/users/<user_username>/following")

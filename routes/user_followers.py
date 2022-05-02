@@ -2,9 +2,9 @@ from bottle import get, response, jinja2_template as template
 from datetime import datetime
 import mysql.connector
 
-from utils.user_session import get_logged_in_user
 from data import mobile_navigation, navigation, navigation_dropdown
 from g import DATABASE_CONFIG
+from utils import get_logged_in_user
 
 ############################################################
 @get("/users/<username>/followers")

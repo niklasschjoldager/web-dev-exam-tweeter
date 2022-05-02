@@ -1,13 +1,9 @@
 from bottle import get, response, jinja2_template as template
 import mysql.connector
-import time
-import datetime
-import math
 
 from data import mobile_navigation, navigation, navigation_dropdown
 from g import DATABASE_CONFIG
-from utils.user_session import get_logged_in_user, validate_user_session
-from formatting import format_time_since_epoch
+from utils import format_time_since_epoch, get_logged_in_user, validate_user_session
 
 ############################################################
 @get("/home")
@@ -80,8 +76,6 @@ def get_logged_in_user_tweets(logged_in_user_id, cursor):
     for index, tweet in enumerate(tweets):
         tweet_created_at = tweets[index]["tweet_created_at"]
         tweets[index]["tweet_created_at_formatted"] = format_time_since_epoch(tweet_created_at)
-
-    print(tweets[0])
 
     return tweets
 

@@ -3,7 +3,7 @@ import mysql.connector
 import time
 
 from g import DATABASE_CONFIG
-from utils.user_session import get_logged_in_user, validate_user_session
+from utils import get_logged_in_user, validate_user_session
 
 ###########################################################
 @post("/tweets/<tweet_id:int>/like")

@@ -1,7 +1,7 @@
 from bottle import get, jinja2_template as template
 
 from data import current_year, months, footer_links
-from utils.user_session import validate_user_session
+from utils import validate_user_session
 
 ############################################################
 @get("/")
