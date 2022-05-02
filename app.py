@@ -14,6 +14,8 @@ from routes import (
     search,
     user_followers,
     user_following,
+    user_likes,
+    user_media,
     user_profile,
 )
 

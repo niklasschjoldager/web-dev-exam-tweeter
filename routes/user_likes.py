@@ -7,9 +7,8 @@ from g import DATABASE_CONFIG
 from utils.user_session import get_logged_in_user
 
 ############################################################
-@get("/users/<user_username:path>")
+@get("/users/<user_username:path>/likes")
 def _(user_username):
-    print(user_username)
     try:
         logged_in_user = get_logged_in_user()
         if logged_in_user:
@@ -21,13 +20,8 @@ def _(user_username):
         cursor = connection.cursor(dictionary=True)
 
         user_profile = get_user_profile(user_username, cursor)
-
-        if not user_profile:
-            response.status = 404
-            return template("fourOhFour.html", dict(logged_in_user=logged_in_user))
-
         user_info = get_user_info(user_profile["user_id"], cursor, logged_in_user_id)
-        tweets = get_user_tweets(user_profile["user_id"], cursor, logged_in_user_id)
+        tweets = get_tweets_liked_by_user(user_profile["user_id"], cursor, logged_in_user_id)
 
         return template(
             "user-profile",
@@ -40,7 +34,7 @@ def _(user_username):
                 user_profile=user_profile,
                 user_page_default_messages=user_page_default_messages,
                 user_page_tabs=user_page_tabs,
-                active_tab="",
+                active_tab="likes",
                 user_info=user_info,
                 logged_in_user=logged_in_user,
             ),
@@ -62,10 +56,6 @@ def get_user_profile(username, cursor):
 
     cursor.execute(query, params)
     user_profile = cursor.fetchone()
-
-    if not user_profile:
-        return None
-
     user_joined = datetime.fromtimestamp(user_profile["user_created_at"]).strftime("%B %Y")
     user_profile["user_joined"] = user_joined
 
@@ -98,7 +88,7 @@ def get_user_info(user_id, cursor, logged_in_user_id=0):
     return user_info
 
 
-def get_user_tweets(user_id, cursor, logged_in_user_id=0):
+def get_tweets_liked_by_user(user_id, cursor, logged_in_user_id=0):
     query = f"""
         SELECT 
             tweets.tweet_id, 
@@ -114,6 +104,9 @@ def get_user_tweets(user_id, cursor, logged_in_user_id=0):
             COUNT(is_tweet_creator_followed_by_user.fk_user_to_id) AS is_tweet_creator_followed_by_user
         FROM tweets
 
+        LEFT JOIN likes
+            ON likes.fk_tweet_id = tweets.tweet_id
+
         LEFT JOIN likes AS likes_quantity 
             ON likes_quantity.fk_tweet_id = tweets.tweet_id
             
@@ -127,8 +120,10 @@ def get_user_tweets(user_id, cursor, logged_in_user_id=0):
         LEFT JOIN followers AS is_tweet_creator_followed_by_user
             ON is_tweet_creator_followed_by_user.fk_user_from_id = %(logged_in_user_id)s 
             AND is_tweet_creator_followed_by_user.fk_user_to_id = tweets.tweet_fk_user_id
-        
-        WHERE tweets.tweet_fk_user_id = %(user_profile_id)s
+
+        WHERE likes.fk_tweet_id = tweets.tweet_id 
+        AND likes.fk_user_id = %(user_profile_id)s
+
         GROUP BY tweets.tweet_id
         ORDER BY tweets.tweet_created_at 
         DESC

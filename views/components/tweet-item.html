@@ -1,4 +1,4 @@
-{% macro tweetItem(logged_in_username, is_tweet_creator_followed_by_user, tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, user_profile_image, tweet_likes, tweet_fk_user_id, tweet_created_at, is_liked_by_user, is_template=false) -%}
+{% macro tweetItem(logged_in_username, is_tweet_creator_followed_by_user, tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, user_profile_image, tweet_likes, tweet_fk_user_id, tweet_created_at, tweet_created_at_formatted, is_liked_by_user, is_template=false) -%}
   {% if is_template %}
     <template data-template="tweet-item">
   {% endif %}
@@ -20,8 +20,7 @@
         </a>
         <a data-field="username" class="overflow-hidden text-sm text-ellipsis hover:underline" href="/users/{{ user_username }}">@{{ user_username }}</a>
         <span>&centerdot;</span>
-        <span data-field="date" class="text-sm cursor-pointer whitespace-nowrap hover:underline">Date</span>
-      
+        <span data-field="date" class="text-sm cursor-pointer whitespace-nowrap hover:underline">{{ tweet_created_at_formatted }}</span>
         <div data-dropdown-container class="relative flex items-center ml-auto">
           <button data-dropdown-button class="group hover:text-primary-200" type="button">
             <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-primary-200/10"></div>

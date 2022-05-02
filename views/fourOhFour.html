@@ -1,10 +1,15 @@
 {% extends "layouts/base.html" %}
+{% from "components/button.html" import button %}
 
 {% block title -%}
   Page not found
 {% endblock %}
 
 {% block baseContent -%}
-  <h1>Oh noes, page not found 😔</h1>
-  <a href="/">Go home</a>
-{% endblock %}
+  <main class="px-4 pt-8">
+    <h1 class="mb-8 text-sm text-gray-400">Hmm...this page doesn&apos;t exist. Try searching for something else.</h1>
+    {{ button(children="Search", variant="primary", size="sm") }}
+  </main>
+{% endblock -%}
+
+

@@ -1,11 +1,13 @@
 <template data-template="modal-user-image-viewer">
   <div data-modal="user-image-viewer" class="fixed top-0 left-0 w-screen h-screen sm:flex sm:justify-center sm:items-center">
     <div class="absolute w-full h-full bg-black-200/50" data-modal-dismiss></div>
-    <img data-field="image" class="relative object-cover max-w-full max-h-full m-4" src="#" alt="#">
-    <button data-modal-dismiss="" type="button" class="absolute text-white rounded-full outline-none top-6 left-6 group ">
-      <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full bg-black-200/75 group-hover:bg-black-100/75"></div>
-      <svg class="relative w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-      <span class="sr-only">Close</span>
-    </button>
+    <div class="relative flex items-center w-full h-full p-4">
+      <img data-field="image" class="absolute top-0 bottom-0 left-0 right-0 object-cover max-w-full max-h-full m-auto rounded-full" src="#" alt="#">
+      <button data-modal-dismiss="" type="button" class="absolute text-white rounded-full outline-none top-6 left-6 group ">
+        <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full bg-black-200/75 group-hover:bg-black-100/75"></div>
+        <svg class="relative w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        <span class="sr-only">Close</span>
+      </button>
+    </div>
   </div>
 </template>

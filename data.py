@@ -168,3 +168,69 @@ navigation_dropdown = [
         "text": "Keyboard shortcuts",
     },
 ]
+
+user_page_tabs = [
+    {
+        "id": "",
+        "url": "",
+        "text": "Tweets",
+    },
+    {
+        "id": "with-replies",
+        "url": "",
+        "text": "Tweets & replies",
+    },
+    {
+        "id": "media",
+        "url": "/media",
+        "text": "Media",
+    },
+    {
+        "id": "likes",
+        "url": "/likes",
+        "text": "Likes",
+    },
+]
+
+user_page_default_messages = {
+    "": {
+        "personal": {
+            "title": "You haven't tweeted anything yet.",
+            "description": "When you make your first tweet, it will show up here",
+        },
+        "user": {
+            "title": "The user haven't tweeted anything yet.",
+            "description": "When they make their first tweet, it will show up here",
+        },
+    },
+    "with-replies": {
+        "personal": {
+            "title": "You haven't tweeted nor made any replies yet.",
+            "description": "When you make a tweet or reply to a tweet, it will show up here",
+        },
+        "user": {
+            "title": "The user haven't tweeted nor made any replies yet.",
+            "description": "when they make their first tweet or reply to a tweet, it will show up here",
+        },
+    },
+    "media": {
+        "personal": {
+            "title": "Lights, camera … attachments!",
+            "description": "When you send Tweets with photos or videos in them, it will show up here",
+        },
+        "user": {
+            "title": "Lights, camera … attachments!",
+            "description": "When the user send Tweets with photos or videos in them, it will show up here",
+        },
+    },
+    "likes": {
+        "personal": {
+            "title": "You don't have any likes yet",
+            "description": "Tap the heart on any Tweet to show it some love. When you do, it'll show up here.",
+        },
+        "user": {
+            "title": "The user don't have any likes yet",
+            "description": "When they do, it'll show up here.",
+        },
+    },
+}
