@@ -2,6 +2,7 @@ from bottle import get, response, jinja2_template as template
 import mysql.connector
 
 from data import mobile_navigation, navigation, navigation_dropdown
+from database import get_who_to_follow
 from g import DATABASE_CONFIG
 from utils import format_time_since_epoch, get_logged_in_user, validate_user_session
 
@@ -78,29 +79,3 @@ def get_logged_in_user_tweets(logged_in_user_id, cursor):
         tweets[index]["tweet_created_at_formatted"] = format_time_since_epoch(tweet_created_at)
 
     return tweets
-
-
-def get_who_to_follow(logged_in_user_id, cursor):
-    query = f"""
-        SELECT
-            users.user_id,
-            users.user_name,
-            users.user_username,
-            users.user_profile_image,
-            COUNT(is_followed_by_logged_in_user.fk_user_to_id) AS is_followed_by_logged_in_user
-        FROM users
-            
-        LEFT JOIN followers AS is_followed_by_logged_in_user
-            ON is_followed_by_logged_in_user.fk_user_from_id = %(logged_in_user_id)s AND is_followed_by_logged_in_user.fk_user_to_id = users.user_id
-
-        WHERE NOT users.user_id = %(logged_in_user_id)s
-
-        GROUP BY users.user_id
-        HAVING COUNT(is_followed_by_logged_in_user.fk_user_from_id = %(logged_in_user_id)s AND is_followed_by_logged_in_user.fk_user_to_id = users.user_id) < 1
-        LIMIT 3
-    """
-    params = {"logged_in_user_id": logged_in_user_id}
-
-    cursor.execute(query, params)
-    who_to_follow = cursor.fetchall()
-    return who_to_follow

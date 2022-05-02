@@ -1,8 +1,9 @@
 from bottle import get, response, jinja2_template as template
 from datetime import datetime
-import mysql.connector
+from mysql import connector
 
 from data import mobile_navigation, navigation, navigation_dropdown
+from database import get_who_to_follow
 from g import DATABASE_CONFIG
 from utils import get_logged_in_user
 
@@ -12,7 +13,7 @@ def _(user_username):
     try:
         logged_in_user = get_logged_in_user()
 
-        connection = mysql.connector.connect(**DATABASE_CONFIG)
+        connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
 
         query_get_user_profile = f"""
@@ -51,6 +52,8 @@ def _(user_username):
 
         user_following = cursor.fetchall()
 
+        who_to_follow = get_who_to_follow(logged_in_user["id"], cursor)
+
         cursor.close()
         connection.close()
 
@@ -64,6 +67,7 @@ def _(user_username):
                 logged_in_user=logged_in_user,
                 user_profile=user_profile,
                 user_following=user_following,
+                who_to_follow=who_to_follow,
             ),
         )
     except Exception as ex:
