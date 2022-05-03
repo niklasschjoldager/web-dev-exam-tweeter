@@ -1,7 +1,7 @@
 from bottle import redirect, response, request, post
 
 import jwt
-import mysql.connector
+from mysql import connector
 import re
 import time
 import uuid
@@ -37,7 +37,7 @@ def _():
         return {"info": "Invalid password"}
 
     # Validate email & password with users in database
-    connection = mysql.connector.connect(**DATABASE_CONFIG)
+    connection = connector.connect(**DATABASE_CONFIG)
     cursor = connection.cursor(dictionary=True)
 
     query_login = f"""

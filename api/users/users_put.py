@@ -1,7 +1,6 @@
 from bottle import put, request, response
-import jwt
 import imghdr
-import mysql.connector
+from mysql import connector
 import os
 import uuid
 import json
@@ -24,6 +23,8 @@ from g import (
 ###########################################################
 @put("/users/<user_id:int>")
 def _(user_id):
+    connection, cursor = None, None
+
     validate_user_session()
     logged_in_user = get_logged_in_user()
 
@@ -174,7 +175,7 @@ def _(user_id):
 
         query_set_parts = ",".join(query_set_parts)
 
-        connection = mysql.connector.connect(**DATABASE_CONFIG)
+        connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
 
         query_edit_user = f"""
@@ -183,10 +184,7 @@ def _(user_id):
             WHERE user_id = %(user_id)s
         """
         cursor.execute(query_edit_user, query_params)
-
         connection.commit()
-
-        print(query_set_parts)
 
         # Success
         response.status = 200
@@ -195,3 +193,7 @@ def _(user_id):
         print(ex)
         response.status = 500
         return {"info": "Ups, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()

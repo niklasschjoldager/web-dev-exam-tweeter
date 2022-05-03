@@ -1,14 +1,14 @@
-from bottle import put, request, response
-import jwt
-import mysql.connector
+from bottle import put, response
+from mysql import connector
 import time
 
-from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
+from g import DATABASE_CONFIG
 from utils import get_logged_in_user, validate_user_session
 
 ############################################################
 @put("/users/<user_to_id:int>/follow")
 def _(user_to_id):
+    connection, cursor = None, None
 
     try:
         validate_user_session()
@@ -19,7 +19,7 @@ def _(user_to_id):
             return {"info": "User ID is not a valid ID"}
 
         # Connect to the db
-        connection = mysql.connector.connect(**DATABASE_CONFIG)
+        connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor()
 
         query_follow_user = f"""
@@ -42,3 +42,7 @@ def _(user_to_id):
         print(ex)
         response.status = 500
         return {"info": "Oops, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()

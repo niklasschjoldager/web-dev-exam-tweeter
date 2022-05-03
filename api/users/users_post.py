@@ -1,6 +1,6 @@
 from bottle import post, response, request
 import jwt
-import mysql.connector
+from mysql import connector
 import re
 import time
 import uuid
@@ -21,11 +21,13 @@ from g import (
 ############################################################
 @post("/users")
 def _():
+    connection, cursor = None, None
+
     try:
         ############################################################
         # Open Database
-        database_connection = mysql.connector.connect(**DATABASE_CONFIG)
-        database_cursor = database_connection.cursor()
+        connection = connector.connect(**DATABASE_CONFIG)
+        cursor = connection.cursor()
 
         # Validate username
         if not request.forms.get("user_username"):
@@ -54,8 +56,8 @@ def _():
             WHERE user_username = %(user_username)s
         """
 
-        database_cursor.execute(query_username, {"user_username": user_username})
-        is_username_taken = database_cursor.fetchone()
+        cursor.execute(query_username, {"user_username": user_username})
+        is_username_taken = cursor.fetchone()
 
         if is_username_taken:
             response.status = 400
@@ -79,8 +81,8 @@ def _():
             WHERE user_email = %(user_email)s
         """
 
-        database_cursor.execute(query_email, {"user_email": user_email})
-        is_email_registered = database_cursor.fetchone()
+        cursor.execute(query_email, {"user_email": user_email})
+        is_email_registered = cursor.fetchone()
 
         if is_email_registered:
             response.status = 400
@@ -133,10 +135,10 @@ def _():
             VALUES (NULL, %s, %s, %s, %s, %s, NULL, '', '1', '', '', NULL, '', '') 
         """
 
-        database_cursor.execute(query_add_user, user)
-        database_connection.commit()
+        cursor.execute(query_add_user, user)
+        connection.commit()
 
-        user_id = database_cursor.lastrowid
+        user_id = cursor.lastrowid
 
         ############################################################
 
@@ -163,8 +165,8 @@ def _():
             "user_session_user_name": user_name,
         }
 
-        database_cursor.execute(add_user_session, tuple(db_user_session.values()))
-        database_connection.commit()
+        cursor.execute(add_user_session, tuple(db_user_session.values()))
+        connection.commit()
 
         ############################################################
         # Success
@@ -178,6 +180,6 @@ def _():
         response.status = 500
         return {"info": "Ups, something went wrong"}
     finally:
-        if database_connection.is_connected():
-            database_cursor.close()
-            database_connection.close()
+        if connection and cursor:
+            cursor.close()
+            connection.close()

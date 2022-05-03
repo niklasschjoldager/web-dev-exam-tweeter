@@ -1,5 +1,5 @@
 from bottle import delete, response
-import mysql.connector
+from mysql import connector
 
 from g import DATABASE_CONFIG
 from utils import get_logged_in_user, validate_user_session
@@ -7,6 +7,7 @@ from utils import get_logged_in_user, validate_user_session
 ############################################################
 @delete("/users/<user_to_id:int>/unfollow")
 def _(user_to_id):
+    connection, cursor = None, None
 
     try:
         validate_user_session()
@@ -17,7 +18,7 @@ def _(user_to_id):
             return {"info": "User ID is not a valid ID"}
 
         # Connect to the db
-        connection = mysql.connector.connect(**DATABASE_CONFIG)
+        connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor()
 
         query_unfollow_user = f"""
@@ -39,3 +40,7 @@ def _(user_to_id):
         print(ex)
         response.status = 500
         return {"info": "Oops, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()

@@ -1,6 +1,6 @@
 from bottle import get, redirect, response, request
 import jwt
-import mysql.connector
+from mysql import connector
 
 from g import DATABASE_CONFIG
 from utils import get_logged_in_user
@@ -8,13 +8,15 @@ from utils import get_logged_in_user
 ############################################################
 @get("/logout")
 def _():
+    connection, cursor = None, None
+
     try:
         if not request.get_cookie("user_session"):
             return redirect("/")
 
         logged_in_user = get_logged_in_user()
 
-        connection = mysql.connector.connect(**DATABASE_CONFIG)
+        connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor()
 
         query_user_session = f"""
@@ -41,6 +43,6 @@ def _():
         response.delete_cookie("user_session")
         return redirect("/")
     finally:
-        if connection.is_connected():
+        if connection and cursor:
             cursor.close()
             connection.close()

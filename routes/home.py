@@ -1,5 +1,5 @@
 from bottle import get, response, jinja2_template as template
-import mysql.connector
+from mysql import connector
 
 from data import mobile_navigation, navigation, navigation_dropdown
 from database import get_who_to_follow
@@ -9,11 +9,13 @@ from utils import format_time_since_epoch, get_logged_in_user, validate_user_ses
 ############################################################
 @get("/home")
 def _():
-    validate_user_session(None, "/")
-    logged_in_user = get_logged_in_user()
+    connection, cursor = None, None
 
     try:
-        connection = mysql.connector.connect(**DATABASE_CONFIG)
+        validate_user_session(None, "/")
+        logged_in_user = get_logged_in_user()
+
+        connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
 
         tweets = get_logged_in_user_tweets(logged_in_user["id"], cursor)
@@ -35,6 +37,10 @@ def _():
         print(ex)
         response.status = 500
         return {"info": "Ups, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()
 
 
 def get_logged_in_user_tweets(logged_in_user_id, cursor):

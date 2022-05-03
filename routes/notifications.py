@@ -1,5 +1,5 @@
-from bottle import get, jinja2_template as template
-import mysql.connector
+from bottle import get, response, jinja2_template as template
+from mysql import connector
 
 from data import mobile_navigation, navigation, navigation_dropdown
 from database import get_who_to_follow
@@ -9,22 +9,32 @@ from utils import get_logged_in_user, validate_user_session
 ############################################################
 @get("/notifications")
 def _():
-    validate_user_session(None, "/")
-    logged_in_user = get_logged_in_user()
+    connection, cursor = None, None
+    try:
+        validate_user_session(None, "/")
+        logged_in_user = get_logged_in_user()
 
-    connection = mysql.connector.connect(**DATABASE_CONFIG)
-    cursor = connection.cursor(dictionary=True)
+        connection = connector.connect(**DATABASE_CONFIG)
+        cursor = connection.cursor(dictionary=True)
 
-    who_to_follow = get_who_to_follow(logged_in_user["id"], cursor)
+        who_to_follow = get_who_to_follow(logged_in_user["id"], cursor)
 
-    return template(
-        "notifications.html",
-        dict(
-            currentUrl="notifications",
-            mobile_navigation=mobile_navigation,
-            navigation=navigation,
-            navigation_dropdown=navigation_dropdown,
-            logged_in_user=logged_in_user,
-            who_to_follow=who_to_follow,
-        ),
-    )
+        return template(
+            "notifications",
+            dict(
+                currentUrl="notifications",
+                mobile_navigation=mobile_navigation,
+                navigation=navigation,
+                navigation_dropdown=navigation_dropdown,
+                logged_in_user=logged_in_user,
+                who_to_follow=who_to_follow,
+            ),
+        )
+    except Exception as ex:
+        print(ex)
+        response.status = 500
+        return {"info": "Ups, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()

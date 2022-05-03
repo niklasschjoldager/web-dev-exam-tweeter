@@ -10,6 +10,8 @@ from utils import get_logged_in_user
 ############################################################
 @get("/users/<username>/followers")
 def _(username):
+    connection, cursor = None, None
+
     try:
         logged_in_user = get_logged_in_user()
 
@@ -45,17 +47,11 @@ def _(username):
             WHERE users.user_id = followers.fk_user_from_id AND followers.fk_user_to_id = %(user_id)s
             GROUP BY users.user_id
         """
-
-        cursor.execute(
-            query_get_user_followers, {"user_id": user_profile["user_id"], "logged_in_user_id": logged_in_user["id"]}
-        )
-
+        params = {"user_id": user_profile["user_id"], "logged_in_user_id": logged_in_user["id"]}
+        cursor.execute(query_get_user_followers, params)
         user_followers = cursor.fetchall()
 
         who_to_follow = get_who_to_follow(logged_in_user["id"], cursor)
-
-        cursor.close()
-        connection.close()
 
         return template(
             "user-followers",
@@ -74,3 +70,7 @@ def _(username):
         print(ex)
         response.status = 500
         return {"info": "Ups, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()

@@ -1,7 +1,7 @@
 from bottle import post, response, request
 
 import imghdr
-import mysql.connector
+from mysql import connector
 import os
 import time
 import uuid
@@ -18,6 +18,8 @@ from g import (
 ############################################################
 @post("/tweets")
 def _():
+    connection, cursor = None, None
+
     try:
         validate_user_session()
 
@@ -94,7 +96,7 @@ def _():
 
         ############################################################
         # Connect to the db
-        connection = mysql.connector.connect(**DATABASE_CONFIG)
+        connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor()
 
         query_add_tweet = f"""
@@ -113,3 +115,7 @@ def _():
         print(ex)
         response.status = 500
         return {"info": "Ups, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()

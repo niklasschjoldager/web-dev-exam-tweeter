@@ -1,5 +1,5 @@
 from bottle import post, response
-import mysql.connector
+from mysql import connector
 import time
 
 from g import DATABASE_CONFIG
@@ -8,18 +8,19 @@ from utils import get_logged_in_user, validate_user_session
 ###########################################################
 @post("/tweets/<tweet_id:int>/like")
 def _(tweet_id):
+    connection, cursor = None, None
+
     try:
         # Validate
         validate_user_session()
+        logged_in_user = get_logged_in_user()
 
         if tweet_id < 1:
             response.status = 400
             return {"info": "Tweet ID is not a valid ID"}
 
-        logged_in_user = get_logged_in_user()
-
         # Connect to the db
-        connection = mysql.connector.connect(**DATABASE_CONFIG)
+        connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor()
 
         query_like_tweet = f"""
@@ -39,3 +40,7 @@ def _(tweet_id):
         print(ex)
         response.status = 500
         return {"info": "Ups, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()

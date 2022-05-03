@@ -10,6 +10,8 @@ from utils import format_time_since_epoch, get_logged_in_user
 ############################################################
 @get("/users/<user_username:path>/media")
 def _(user_username):
+    connection, cursor = None, None
+
     try:
         logged_in_user = get_logged_in_user()
         if logged_in_user:
@@ -46,6 +48,10 @@ def _(user_username):
         print(ex)
         response.status = 500
         return {"info": "Ups, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()
 
 
 def get_user_profile(username, cursor):

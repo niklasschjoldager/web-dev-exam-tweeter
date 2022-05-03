@@ -1,9 +1,9 @@
 from bottle import put, request, response
 import imghdr
-import mysql.connector
+import json
+from mysql import connector
 import os
 import uuid
-import json
 
 from utils import validate_user_session
 from g import (
@@ -15,17 +15,17 @@ from g import (
 )
 
 ###########################################################
-@put("/tweets/<tweet_id>")
+@put("/tweets/<tweet_id:int>")
 def _(tweet_id):
-    validate_user_session()
+    connection, cursor = None, None
 
     try:
+        validate_user_session()
+
         # Validate tweet ID
         if not tweet_id:
             response.status = 400
             return {"info": "Tweet ID is missing"}
-
-        tweet_id = int(tweet_id)
 
         if tweet_id < 1:
             response.status = 400
@@ -89,7 +89,7 @@ def _(tweet_id):
 
         # ############################################################
         # Connect to the db
-        connection = mysql.connector.connect(**DATABASE_CONFIG)
+        connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
 
         query_edit_tweet = f"""
@@ -117,3 +117,7 @@ def _(tweet_id):
         print(ex)
         response.status = 500
         return {"info": "Ups, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()

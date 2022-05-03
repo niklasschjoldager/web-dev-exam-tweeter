@@ -10,6 +10,8 @@ from utils import format_time_since_epoch, get_logged_in_user
 ############################################################
 @get("/users/<user_username:path>/likes")
 def _(user_username):
+    connection, cursor = None, None
+
     try:
         logged_in_user = get_logged_in_user()
         if logged_in_user:
@@ -23,7 +25,7 @@ def _(user_username):
         user_profile = get_user_profile(user_username, cursor)
         user_info = get_user_info(user_profile["user_id"], cursor, logged_in_user_id)
         tweets = get_tweets_liked_by_user(user_profile["user_id"], cursor, logged_in_user_id)
-        who_to_follow = get_who_to_follow(logged_in_user["id"], cursor)
+        who_to_follow = get_who_to_follow(logged_in_user_id, cursor)
 
         return template(
             "user-profile",
@@ -46,6 +48,10 @@ def _(user_username):
         print(ex)
         response.status = 500
         return {"info": "Ups, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()
 
 
 def get_user_profile(username, cursor):

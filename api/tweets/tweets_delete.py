@@ -1,6 +1,5 @@
-from bottle import delete, response, request
-import jwt
-import mysql.connector
+from bottle import delete, response
+from mysql import connector
 
 from utils import validate_user_session, get_logged_in_user
 from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
@@ -8,10 +7,12 @@ from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
 ############################################################
 @delete("/tweets/<tweet_id:int>")
 def _(tweet_id):
-    validate_user_session()
-    logged_in_user = get_logged_in_user()
+    connection, cursor = None, None
 
     try:
+        validate_user_session()
+        logged_in_user = get_logged_in_user()
+
         # Validate tweet ID
         if not tweet_id:
             response.status = 400
@@ -22,7 +23,7 @@ def _(tweet_id):
             return {"info": "Tweet ID is not a valid ID"}
 
         # Connect to the db
-        connection = mysql.connector.connect(**DATABASE_CONFIG)
+        connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor()
 
         if logged_in_user["role_id"] == 2:
@@ -54,3 +55,7 @@ def _(tweet_id):
         print(ex)
         response.status = 500
         return {"info": "Ups, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()
