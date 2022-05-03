@@ -1,6 +1,6 @@
 from bottle import error, jinja2_template as template
 
-from utils import get_logged_in_user
+from database import get_logged_in_user
 
 ############################################################
 @error(404)

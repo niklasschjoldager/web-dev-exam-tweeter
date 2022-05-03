@@ -3,9 +3,9 @@ from datetime import datetime
 from mysql import connector
 
 from data import mobile_navigation, navigation, navigation_dropdown, user_page_default_messages, user_page_tabs
-from database import get_who_to_follow
+from database import get_logged_in_user, get_who_to_follow
 from g import DATABASE_CONFIG
-from utils import format_time_since_epoch, get_logged_in_user
+from utils import format_time_since_epoch
 
 ############################################################
 @get("/users/<user_username:path>")

@@ -2,8 +2,9 @@ from bottle import post, response
 from mysql import connector
 import time
 
+from database import get_logged_in_user
 from g import DATABASE_CONFIG
-from utils import get_logged_in_user, validate_user_session
+from utils import validate_user_session
 
 ###########################################################
 @post("/tweets/<tweet_id:int>/like")

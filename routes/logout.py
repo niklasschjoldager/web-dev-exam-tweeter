@@ -2,8 +2,8 @@ from bottle import get, redirect, response, request
 import jwt
 from mysql import connector
 
+from database import get_logged_in_user
 from g import DATABASE_CONFIG
-from utils import get_logged_in_user
 
 ############################################################
 @get("/logout")

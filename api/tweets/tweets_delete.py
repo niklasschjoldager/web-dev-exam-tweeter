@@ -1,8 +1,9 @@
 from bottle import delete, response
 from mysql import connector
 
-from utils import validate_user_session, get_logged_in_user
-from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
+from database import get_logged_in_user
+from g import DATABASE_CONFIG
+from utils import validate_user_session
 
 ############################################################
 @delete("/tweets/<tweet_id:int>")

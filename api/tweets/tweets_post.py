@@ -1,12 +1,11 @@
 from bottle import post, response, request
-
 import imghdr
 from mysql import connector
 import os
 import time
 import uuid
 
-from utils import get_logged_in_user, validate_user_session
+from database import get_logged_in_user
 from g import (
     DATABASE_CONFIG,
     IMAGE_ALLOWED_FILE_EXTENSIONS,
@@ -14,6 +13,7 @@ from g import (
     TWEET_TEXT_MAX_LENGTH,
     TWEET_TEXT_MIN_LENGTH,
 )
+from utils import validate_user_session
 
 ############################################################
 @post("/tweets")

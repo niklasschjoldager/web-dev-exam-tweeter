@@ -52,51 +52,6 @@ def validate_user_session(successUrl=None, errorUrl=None):
             return
 
 
-def get_logged_in_user():
-    try:
-        if not request.get_cookie("user_session", secret=JSON_WEB_TOKEN_SECRET):
-            return None
-
-        user_session_cookie = request.get_cookie("user_session", secret=JSON_WEB_TOKEN_SECRET)
-        decoded_user_session = jwt.decode(user_session_cookie, JSON_WEB_TOKEN_SECRET, algorithms=["HS256"])
-        user_id = decoded_user_session["user_session_fk_user_id"]
-
-        connection = mysql.connector.connect(**DATABASE_CONFIG)
-        cursor = connection.cursor(dictionary=True)
-
-        query_user_data = f"""
-            SELECT
-                users.user_id AS id,
-                users.user_username AS username,
-                users.user_name AS name,
-                users.user_email AS email,
-                users.user_created_at AS created_at,
-                users.user_bio AS bio,
-                users.user_website AS website,
-                users.user_location AS location,
-                users.user_profile_image AS profile_image,
-                users.user_cover_image AS cover_image,
-                users.fk_user_roles_id AS role_id,
-                (SELECT COUNT(*) FROM followers WHERE followers.fk_user_from_id = %(user_id)s) AS following,
-                (SELECT COUNT(*) FROM followers WHERE followers.fk_user_to_id = %(user_id)s) AS followers
-            FROM users
-
-            WHERE users.user_id = %(user_id)s
-        """
-
-        cursor.execute(query_user_data, {"user_id": user_id})
-        logged_in_user = cursor.fetchone()
-
-        cursor.close()
-        connection.close()
-
-        return logged_in_user
-
-    except Exception as ex:
-        print(ex)
-        return None
-
-
 def format_time_since_epoch(seconds):
     currentTime = int(time.time())
     seconds_since_created = currentTime - seconds

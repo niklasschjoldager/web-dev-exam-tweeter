@@ -3,7 +3,7 @@ from operator import itemgetter
 from mysql import connector
 
 from data import mobile_navigation, navigation, navigation_dropdown
-from utils import get_logged_in_user
+from database import get_logged_in_user
 from g import DATABASE_CONFIG
 
 ############################################################

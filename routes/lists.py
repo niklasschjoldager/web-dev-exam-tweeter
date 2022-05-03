@@ -2,9 +2,9 @@ from bottle import get, response, jinja2_template as template
 from mysql import connector
 
 from data import mobile_navigation, navigation, navigation_dropdown
-from database import get_who_to_follow
+from database import get_logged_in_user, get_who_to_follow
 from g import DATABASE_CONFIG
-from utils import get_logged_in_user, validate_user_session
+from utils import validate_user_session
 
 ############################################################
 @get("/lists")

@@ -1,11 +1,9 @@
 from bottle import get, response, jinja2_template as template
-from datetime import datetime
 from mysql import connector
 
 from data import mobile_navigation, navigation, navigation_dropdown
-from database import get_who_to_follow
+from database import get_logged_in_user, get_who_to_follow, get_user_profile
 from g import DATABASE_CONFIG
-from utils import get_logged_in_user
 
 ############################################################
 @get("/users/<user_username>/following")
@@ -18,40 +16,8 @@ def _(user_username):
         connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
 
-        query_get_user_profile = f"""
-            SELECT *
-            FROM users
-            WHERE user_username = %(user_username)s
-        """
-
-        cursor.execute(query_get_user_profile, {"user_username": user_username})
-        user_profile = cursor.fetchone()
-        user_joined = datetime.fromtimestamp(user_profile["user_created_at"]).strftime("%B %Y")
-        user_profile["user_joined"] = user_joined
-
-        query_get_user_following = f"""
-            SELECT
-                users.user_id,
-                users.user_name,
-                users.user_username,
-                users.user_profile_image,
-                COUNT(is_followed_by_logged_in_user.fk_user_to_id) AS is_followed_by_logged_in_user
-            FROM users
-
-            LEFT JOIN followers
-                ON followers.fk_user_from_id = %(user_id)s
-                
-            LEFT JOIN followers AS is_followed_by_logged_in_user
-                ON is_followed_by_logged_in_user.fk_user_from_id = %(logged_in_user_id)s AND is_followed_by_logged_in_user.fk_user_to_id = users.user_id
-
-            WHERE users.user_id = followers.fk_user_to_id
-            GROUP BY users.user_id
-        """
-
-        params = {"user_id": user_profile["user_id"], "logged_in_user_id": logged_in_user["id"]}
-        cursor.execute(query_get_user_following, params)
-
-        user_following = cursor.fetchall()
+        user_profile = get_user_profile(user_username, cursor)
+        user_following = get_user_following(user_profile["user_id"], logged_in_user["id"], cursor)
         who_to_follow = get_who_to_follow(logged_in_user["id"], cursor)
 
         return template(
@@ -75,3 +41,29 @@ def _(user_username):
         if connection and cursor:
             cursor.close()
             connection.close()
+
+
+def get_user_following(user_id, logged_in_user_id, cursor):
+    query = f"""
+        SELECT
+            users.user_id,
+            users.user_name,
+            users.user_username,
+            users.user_profile_image,
+            COUNT(is_followed_by_logged_in_user.fk_user_to_id) AS is_followed_by_logged_in_user
+        FROM users
+
+        LEFT JOIN followers
+            ON followers.fk_user_from_id = %(user_id)s
+            
+        LEFT JOIN followers AS is_followed_by_logged_in_user
+            ON is_followed_by_logged_in_user.fk_user_from_id = %(logged_in_user_id)s AND is_followed_by_logged_in_user.fk_user_to_id = users.user_id
+
+        WHERE users.user_id = followers.fk_user_to_id
+        GROUP BY users.user_id
+    """
+    params = {"user_id": user_id, "logged_in_user_id": logged_in_user_id}
+    cursor.execute(query, params)
+    user_following = cursor.fetchall()
+
+    return user_following

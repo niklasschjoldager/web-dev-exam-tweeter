@@ -1,8 +1,9 @@
 from bottle import delete, response
 from mysql import connector
 
+from database import get_logged_in_user
 from g import DATABASE_CONFIG
-from utils import get_logged_in_user, validate_user_session
+from utils import validate_user_session
 
 ############################################################
 @delete("/users/<user_to_id:int>/unfollow")

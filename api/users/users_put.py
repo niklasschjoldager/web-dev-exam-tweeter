@@ -5,7 +5,7 @@ import os
 import uuid
 import json
 
-from utils import validate_user_session, get_logged_in_user
+from database import get_logged_in_user
 from g import (
     DATABASE_CONFIG,
     IMAGE_ALLOWED_FILE_EXTENSIONS,
@@ -19,6 +19,7 @@ from g import (
     USER_WEBSITE_MAX_LENGTH,
     USER_WEBSITE_MIN_LENGTH,
 )
+from utils import validate_user_session
 
 ###########################################################
 @put("/users/<user_id:int>")
