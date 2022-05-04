@@ -1,6 +1,5 @@
 export default async function handleLikeTweet(id, target) {
   const likeTweet = await requestLikeTweet(id)
-  // TODO: Validation
   displayLike(target)
 }
 

@@ -13,13 +13,18 @@ def _(username):
     try:
         logged_in_user = get_logged_in_user()
 
+        if logged_in_user:
+            logged_in_user_id = logged_in_user.get("id")
+        else:
+            logged_in_user_id = None
+
         connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
 
         user_profile = get_user_profile(username, cursor)
-        user_followers = get_user_followers(user_profile["user_id"], logged_in_user["id"], cursor)
+        user_followers = get_user_followers(user_profile["user_id"], cursor, logged_in_user_id)
 
-        who_to_follow = get_who_to_follow(logged_in_user["id"], cursor)
+        who_to_follow = get_who_to_follow(logged_in_user_id, cursor)
 
         return template(
             "user-followers",
@@ -44,7 +49,7 @@ def _(username):
             connection.close()
 
 
-def get_user_followers(user_id, logged_in_user_id, cursor):
+def get_user_followers(user_id, cursor, logged_in_user_id=0):
     query = f"""
         SELECT
             users.user_id,

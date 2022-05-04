@@ -1306,11 +1306,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 0.25rem;
 }
 
-.py-\[3\.25rem\] {
-  padding-top: 3.25rem;
-  padding-bottom: 3.25rem;
-}
-
 .pl-14 {
   padding-left: 3.5rem;
 }
@@ -1363,24 +1358,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 1.5rem;
 }
 
-.pl-8 {
-  padding-left: 2rem;
-}
-
-.pb-\[3\.25rem\] {
-  padding-bottom: 3.25rem;
-}
-
-.pb-24 {
-  padding-bottom: 6rem;
-}
-
-.pb-32 {
-  padding-bottom: 8rem;
-}
-
 .pb-44 {
   padding-bottom: 11rem;
+}
+
+.pl-8 {
+  padding-left: 2rem;
 }
 
 .text-left {
@@ -1798,8 +1781,8 @@ label.is-invalid {
   cursor: default;
 }
 
-.disabled\:border-opacity-40:disabled {
-  --tw-border-opacity: 0.4;
+.disabled\:border-opacity-0:disabled {
+  --tw-border-opacity: 0;
 }
 
 .disabled\:bg-opacity-40:disabled {
@@ -2087,21 +2070,6 @@ label.is-invalid {
 
   .minHminW\:hidden {
     display: none;
-  }
-
-  .minHminW\:py-\[3\.25rem\] {
-    padding-top: 3.25rem;
-    padding-bottom: 3.25rem;
-  }
-
-  .minHminW\:py-\[3\.5rem\] {
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
-  }
-
-  .minHminW\:py-0 {
-    padding-top: 0px;
-    padding-bottom: 0px;
   }
 
   .minHminW\:pb-4 {

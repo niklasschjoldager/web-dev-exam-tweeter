@@ -12,81 +12,96 @@ from utils import validate_user_session
 @post("/login")
 def _():
     validate_user_session("/home")
+    connection, cursor = None, None
 
-    # Validate email
-    if not request.forms.get("user_email"):
-        response.status = 400
-        return {"info": "Missing email"}
+    try:
+        # Validate email
+        if not request.forms.get("user_email"):
+            response.status = 400
+            return {"info": "Missing email"}
 
-    user_email = request.forms.get("user_email").strip()
+        user_email = request.forms.get("user_email").strip()
 
-    if not re.match(REGEX_EMAIL, user_email):
-        response.status = 400
-        return {"info": "Email is not invalid"}
+        if not re.match(REGEX_EMAIL, user_email):
+            response.status = 400
+            return {"info": "Email is not valid"}
 
-    # Validate Password
-    if not request.forms.get("user_password"):
-        response.status = 400
-        return {"info": "Missing password"}
+        # Validate Password
+        if not request.forms.get("user_password"):
+            response.status = 400
+            return {"info": "Missing password"}
 
-    user_password = request.forms.get("user_password")
+        user_password = request.forms.get("user_password")
 
-    if not re.match(REGEX_PASSWORD, user_password):
-        response.status = 400
-        return {"info": "Invalid password"}
+        if not re.match(REGEX_PASSWORD, user_password):
+            response.status = 400
+            return {"info": "Invalid password"}
 
-    # Validate email & password with users in database
-    connection = connector.connect(**DATABASE_CONFIG)
-    cursor = connection.cursor(dictionary=True)
+        # Validate email & password with users in database
+        connection = connector.connect(**DATABASE_CONFIG)
+        cursor = connection.cursor(dictionary=True)
 
-    query_login = f"""
-        SELECT *
-        FROM users
-        WHERE user_email = %(user_email)s
-    """
+        user = get_user_by_email(user_email, cursor)
 
-    cursor.execute(query_login, {"user_email": user_email})
-    user_in_database = cursor.fetchone()
+        if not user:
+            response.status = 400
+            return {"info": "E-mail does not exist"}
 
-    if not user_in_database:
-        response.status = 400
-        return {"info": "E-mail does not exist"}
+        if user["user_password"] != user_password:
+            response.status = 400
+            return {"info": "Wrong password"}
 
-    if user_in_database["user_password"] != user_password:
-        response.status = 400
-        return {"info": "Wrong password"}
+        # Create user session
+        user_session = {
+            "user_session_id": str(uuid.uuid4()),
+            "user_session_iat": int(time.time()),
+            "user_session_fk_user_id": user["user_id"],
+        }
 
-    user_session_id = str(uuid.uuid4())
-    user_session_iat = int(time.time())
+        # Add user session
+        post_user_session(user_session, cursor)
+        connection.commit()
 
-    # Create user session
-    db_user_session = {
-        "user_session_id": user_session_id,
-        "user_session_iat": user_session_iat,
-        "user_session_fk_user_id": user_in_database["user_id"],
-    }
+        encoded_jwt = jwt.encode(user_session, JSON_WEB_TOKEN_SECRET, algorithm="HS256")
+        response.set_cookie("user_session", encoded_jwt, secret=JSON_WEB_TOKEN_SECRET)
 
-    cookie_user_session = {
-        "user_session_id": user_session_id,
-        "user_session_iat": user_session_iat,
-        "user_session_fk_user_id": user_in_database["user_id"],
-        "user_session_user_username": user_in_database["user_username"],
-        "user_session_user_name": user_in_database["user_name"],
-        "user_session_user_profile_image": user_in_database["user_profile_image"],
-        "user_session_user_cover_image": user_in_database["user_cover_image"],
-    }
+        return redirect("/home")
+    except jwt.exceptions.InvalidTokenError as ex:
+        print(ex)
+        response.status = 500
+        return {"info": "Ups, something went wrong"}
+    finally:
+        if connection and cursor:
+            cursor.close()
+            connection.close()
 
-    # Add user session
-    query_add_user_session = f"""
+
+def post_user_session(session, cursor):
+    try:
+        query = f"""
             INSERT INTO user_sessions (user_session_id, user_session_iat, user_session_fk_user_id) 
             VALUES (%s, %s, %s)
         """
-    cursor.execute(query_add_user_session, tuple(db_user_session.values()))
-    connection.commit()
-    cursor.close()
-    connection.close()
+        params = tuple(session.values())
+        cursor.execute(query, params)
+        return cursor.lastrowid
+    except Exception as ex:
+        print(ex)
+        return None
 
-    encoded_jwt = jwt.encode(cookie_user_session, JSON_WEB_TOKEN_SECRET, algorithm="HS256")
-    response.set_cookie("user_session", encoded_jwt, secret=JSON_WEB_TOKEN_SECRET)
 
-    return redirect("/home")
+def get_user_by_email(email, cursor):
+    try:
+        query = f"""
+            SELECT *
+            FROM users
+            WHERE user_email = %(user_email)s
+        """
+        params = {"user_email": email}
+        cursor.execute(query, params)
+        user = cursor.fetchone()
+
+        return user
+    except Exception as ex:
+        print(ex)
+        return None

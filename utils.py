@@ -53,8 +53,8 @@ def validate_user_session(successUrl=None, errorUrl=None):
 
 
 def format_time_since_epoch(seconds):
-    currentTime = int(time.time())
-    seconds_since_created = currentTime - seconds
+    current_time = int(time.time())
+    seconds_since_created = current_time - seconds
 
     if seconds_since_created < 60:
         return f"{seconds_since_created}s"
@@ -67,4 +67,10 @@ def format_time_since_epoch(seconds):
     if hours_since_created < 24:
         return f"{hours_since_created}h"
 
-    return datetime.datetime.fromtimestamp(seconds_since_created).strftime("%d %b")
+    year_created = datetime.datetime.fromtimestamp(seconds_since_created).strftime("%Y")
+    current_year = datetime.datetime.fromtimestamp(current_time).strftime("%Y")
+
+    if current_year == year_created:
+        return datetime.datetime.fromtimestamp(seconds_since_created).strftime("%d %b")
+
+    return datetime.datetime.fromtimestamp(seconds).strftime("%d %b, %Y")

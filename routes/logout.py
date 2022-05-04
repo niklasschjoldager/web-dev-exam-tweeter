@@ -16,24 +16,17 @@ def _():
 
         logged_in_user = get_logged_in_user()
 
+        if not logged_in_user:
+            response.delete_cookie("user_session")
+            return redirect("/")
+
         connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor()
 
-        query_user_session = f"""
-            SELECT *
-            FROM user_sessions
-            WHERE user_session_id = %(user_session_id)s
-        """
+        user_session = get_user_session(logged_in_user["id"], cursor)
 
-        cursor.execute(query_user_session, {"user_session_id": logged_in_user["id"]})
-        user_session_in_database = cursor.fetchone()
-
-        if user_session_in_database:
-            query_delete_user_session = f"""
-                DELETE FROM user_sessions
-                WHERE user_session_id = %(user_session_id)s
-            """
-            cursor.execute(query_delete_user_session, {"user_session_id": logged_in_user["id"]})
+        if user_session:
+            delete_user_session(logged_in_user["id"], cursor)
             connection.commit()
 
         response.delete_cookie("user_session")
@@ -46,3 +39,26 @@ def _():
         if connection and cursor:
             cursor.close()
             connection.close()
+
+
+def get_user_session(logged_in_user_id, cursor):
+    query = f"""
+        SELECT *
+        FROM user_sessions
+        WHERE user_session_id = %(user_session_id)s
+    """
+    params = {"user_session_id": logged_in_user_id}
+
+    cursor.execute(query, params)
+    user_session = cursor.fetchone()
+
+    return user_session
+
+
+def delete_user_session(logged_in_user_id, cursor):
+    query = f"""
+        DELETE FROM user_sessions
+        WHERE user_session_id = %(user_session_id)s
+    """
+    params = {"user_session_id": logged_in_user_id}
+    cursor.execute(query, params)

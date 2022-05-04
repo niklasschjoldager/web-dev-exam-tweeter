@@ -1,6 +1,5 @@
 export default async function handleUnlikeTweet(id, target) {
   const unlikeTweet = await requestUnlikeTweet(id)
-  // TODO: Validation
   displayUnlike(target)
 }
 

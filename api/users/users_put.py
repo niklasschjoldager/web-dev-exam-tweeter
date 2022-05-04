@@ -25,7 +25,6 @@ from utils import validate_user_session
 @put("/users/<user_id:int>")
 def _(user_id):
     connection, cursor = None, None
-
     validate_user_session()
     logged_in_user = get_logged_in_user()
 

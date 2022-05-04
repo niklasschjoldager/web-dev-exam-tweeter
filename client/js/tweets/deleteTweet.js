@@ -1,5 +1,4 @@
 export default async function handleDeleteTweet(id, tweet) {
-  // TODO: Validate
   const template = document.querySelector("[data-template=modal-delete-tweet]").content.cloneNode(true)
   const modal = template.querySelector("[data-modal=delete-tweet]")
   const deleteButton = template.querySelector("[data-modal-action=delete]")

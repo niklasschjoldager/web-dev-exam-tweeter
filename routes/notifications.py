@@ -9,15 +9,17 @@ from utils import validate_user_session
 ############################################################
 @get("/notifications")
 def _():
-    connection, cursor = None, None
+    validate_user_session(None, "/")
+    connection, cursor, who_to_follow = None, None, None
+
     try:
-        validate_user_session(None, "/")
         logged_in_user = get_logged_in_user()
 
-        connection = connector.connect(**DATABASE_CONFIG)
-        cursor = connection.cursor(dictionary=True)
+        if logged_in_user:
+            connection = connector.connect(**DATABASE_CONFIG)
+            cursor = connection.cursor(dictionary=True)
 
-        who_to_follow = get_who_to_follow(logged_in_user["id"], cursor)
+            who_to_follow = get_who_to_follow(logged_in_user["id"], cursor)
 
         return template(
             "notifications",

@@ -9,6 +9,7 @@ import { handleAddImage, handleRemoveImage } from "../utils.js"
 export function displayTweet(tweet) {
   const {
     tweet_id: id,
+    tweet_created_at_formatted: createdAtFormatted,
     tweet_image_file_name: imageFileName,
     tweet_text: text,
     user_username: username,
@@ -27,6 +28,8 @@ export function displayTweet(tweet) {
   template.querySelector("[data-field=username]").textContent = `@${username}`
   template.querySelector("[data-field=name-link]").href = `/users/${username}`
   template.querySelector("[data-field=name]").textContent = name
+  template.querySelector("[data-field=date]").textContent = createdAtFormatted
+
   if (profileImage) {
     template.querySelector("[data-field=profile-image]").src = `/static/users/${profileImage}`
   } else {

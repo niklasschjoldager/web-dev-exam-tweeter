@@ -8,10 +8,10 @@ from utils import validate_user_session
 ############################################################
 @delete("/tweets/<tweet_id:int>")
 def _(tweet_id):
+    validate_user_session()
     connection, cursor = None, None
 
     try:
-        validate_user_session()
         logged_in_user = get_logged_in_user()
 
         # Validate tweet ID

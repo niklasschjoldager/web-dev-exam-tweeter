@@ -9,17 +9,18 @@ from utils import format_time_since_epoch, validate_user_session
 ############################################################
 @get("/home")
 def _():
-    connection, cursor = None, None
+    validate_user_session(None, "/")
+    connection, cursor, tweets, who_to_follow = None, None, None, None
 
     try:
-        validate_user_session(None, "/")
         logged_in_user = get_logged_in_user()
 
         connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
 
-        tweets = get_logged_in_user_tweets(logged_in_user["id"], cursor)
-        who_to_follow = get_who_to_follow(logged_in_user["id"], cursor)
+        if logged_in_user:
+            tweets = get_logged_in_user_tweets(logged_in_user["id"], cursor)
+            who_to_follow = get_who_to_follow(logged_in_user["id"], cursor)
 
         return template(
             "home",

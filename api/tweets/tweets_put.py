@@ -17,11 +17,10 @@ from g import (
 ###########################################################
 @put("/tweets/<tweet_id:int>")
 def _(tweet_id):
+    validate_user_session()
     connection, cursor = None, None
 
     try:
-        validate_user_session()
-
         # Validate tweet ID
         if not tweet_id:
             response.status = 400

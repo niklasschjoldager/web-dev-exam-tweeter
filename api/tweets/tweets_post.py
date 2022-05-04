@@ -13,16 +13,15 @@ from g import (
     TWEET_TEXT_MAX_LENGTH,
     TWEET_TEXT_MIN_LENGTH,
 )
-from utils import validate_user_session
+from utils import validate_user_session, format_time_since_epoch
 
 ############################################################
 @post("/tweets")
 def _():
+    validate_user_session()
     connection, cursor = None, None
 
     try:
-        validate_user_session()
-
         logged_in_user = get_logged_in_user()
 
         ############################################################
@@ -86,6 +85,7 @@ def _():
         response_tweet = {
             "tweet_fk_user_id": logged_in_user["id"],
             "tweet_created_at": tweet_created_at,
+            "tweet_created_at_formatted": format_time_since_epoch(tweet_created_at),
             "tweet_text": tweet_text,
             "tweet_fk_media_type_id": 1,
             "tweet_image_file_name": image_url,

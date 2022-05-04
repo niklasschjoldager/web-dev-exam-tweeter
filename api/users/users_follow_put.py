@@ -9,10 +9,10 @@ from utils import validate_user_session
 ############################################################
 @put("/users/<user_to_id:int>/follow")
 def _(user_to_id):
+    validate_user_session()
     connection, cursor = None, None
 
     try:
-        validate_user_session()
         logged_in_user = get_logged_in_user()
 
         if user_to_id < 1:

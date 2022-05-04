@@ -9,11 +9,11 @@ from utils import validate_user_session
 ###########################################################
 @post("/tweets/<tweet_id:int>/like")
 def _(tweet_id):
+    validate_user_session()
     connection, cursor = None, None
 
     try:
         # Validate
-        validate_user_session()
         logged_in_user = get_logged_in_user()
 
         if tweet_id < 1:
