@@ -7,11 +7,29 @@
 
 {% block topbar -%}
   <div class="flex items-center gap-8">
-    {{ iconButton(text="Close", color="black-200", icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Arrow Back</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>', classes="sm:hidden", attributes='data-button="back" type="button"') }}
+    {{ iconButton(as="a", text="Close", color="black-200", icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Arrow Back</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>', classes="sm:hidden", attributes='type="button" href="/home"') }}
     <h1 class="text-lg font-bold">Notifications</h1>
   </div>
 {% endblock %}
 
 {% block content -%}
-  <h1>Hello Notifications</h1>
+  <ul class="flex overflow-x-auto border-b border-gray-200">
+      <li class="flex-grow">
+        <button class="block w-full px-6 text-sm font-bold text-center transition-colors text-black-200 hover:bg-black-200/10">
+          <div class="inline-flex flex-col">
+            <div class="py-4 whitespace-nowrap">All</div> 
+            <div class="w-full min-w-[4rem] h-1 rounded-full bg-primary-200"></div>
+          </div>
+        </button>
+      </li>
+      <li class="flex-grow">
+        <button class="block w-full h-full px-6 py-4 text-sm font-bold text-center text-gray-400 transition-colors whitespace-nowrap hover:bg-black-200/10">Mentions</>
+      </li>
+  </ul>
+  <section>
+    <div class="max-w-sm p-8 mx-auto">
+      <h1 class="mb-2 text-3xl font-black">Nothing to see here — yet</h1>
+      <p class="mb-8 text-sm text-gray-400">When something happens, you&apos;ll find it here.</p>
+    </div>
+  </section>
 {% endblock %}

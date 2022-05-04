@@ -8,7 +8,7 @@
 
 {% block topbar %}
   <div class="flex items-center gap-8">
-    {{ iconButton(text="Close", color="black-200", icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Arrow Back</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>', classes="sm:hidden", attributes='data-button="back" type="button"') }}
+    {{ iconButton(as="a", text="Close", color="black-200", icon='<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Arrow Back</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>', classes="sm:hidden", attributes='type="button" href="/home"') }}
     <div>
       <p class="flex items-center gap-2 text-lg font-bold">
         <span>{{ user_profile["user_name"] }}</span>
