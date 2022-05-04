@@ -67,7 +67,7 @@ def format_time_since_epoch(seconds):
     if hours_since_created < 24:
         return f"{hours_since_created}h"
 
-    year_created = datetime.datetime.fromtimestamp(seconds_since_created).strftime("%Y")
+    year_created = datetime.datetime.fromtimestamp(seconds).strftime("%Y")
     current_year = datetime.datetime.fromtimestamp(current_time).strftime("%Y")
 
     if current_year == year_created:
