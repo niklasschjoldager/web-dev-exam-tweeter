@@ -75,7 +75,7 @@ def _():
         tweet_created_at = int(time.time())
 
         db_tweet = {
-            "tweet_fk_user_id": logged_in_user["id"],
+            "fk_user_id": logged_in_user["id"],
             "tweet_created_at": tweet_created_at,
             "tweet_text": tweet_text,
             "tweet_fk_media_type_id": 1,
@@ -83,7 +83,7 @@ def _():
         }
 
         response_tweet = {
-            "tweet_fk_user_id": logged_in_user["id"],
+            "fk_user_id": logged_in_user["id"],
             "tweet_created_at": tweet_created_at,
             "tweet_created_at_formatted": format_time_since_epoch(tweet_created_at),
             "tweet_text": tweet_text,
@@ -100,7 +100,7 @@ def _():
         cursor = connection.cursor()
 
         query_add_tweet = f"""
-            INSERT INTO tweets (tweet_fk_user_id, tweet_created_at, tweet_text, tweet_fk_media_type_id, tweet_image_file_name) 
+            INSERT INTO tweets (fk_user_id, tweet_created_at, tweet_text, tweet_fk_media_type_id, tweet_image_file_name) 
             VALUES (%s, %s, %s, %s, %s)
         """
 

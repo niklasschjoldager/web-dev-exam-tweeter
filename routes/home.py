@@ -49,30 +49,32 @@ def get_logged_in_user_tweets(logged_in_user_id, cursor):
         SELECT
             tweets.tweet_id,
             tweets.tweet_text,
-            tweets.tweet_fk_user_id,
+            tweets.fk_user_id,
             tweets.tweet_created_at,
             tweets.tweet_image_file_name,
-            COUNT(likes_quantity.fk_tweet_id) AS tweet_likes,
-            COUNT(is_liked_by_user.fk_user_id) AS is_liked_by_user,
+            tweets.tweet_total_likes,
             users.user_username,
             users.user_name,
             users.user_profile_image,
+            COUNT(is_liked_by_user.fk_user_id) AS is_liked_by_user,
             COUNT(is_tweet_creator_followed_by_user.fk_user_to_id) AS is_tweet_creator_followed_by_user
         FROM tweets
 
-        LEFT JOIN likes AS likes_quantity
-            ON likes_quantity.fk_tweet_id = tweets.tweet_id
+        JOIN users 
+            ON users.user_id = tweets.fk_user_id
 
         LEFT JOIN likes AS is_liked_by_user
-            ON is_liked_by_user.fk_tweet_id = tweets.tweet_id AND is_liked_by_user.fk_user_id = %(user_id)s
-            
-        LEFT JOIN users 
-            ON users.user_id = tweets.tweet_fk_user_id
+            ON is_liked_by_user.fk_tweet_id = tweets.tweet_id 
+            AND is_liked_by_user.fk_user_id = %(user_id)s
             
         LEFT JOIN followers AS is_tweet_creator_followed_by_user
-            ON is_tweet_creator_followed_by_user.fk_user_from_id = %(user_id)s AND is_tweet_creator_followed_by_user.fk_user_to_id = tweets.tweet_fk_user_id
+            ON is_tweet_creator_followed_by_user.fk_user_from_id = %(user_id)s 
+            AND is_tweet_creator_followed_by_user.fk_user_to_id = tweets.fk_user_id
 
-        WHERE tweets.tweet_fk_user_id = %(user_id)s OR tweets.tweet_fk_user_id IN(SELECT fk_user_to_id FROM followers WHERE fk_user_from_id = %(user_id)s)
+        WHERE tweets.fk_user_id = %(user_id)s 
+        OR tweets.fk_user_id IN(
+            SELECT fk_user_to_id FROM followers WHERE fk_user_from_id = %(user_id)s
+        )
         GROUP BY tweets.tweet_id
         ORDER BY tweets.tweet_created_at DESC
     """

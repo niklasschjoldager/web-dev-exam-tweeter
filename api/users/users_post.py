@@ -143,7 +143,7 @@ def _():
         ############################################################
 
         add_user_session = f"""
-            INSERT INTO user_sessions (user_session_id, user_session_iat, user_session_fk_user_id) 
+            INSERT INTO user_sessions (user_session_id, user_session_iat, fk_user_id) 
             VALUES (%s, %s, %s)
         """
 
@@ -154,13 +154,13 @@ def _():
         db_user_session = {
             "user_session_id": user_session_id,
             "user_session_iat": user_session_iat,
-            "user_session_fk_user_id": user_id,
+            "fk_user_id": user_id,
         }
 
         cookie_user_session = {
             "user_session_id": user_session_id,
             "user_session_iat": user_session_iat,
-            "user_session_fk_user_id": user_id,
+            "fk_user_id": user_id,
             "user_session_user_username": user_username,
             "user_session_user_name": user_name,
         }

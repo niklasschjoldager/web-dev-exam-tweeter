@@ -76,7 +76,7 @@ def get_user_info(user_id, cursor, logged_in_user_id=0):
         SELECT
             (SELECT COUNT(*) 
                 FROM tweets 
-                WHERE tweets.tweet_fk_user_id = %(user_profile_id)s) AS tweets,
+                WHERE tweets.fk_user_id = %(user_profile_id)s) AS tweets,
             (SELECT COUNT(*) 
                 FROM followers 
                 WHERE followers.fk_user_to_id = %(user_profile_id)s) AS followers,
@@ -102,33 +102,30 @@ def get_tweets_liked_by_user(user_id, cursor, logged_in_user_id=0):
         SELECT 
             tweets.tweet_id, 
             tweets.tweet_text, 
-            tweets.tweet_fk_user_id, 
+            tweets.fk_user_id, 
             tweets.tweet_created_at, 
             tweets.tweet_image_file_name, 
-            COUNT(likes_quantity.fk_tweet_id) AS tweet_likes, 
-            COUNT(is_liked_by_user.fk_user_id) AS is_liked_by_user, 
+            tweets.tweet_total_likes,
             users.user_username, 
             users.user_name,
             users.user_profile_image,
+            COUNT(is_liked_by_user.fk_user_id) AS is_liked_by_user,
             COUNT(is_tweet_creator_followed_by_user.fk_user_to_id) AS is_tweet_creator_followed_by_user
         FROM tweets
 
+        LEFT JOIN users 
+            ON users.user_id = tweets.fk_user_id
+
         LEFT JOIN likes
             ON likes.fk_tweet_id = tweets.tweet_id
-
-        LEFT JOIN likes AS likes_quantity 
-            ON likes_quantity.fk_tweet_id = tweets.tweet_id
             
         LEFT JOIN likes AS is_liked_by_user 
             ON is_liked_by_user.fk_tweet_id = tweets.tweet_id 
             AND is_liked_by_user.fk_user_id = %(logged_in_user_id)s
-            
-        LEFT JOIN users 
-            ON users.user_id = tweets.tweet_fk_user_id
 
         LEFT JOIN followers AS is_tweet_creator_followed_by_user
             ON is_tweet_creator_followed_by_user.fk_user_from_id = %(logged_in_user_id)s 
-            AND is_tweet_creator_followed_by_user.fk_user_to_id = tweets.tweet_fk_user_id
+            AND is_tweet_creator_followed_by_user.fk_user_to_id = tweets.fk_user_id
 
         WHERE likes.fk_tweet_id = tweets.tweet_id 
         AND likes.fk_user_id = %(user_profile_id)s

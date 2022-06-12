@@ -38,7 +38,7 @@ def _(tweet_id):
             # Delete the tweet as normal user
             query_delete_tweet = f"""
                 DELETE FROM tweets
-                WHERE tweet_id = %(tweet_id)s AND tweet_fk_user_id = %(user_id)s
+                WHERE tweet_id = %(tweet_id)s AND fk_user_id = %(user_id)s
             """
             cursor.execute(query_delete_tweet, {"tweet_id": tweet_id, "user_id": logged_in_user["id"]})
 

@@ -32,9 +32,7 @@ def _():
                 for user in users:
                     if user["user_name"][0].lower() == letter:
                         if tweets:
-                            user["user_tweets"] = [
-                                tweet for tweet in tweets if tweet["tweet_fk_user_id"] == user["user_id"]
-                            ]
+                            user["user_tweets"] = [tweet for tweet in tweets if tweet["fk_user_id"] == user["user_id"]]
                         user_list["users"].append(user)
                 if len(user_list["users"]):
                     sorted_users.append(user_list)
@@ -79,10 +77,10 @@ def get_all_tweets(cursor, logged_in_user_id=0):
             SELECT
                 tweets.tweet_id,
                 tweets.tweet_text,
-                tweets.tweet_fk_user_id,
+                tweets.fk_user_id,
                 tweets.tweet_created_at,
                 tweets.tweet_image_file_name,
-                COUNT(likes_quantity.fk_tweet_id) AS tweet_likes,
+                tweets.tweet_total_likes,
                 COUNT(is_liked_by_user.fk_user_id) AS is_liked_by_user,
                 users.user_username,
                 users.user_name,
@@ -90,17 +88,16 @@ def get_all_tweets(cursor, logged_in_user_id=0):
                 COUNT(is_tweet_creator_followed_by_user.fk_user_to_id) AS is_tweet_creator_followed_by_user
             FROM tweets
 
-            LEFT JOIN likes AS likes_quantity
-                ON likes_quantity.fk_tweet_id = tweets.tweet_id
+            LEFT JOIN users 
+                ON users.user_id = tweets.fk_user_id
 
             LEFT JOIN likes AS is_liked_by_user
-                ON is_liked_by_user.fk_tweet_id = tweets.tweet_id AND is_liked_by_user.fk_user_id = %(user_id)s
-                
-            LEFT JOIN users 
-                ON users.user_id = tweets.tweet_fk_user_id
+                ON is_liked_by_user.fk_tweet_id = tweets.tweet_id 
+                AND is_liked_by_user.fk_user_id = %(user_id)s
                 
             LEFT JOIN followers AS is_tweet_creator_followed_by_user
-                ON is_tweet_creator_followed_by_user.fk_user_from_id = %(user_id)s AND is_tweet_creator_followed_by_user.fk_user_to_id = tweets.tweet_fk_user_id
+                ON is_tweet_creator_followed_by_user.fk_user_from_id = %(user_id)s 
+                AND is_tweet_creator_followed_by_user.fk_user_to_id = tweets.fk_user_id
 
             GROUP BY tweets.tweet_id
             ORDER BY tweets.tweet_created_at DESC

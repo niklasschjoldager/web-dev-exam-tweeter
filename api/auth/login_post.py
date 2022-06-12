@@ -55,7 +55,7 @@ def _():
         user_session = {
             "user_session_id": str(uuid.uuid4()),
             "user_session_iat": int(time.time()),
-            "user_session_fk_user_id": user["user_id"],
+            "fk_user_id": user["user_id"],
         }
 
         # Add user session
@@ -79,7 +79,7 @@ def _():
 def post_user_session(session, cursor):
     try:
         query = f"""
-            INSERT INTO user_sessions (user_session_id, user_session_iat, user_session_fk_user_id) 
+            INSERT INTO user_sessions (user_session_id, user_session_iat, fk_user_id) 
             VALUES (%s, %s, %s)
         """
         params = tuple(session.values())

@@ -1,8 +1,8 @@
-{% macro tweetItem(logged_in_username, is_tweet_creator_followed_by_user, tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, user_profile_image, tweet_likes, tweet_fk_user_id, tweet_created_at, is_liked_by_user, is_template=false) -%}
+{% macro tweetItem(logged_in_username, is_tweet_creator_followed_by_user, tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, user_profile_image, tweet_total_likes, fk_user_id, tweet_created_at, is_liked_by_user, is_template=false) -%}
   {% if is_template %}
     <template data-template="tweet-item">
   {% endif %}
-  <form data-id="{{ tweet_id }}" data-username="{{ user_username }}" data-user-id="{{ tweet_fk_user_id }}" data-form="tweet" class="flex gap-4 p-4 transition-colors border-b border-gray-200 cursor-pointer hover:bg-black/[0.03]">
+  <form data-id="{{ tweet_id }}" data-username="{{ user_username }}" data-user-id="{{ fk_user_id }}" data-form="tweet" class="flex gap-4 p-4 transition-colors border-b border-gray-200 cursor-pointer hover:bg-black/[0.03]">
     <div class="min-w-[3rem]">
       <a class="transition-all rounded-full outline-none hover:brightness-90" href="/users/{{ user_username }}">
         {% if user_profile_image %}
@@ -64,7 +64,7 @@
               </div>
               <span class="sr-only">Like</span>
               <span data-field="unlike-counter" class="px-2 text-sm text-danger-200">
-                {{ tweet_likes if tweet_likes }} 
+                {{ tweet_total_likes if tweet_total_likes }} 
               </span>
             </button>
             <button data-button="like" class="{{ 'is-hidden' if is_liked_by_user  }} flex gap-1 group hover:text-danger-200" type="button">
@@ -74,7 +74,7 @@
               </div>
               <span class="sr-only">Like</span>
               <span data-field="like-counter" class="px-2 text-sm">
-                {{ tweet_likes if tweet_likes }} 
+                {{ tweet_total_likes if tweet_total_likes }} 
               </span>
             </button>
         </li>
