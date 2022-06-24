@@ -4,6 +4,7 @@ import jwt
 from mysql import connector
 
 from g import DATABASE_CONFIG, JSON_WEB_TOKEN_SECRET
+from utils import format_time_since_epoch
 
 
 def get_who_to_follow(logged_in_user_id, cursor):
@@ -32,21 +33,33 @@ def get_who_to_follow(logged_in_user_id, cursor):
     return who_to_follow
 
 
-def get_user_profile(username, cursor):
-    query = f"""
-        SELECT *
-        FROM users
-        WHERE user_username = %(user_username)s
-    """
-    params = {"user_username": username}
+def get_user_profile(username, cursor, logged_in_user_id=0):
+    cursor.callproc("get_user_profile_by_username", [username, logged_in_user_id])
+    user_profile = None
 
-    cursor.execute(query, params)
-    user_profile = cursor.fetchone()
+    for result in cursor.stored_results():
+        user_profile = result.fetchone()
 
-    user_joined = datetime.fromtimestamp(user_profile["user_created_at"]).strftime("%B %Y")
-    user_profile["user_joined"] = user_joined
+    if user_profile:
+        user_joined = datetime.fromtimestamp(user_profile["user_created_at"]).strftime("%B %Y")
+        user_profile["user_joined"] = user_joined
 
     return user_profile
+
+
+def get_user_tweets_with_media(user_id, cursor, logged_in_user_id=0):
+    cursor.callproc("get_user_tweets_with_media_by_id", [user_id, logged_in_user_id])
+    tweets = None
+
+    for result in cursor.stored_results():
+        tweets = result.fetchall()
+
+    if tweets:
+        for index, tweet in enumerate(tweets):
+            tweet_created_at = tweets[index]["tweet_created_at"]
+            tweets[index]["tweet_created_at_formatted"] = format_time_since_epoch(tweet_created_at)
+
+    return tweets
 
 
 def get_logged_in_user():

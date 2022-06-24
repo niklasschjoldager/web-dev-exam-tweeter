@@ -1,9 +1,8 @@
 from bottle import get, response, jinja2_template as template
-from datetime import datetime
 from mysql import connector
 
 from data import mobile_navigation, navigation, navigation_dropdown, user_page_default_messages, user_page_tabs
-from database import get_logged_in_user, get_who_to_follow
+from database import get_logged_in_user, get_user_profile, get_who_to_follow
 from g import DATABASE_CONFIG
 from utils import format_time_since_epoch
 
@@ -22,13 +21,12 @@ def _(user_username):
         connection = connector.connect(**DATABASE_CONFIG)
         cursor = connection.cursor(dictionary=True)
 
-        user_profile = get_user_profile(user_username, cursor)
+        user_profile = get_user_profile(user_username, cursor, logged_in_user_id=logged_in_user_id)
 
         if not user_profile:
             response.status = 404
             return template("fourOhFour", dict(logged_in_user=logged_in_user))
 
-        user_info = get_user_info(user_profile["user_id"], cursor, logged_in_user_id)
         tweets = get_user_tweets(user_profile["user_id"], cursor, logged_in_user_id)
         who_to_follow = get_who_to_follow(logged_in_user_id, cursor)
 
@@ -44,7 +42,6 @@ def _(user_username):
                 user_page_default_messages=user_page_default_messages,
                 user_page_tabs=user_page_tabs,
                 active_tab="",
-                user_info=user_info,
                 logged_in_user=logged_in_user,
                 who_to_follow=who_to_follow,
             ),
@@ -59,87 +56,16 @@ def _(user_username):
             connection.close()
 
 
-def get_user_profile(username, cursor):
-    cursor.callproc("get_user_profile_by_username", [username])
-    user_profile = None
+def get_user_tweets(user_id, cursor, logged_in_user_id=0):
+    cursor.callproc("get_user_tweets_by_id", [user_id, logged_in_user_id])
+    tweets = None
 
     for result in cursor.stored_results():
-        user_profile = result.fetchone()
+        tweets = result.fetchall()
 
-    if not user_profile:
-        return None
-
-    user_joined = datetime.fromtimestamp(user_profile["user_created_at"]).strftime("%B %Y")
-    user_profile["user_joined"] = user_joined
-
-    return user_profile
-
-
-def get_user_info(user_id, cursor, logged_in_user_id=0):
-    query = f"""
-        SELECT
-            (SELECT COUNT(*) 
-                FROM tweets 
-                WHERE tweets.fk_user_id = %(user_profile_id)s) AS tweets,
-            (SELECT COUNT(*) 
-                FROM followers 
-                WHERE followers.fk_user_to_id = %(user_profile_id)s) AS followers,
-            (SELECT COUNT(*) 
-                FROM followers 
-                WHERE followers.fk_user_from_id = %(user_profile_id)s) AS following,
-            (SELECT COUNT(*) 
-                FROM followers 
-                WHERE followers.fk_user_from_id = %(logged_in_user_id)s 
-                AND followers.fk_user_to_id = %(user_profile_id)s) AS is_followed_by_user
-    """
-
-    params = {"user_profile_id": user_id, "logged_in_user_id": logged_in_user_id}
-
-    cursor.execute(query, params)
-    user_info = cursor.fetchone()
-
-    return user_info
-
-
-def get_user_tweets(user_id, cursor, logged_in_user_id=0):
-    query = f"""
-        SELECT 
-            tweets.tweet_id, 
-            tweets.tweet_text, 
-            tweets.fk_user_id, 
-            tweets.tweet_created_at, 
-            tweets.tweet_image_file_name,
-            tweets.tweet_total_likes, 
-            users.user_username, 
-            users.user_name,
-            users.user_profile_image,
-            COUNT(is_tweet_creator_followed_by_user.fk_user_to_id) AS is_tweet_creator_followed_by_user,
-            COUNT(is_liked_by_user.fk_user_id) AS is_liked_by_user
-        FROM tweets
-            
-        LEFT JOIN likes AS is_liked_by_user 
-            ON is_liked_by_user.fk_tweet_id = tweets.tweet_id 
-            AND is_liked_by_user.fk_user_id = %(logged_in_user_id)s
-            
-        LEFT JOIN users 
-            ON users.user_id = tweets.fk_user_id
-
-        LEFT JOIN followers AS is_tweet_creator_followed_by_user
-            ON is_tweet_creator_followed_by_user.fk_user_from_id = %(logged_in_user_id)s 
-            AND is_tweet_creator_followed_by_user.fk_user_to_id = tweets.fk_user_id
-        
-        WHERE tweets.fk_user_id = %(user_profile_id)s
-        GROUP BY tweets.tweet_id
-        ORDER BY tweets.tweet_created_at 
-        DESC
-    """
-    params = {"user_profile_id": user_id, "logged_in_user_id": logged_in_user_id}
-
-    cursor.execute(query, params)
-    tweets = cursor.fetchall()
-
-    for index, tweet in enumerate(tweets):
-        tweet_created_at = tweets[index]["tweet_created_at"]
-        tweets[index]["tweet_created_at_formatted"] = format_time_since_epoch(tweet_created_at)
+    if tweets:
+        for index, tweet in enumerate(tweets):
+            tweet_created_at = tweets[index]["tweet_created_at"]
+            tweets[index]["tweet_created_at_formatted"] = format_time_since_epoch(tweet_created_at)
 
     return tweets

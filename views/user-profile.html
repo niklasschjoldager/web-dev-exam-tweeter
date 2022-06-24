@@ -24,8 +24,8 @@
         <svg class="w-6 h-6 min-w-[1.5rem] text-primary-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
       </p>
       <p class="text-sm text-gray-400">
-        {{ user_info["tweets"] }} 
-        {{ "tweet" if user_info["tweets"] <= 1 else "tweets" }}
+        {{ user_profile["user_total_tweets"] }} 
+        {{ "tweet" if user_profile["user_total_tweets"] <= 1 else "tweets" }}
       </p>
     </div>
   </div>
@@ -73,7 +73,7 @@
               'data-button="follow-user"'
             ]|join(' ') %}
             
-            {% if user_info["is_followed_by_user"] %}
+            {% if user_profile["is_followed_by_logged_in_user"] %}
               {{ button(children="Following", variant="outlined", size="sm", attributes=unfollow_button_attributes) }}
               {{ button(children="Follow", variant="dark", size="sm", classes="is-hidden", attributes=follow_button_attributes) }}
             {% else %}
@@ -126,12 +126,12 @@
       <div class="flex flex-col gap-2 text-sm text-gray-400">
         <div class="flex gap-2">
           <a class="text-black-200 hover:underline" href="/users/{{ user_profile['user_username'] }}/following">
-            <span class="font-bold text-black-200">{{ user_info["following"] }}</span> 
+            <span class="font-bold text-black-200">{{ user_profile["user_total_following"] }}</span> 
             <span class="text-gray-400">Following</span>
           </a>
           <a class="text-black-200 hover:underline" href="/users/{{ user_profile['user_username'] }}/followers">
-            <span data-field="followers" class="font-bold text-black-200">{{ user_info["followers"] }}</span>
-            <span class="text-gray-400">{{ "Follower" if user_info["followers"] == 1 else "Followers" }}</span>
+            <span data-field="followers" class="font-bold text-black-200">{{ user_profile["user_total_followers"] }}</span>
+            <span class="text-gray-400">{{ "Follower" if user_profile["user_total_followers"] == 1 else "Followers" }}</span>
           </a>
         </div>
       </div>

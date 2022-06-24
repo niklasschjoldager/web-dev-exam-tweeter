@@ -1,9 +1,8 @@
 from bottle import get, response, jinja2_template as template
 from mysql import connector
-from datetime import datetime
 
 from data import mobile_navigation, navigation, navigation_dropdown, user_page_default_messages, user_page_tabs
-from database import get_logged_in_user, get_who_to_follow
+from database import get_logged_in_user, get_user_profile, get_who_to_follow
 from g import DATABASE_CONFIG
 from utils import format_time_since_epoch
 
@@ -23,7 +22,6 @@ def _(user_username):
         cursor = connection.cursor(dictionary=True)
 
         user_profile = get_user_profile(user_username, cursor)
-        user_info = get_user_info(user_profile["user_id"], cursor, logged_in_user_id)
         tweets = get_tweets_liked_by_user(user_profile["user_id"], cursor, logged_in_user_id)
         who_to_follow = get_who_to_follow(logged_in_user_id, cursor)
 
@@ -39,7 +37,6 @@ def _(user_username):
                 user_page_default_messages=user_page_default_messages,
                 user_page_tabs=user_page_tabs,
                 active_tab="likes",
-                user_info=user_info,
                 logged_in_user=logged_in_user,
                 who_to_follow=who_to_follow,
             ),
@@ -52,49 +49,6 @@ def _(user_username):
         if connection and cursor:
             cursor.close()
             connection.close()
-
-
-def get_user_profile(username, cursor):
-    query = f"""
-        SELECT *
-        FROM users
-        WHERE user_username = %(user_username)s
-    """
-
-    params = {"user_username": username}
-
-    cursor.execute(query, params)
-    user_profile = cursor.fetchone()
-    user_joined = datetime.fromtimestamp(user_profile["user_created_at"]).strftime("%B %Y")
-    user_profile["user_joined"] = user_joined
-
-    return user_profile
-
-
-def get_user_info(user_id, cursor, logged_in_user_id=0):
-    query = f"""
-        SELECT
-            (SELECT COUNT(*) 
-                FROM tweets 
-                WHERE tweets.fk_user_id = %(user_profile_id)s) AS tweets,
-            (SELECT COUNT(*) 
-                FROM followers 
-                WHERE followers.fk_user_to_id = %(user_profile_id)s) AS followers,
-            (SELECT COUNT(*) 
-                FROM followers 
-                WHERE followers.fk_user_from_id = %(user_profile_id)s) AS following,
-            (SELECT COUNT(*) 
-                FROM followers 
-                WHERE followers.fk_user_from_id = %(logged_in_user_id)s 
-                AND followers.fk_user_to_id = %(user_profile_id)s) AS is_followed_by_user
-    """
-
-    params = {"user_profile_id": user_id, "logged_in_user_id": logged_in_user_id}
-
-    cursor.execute(query, params)
-    user_info = cursor.fetchone()
-
-    return user_info
 
 
 def get_tweets_liked_by_user(user_id, cursor, logged_in_user_id=0):

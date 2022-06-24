@@ -78,7 +78,6 @@ def _():
             "fk_user_id": logged_in_user["id"],
             "tweet_created_at": tweet_created_at,
             "tweet_text": tweet_text,
-            "tweet_fk_media_type_id": 1,
             "tweet_image_file_name": image_url,
         }
 
@@ -87,7 +86,6 @@ def _():
             "tweet_created_at": tweet_created_at,
             "tweet_created_at_formatted": format_time_since_epoch(tweet_created_at),
             "tweet_text": tweet_text,
-            "tweet_fk_media_type_id": 1,
             "tweet_image_file_name": image_url,
             "user_name": logged_in_user["name"],
             "user_username": logged_in_user["username"],
@@ -100,8 +98,8 @@ def _():
         cursor = connection.cursor()
 
         query_add_tweet = f"""
-            INSERT INTO tweets (fk_user_id, tweet_created_at, tweet_text, tweet_fk_media_type_id, tweet_image_file_name) 
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO tweets (fk_user_id, tweet_created_at, tweet_text, tweet_image_file_name) 
+            VALUES (%s, %s, %s, %s)
         """
 
         cursor.execute(query_add_tweet, tuple(db_tweet.values()))
