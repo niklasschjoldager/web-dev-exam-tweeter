@@ -1,7 +1,24 @@
-{% macro tweetItem(logged_in_username, is_tweet_creator_followed_by_user, tweet_id, tweet_image_file_name, tweet_text, user_id, user_username, user_name, user_profile_image, tweet_total_likes, fk_user_id, tweet_created_at, tweet_created_at_formatted, is_liked_by_user, is_template=false) -%}
+{% macro tweetItem(
+  logged_in_username, 
+  is_tweet_creator_followed_by_user, 
+  tweet_id, 
+  tweet_image_file_name, 
+  tweet_text, 
+  user_id, 
+  user_username, 
+  user_name, 
+  user_profile_image, 
+  tweet_total_likes, 
+  fk_user_id, 
+  tweet_created_at, 
+  tweet_created_at_formatted, 
+  is_liked_by_user, 
+  is_template=false
+) -%}
   {% if is_template %}
     <template data-template="tweet-item">
   {% endif %}
+  <a href="/users/{{ user_username }}/status/{{ tweet_id }}">Singleview</a>
   <form data-id="{{ tweet_id }}" data-username="{{ user_username }}" data-user-id="{{ fk_user_id }}" data-form="tweet" class="flex gap-4 p-4 transition-colors border-b border-gray-200 cursor-pointer hover:bg-black-200/[0.03]">
     <div class="min-w-[3rem]">
       <a class="transition-all rounded-full outline-none hover:brightness-90" href="/users/{{ user_username }}">
@@ -109,14 +126,32 @@
           </button>
         </li>
         <li class="flex-grow">
-          <button data-button="retweet" class="flex gap-1 group hover:text-success" type="button">
-            <div class="relative">
-              <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-success/10"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+          <div data-dropdown-container class="relative flex items-center ml-auto">
+            <button data-dropdown-button data-button="retweet" class="flex gap-1 group hover:text-success" type="button">
+              <div class="relative">
+                <div class="absolute top-0 bottom-0 left-0 right-0 -m-2 transition-colors rounded-full group-hover:bg-success/10"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+              </div>
+              <span data-field="retweet-counter" class="px-2 text-sm"></span>
+              <span class="sr-only">Retweet</span>
+            </button>
+
+            <div data-dropdown class="absolute top-0 right-0 z-10 overflow-hidden bg-white rounded-md shadow-md is-hidden w-max">
+              <div data-logged-in-user class="{{ 'hidden' if not logged_in_username == user_username }}"> 
+                <button data-dropdown-dismiss data-button="delete" class="flex items-center w-full gap-3 p-4 text-sm text-danger-200 hover:bg-black-200/5" type="button">
+                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                  <span>Retweet</span>
+                </button>                
+              </div>
+              <div data-user class="{{ 'hidden' if logged_in_username == user_username }}">
+                <button data-dropdown-dismiss data-button="follow" data-id="{{ fk_user_id }}" class="{{ 'is-hidden' if is_tweet_creator_followed_by_user }} flex items-center w-full gap-3 p-4 text-sm text-black-200 hover:bg-black-200/5" type="button">
+                  <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Person Add</title><path d="M376 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M288 304c-87 0-175.3 48-191.64 138.6-2 10.92 4.21 21.4 15.65 21.4H464c11.44 0 17.62-10.48 15.65-21.4C463.3 352 375 304 288 304z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M88 176v112M144 232H32"/></svg>
+                  <span>Follow @{{ user_username }}</span>
+                </button>
+              </div>
             </div>
-            <span data-field="retweet-counter" class="px-2 text-sm"></span>
-            <span class="sr-only">Retweet</span>
-          </button>
+          </div>
+
         </li>
         <li class="flex-grow">
             <button data-button="unlike" class="{{ 'is-hidden' if not is_liked_by_user }} flex gap-1 group hover:text-danger-200" type="button">

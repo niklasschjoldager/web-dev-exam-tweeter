@@ -12,6 +12,7 @@ from routes import (
     messages,
     notifications,
     search,
+    user_tweet,
     user_followers,
     user_following,
     user_likes,
@@ -31,7 +32,7 @@ from api.tweets import (
 )
 
 # Users
-from api.users import users_get, users_follow_put, users_post, users_put, users_unfollow_put
+from api.users import users_follow_put, users_post, users_put, users_unfollow_put
 
 # Auth
 import api.auth.login_post
