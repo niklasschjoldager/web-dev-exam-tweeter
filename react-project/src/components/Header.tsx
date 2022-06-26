@@ -1,0 +1,165 @@
+import { Link } from "react-router-dom"
+
+export default function Header() {
+  return (
+    <header className="flex flex-col items-center h-full py-4 text-lg backface-hidden xl:items-start">
+      <Link
+        to="/home"
+        className="flex items-center gap-4 p-3 transition-colors rounded-full text-primary-200 hover:bg-primary-200/10"
+      >
+        <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512">
+          <title>Logo Tweeter</title>
+          <path d="M496 109.5a201.8 201.8 0 01-56.55 15.3 97.51 97.51 0 0043.33-53.6 197.74 197.74 0 01-62.56 23.5A99.14 99.14 0 00348.31 64c-54.42 0-98.46 43.4-98.46 96.9a93.21 93.21 0 002.54 22.1 280.7 280.7 0 01-203-101.3A95.69 95.69 0 0036 130.4c0 33.6 17.53 63.3 44 80.7A97.5 97.5 0 0135.22 199v1.2c0 47 34 86.1 79 95a100.76 100.76 0 01-25.94 3.4 94.38 94.38 0 01-18.51-1.8c12.51 38.5 48.92 66.5 92.05 67.3A199.59 199.59 0 0139.5 405.6a203 203 0 01-23.5-1.4A278.68 278.68 0 00166.74 448c181.36 0 280.44-147.7 280.44-275.8 0-4.2-.11-8.4-.31-12.5A198.48 198.48 0 00496 109.5z" />
+        </svg>
+        <span className="sr-only">Home</span>
+      </Link>
+
+      {/* {% for link in navigation %}
+            <a className="flex items-center gap-4 p-3 transition-colors rounded-full hover:bg-black-200/10" href="/{{ link['url'] }}">
+              {% if link["url"] == currentUrl %}
+                <img className="w-7 h-7" src="/static/icons/{{ link['icons']['active'] }}" alt="{{ link['name'] }} icon"/>
+                <span className="font-bold sr-only xl:not-sr-only">{{ link["name"] }}</span>
+              {% else %}
+                <img className="w-7 h-7" src="/static/icons/{{ link['icons']['default'] }}" alt="{{ link['name'] }} icon"/>
+                <span className="sr-only xl:not-sr-only">{{ link["name"] }}</span>
+              {% endif %}
+            </a>
+          {% endfor %} */}
+
+      <a
+        className="flex items-center gap-4 p-3 transition-colors rounded-full hover:bg-black-200/10"
+        href="/users/{{ logged_in_user['username'] }}"
+      >
+        {/* {% if currentUrl == "users/" + logged_in_user['username'] %}
+              <img className="w-7 h-7" src="/static/icons/person.svg" alt="#"/>
+            {% else %}
+              <img className="w-7 h-7" src="/static/icons/person-outline.svg" alt="#"/>
+            {% endif %} */}
+        <span className="sr-only xl:not-sr-only">Profile</span>
+      </a>
+
+      <div className="relative z-20">
+        <button
+          className="flex items-center justify-center gap-4 p-3 mb-2 transition-colors rounded-full hover:bg-black-200/10"
+          type="button"
+        >
+          <svg className="w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <title>Ellipsis Horizontal Circle</title>
+            <circle cx="256" cy="256" r="26" />
+            <circle cx="346" cy="256" r="26" />
+            <circle cx="166" cy="256" r="26" />
+            <path
+              d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+              fill="none"
+              stroke="currentColor"
+              stroke-miterlimit="10"
+              stroke-width="32"
+            />
+          </svg>
+          <span className="sr-only xl:not-sr-only">More</span>
+        </button>
+
+        <div className="absolute left-0 z-10 overflow-hidden translate-y-1/2 bg-white rounded-md shadow-md bottom-1/2 is-hidden w-max">
+          {/* {% for item in navigation_dropdown %}
+                <button className="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black-200/5" type="button" disabled>
+                  {{ item["icon"] }}
+                  <span>{{ item["text"] }}</span>
+                </button>
+              {% endfor %} */}
+        </div>
+      </div>
+
+      {/* {{ button(children='
+            <svg className="w-7 h-7 xl:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+            <span className="sr-only xl:not-sr-only">Tweet</span>', 
+            variant="primary", size="lg", classes="xl:w-11/12 px-0 py-0") 
+          }} */}
+
+      <div className="relative z-10 mt-auto xl:w-full">
+        <div className="flex items-center gap-3 p-3 transition-colors border-transparent rounded-full outline-none cursor-pointer hover:bg-black-200/10 focus:border-black-200/30 focus:bg-black-200/10 xl:w-11/12 border-1">
+          {/* {% if logged_in_user["profile_image"] %}
+                <img className="object-cover w-10 h-10 rounded-full" src="/static/users/{{ logged_in_user['profile_image'] }}" alt="#">
+              {% else %}
+                <img className="object-cover w-10 h-10 rounded-full" src="/static/images/default-profile-image.png" alt="#">
+              {% endif %} */}
+          <p className="flex-col flex-grow hidden overflow-hidden xl:flex">
+            <span className="overflow-hidden text-sm font-bold select-none text-ellipsis whitespace-nowrap">name</span>
+            <span className="overflow-hidden text-sm text-gray-400 select-none text-ellipsis whitespace-nowrap">
+              @username
+            </span>
+          </p>
+          <div className="hidden xl:block">
+            <svg
+              className="w-5 h-5 transition-colors"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div className="is-hidden absolute z-10 bg-white shadow-lg rounded-2xl bottom-[calc(100%_+_theme(space.3))] w-[300px] max-w-[300px]">
+          <svg
+            className="absolute w-5 h-5 rotate-180 text-white -bottom-3.5 left-6 drop-shadow-lg"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <g>
+              <path d="M12.538 6.478c-.14-.146-.335-.228-.538-.228s-.396.082-.538.228l-9.252 9.53c-.21.217-.27.538-.152.815.117.277.39.458.69.458h18.5c.302 0 .573-.18.69-.457.118-.277.058-.598-.152-.814l-9.248-9.532z"></path>
+            </g>
+          </svg>
+          <div className="relative py-2 bg-white rounded-2xl">
+            <div className="relative flex items-center gap-3 p-4 border-b border-gray-200">
+              {/* {% if logged_in_user["profile_image"] %}
+                    <img className="object-cover w-12 h-12 rounded-full" src="/static/users/{{ logged_in_user['profile_image'] }}" alt="#">
+                  {% else %}
+                    <img className="object-cover w-12 h-12 rounded-full" src="/static/images/default-profile-image.png" alt="#">
+                  {% endif %} */}
+              <p className="flex flex-col flex-grow overflow-hidden">
+                <span className="overflow-hidden text-sm font-bold whitespace-nowrap text-ellipsis">name</span>
+                <span className="overflow-hidden text-sm text-gray-400 whitespace-nowrap text-ellipsis">@username</span>
+              </p>
+              <div>
+                <svg className="w-5 h-5 text-primary-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <title>Checkmark</title>
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="32"
+                    d="M416 128L192 384l-96-96"
+                  />
+                </svg>
+              </div>
+            </div>
+            <button
+              className="flex items-center w-full gap-3 p-4 text-sm text-gray-400/50 hover:bg-black-200/5 whitespace-nowrap"
+              type="button"
+              disabled
+            >
+              Add an existing account
+            </button>
+            <a
+              className="flex items-center w-full gap-3 p-4 text-sm hover:bg-black-200/5 whitespace-nowrap"
+              href="/logout"
+            >
+              Log out @username
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+  )
+}
