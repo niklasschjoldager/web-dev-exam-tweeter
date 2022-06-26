@@ -2,6 +2,28 @@ import coverImage from "../assets/frontpage-cover.jpg"
 import Button from "../components/Button"
 import Link from "../components/Link"
 
+const currentYear = new Date().getFullYear()
+const footerLinks = [
+  "About",
+  "Helper Center",
+  "Terms of Service",
+  "Privacy Policy",
+  "Cookie Policy",
+  "Accessibility",
+  "Ads info",
+  "Blog",
+  "Status",
+  "Careers",
+  "Brand Resources",
+  "Advertising",
+  "Marketing",
+  "Tweeter for Business",
+  "Developers",
+  "Directory",
+  "Settings",
+  `© ${currentYear} Tweeter, inc`,
+]
+
 export default function Index() {
   return (
     <>
@@ -37,11 +59,15 @@ export default function Index() {
       <footer className="p-3">
         <nav aria-label="Footer" role="navigation">
           <ul className="flex flex-wrap justify-center gap-x-3">
-            {/* {% for link in footer_links %}
-                  <li>
-                    <a className="text-xs text-gray-400 hover:underline" href="#">{{ link }}</a>
-                  </li>
-                {% endfor %} */}
+            {footerLinks.map((link) => {
+              return (
+                <li>
+                  <a className="text-xs text-gray-400 hover:underline" href="#">
+                    {link}
+                  </a>
+                </li>
+              )
+            })}
           </ul>
         </nav>
       </footer>
